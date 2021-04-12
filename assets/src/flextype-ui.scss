@@ -4,6 +4,7 @@
 
 // Configuration
 @import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables";
 @import "variables.scss";
 @import "node_modules/bootstrap/scss/mixins";
 @import "node_modules/bootstrap/scss/utilities";
@@ -39,13 +40,13 @@
 @import "node_modules/bootstrap/scss/carousel";
 @import "node_modules/bootstrap/scss/spinners";
 
-@import "validation.scss";
-@import "navbar.scss";
-@import "header.scss";
-@import "blocks/blocks/InputSelect/block.scss";
-@import "blocks/blocks/InputEditor/block.scss";
-@import "blocks/blocks/InputDateTimePicker/block.scss";
-@import "blocks/blocks/Divider/block.scss";
+@import "validation";
+@import "navbar";
+@import "header";
+@import "blocks/blocks/InputSelect/block";
+@import "blocks/blocks/InputEditor/block";
+@import "blocks/blocks/InputDateTimePicker/block";
+@import "blocks/blocks/Divider/block";
 
 // Helpers
 @import "node_modules/bootstrap/scss/helpers";

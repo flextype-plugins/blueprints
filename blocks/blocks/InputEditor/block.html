@@ -1,4 +1,4 @@
-{% import "plugins/blueprint/blocks/macros/grid.html" as grid %}
+{% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 <div class="mb-3 {{ grid.col(properties.size, properties.grid) }}">
     <label for="{{ field_id }}" class="form-label">{{ include(template_from_string(properties.title)) }}</label>
     <textarea id="{{ field_id }}"
@@ -26,5 +26,5 @@
     {% set trumbowyg_locale = flextype.registry.get('flextype.settings.locale')|lower|slice(0, 2) %}
 {% endif %}
 
-<input type="hidden" name="trumbowyg-icons-path" value="{{ url() }}/project/plugins/blueprint/assets/dist/fonts/trumbowyg/icons.svg">
+<input type="hidden" name="trumbowyg-icons-path" value="{{ url() }}/project/plugins/blueprints/assets/dist/fonts/trumbowyg/icons.svg">
 <input type="hidden" name="trumbowyg-locale" value="{{ trumbowyg_locale }}">

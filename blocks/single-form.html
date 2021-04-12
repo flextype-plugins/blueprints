@@ -20,12 +20,12 @@
         {% set field_id = flextype.blueprints.getElementID(element) %}
         {% set field_value = flextype.blueprints.getElementValue(element, values, properties) %}
 
-        {% include "plugins/blueprint/blocks/fields/fields.html" %}
+        {% include "plugins/blueprints/blocks/fields/fields.html" %}
     {% endfor %}
     </div>
     {% if blueprint.workspace.buttons %}
         <div class="mt-3">
-            {% include "plugins/blueprint/blocks/buttons.html" with {"buttons": blueprint.workspace.buttons} %}
+            {% include "plugins/blueprints/blocks/buttons.html" with {"buttons": blueprint.workspace.buttons} %}
         </div>
     {% endif %}
 </form>

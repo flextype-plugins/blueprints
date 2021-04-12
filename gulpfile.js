@@ -80,14 +80,14 @@ sass.compiler      = require('node-sass');
             'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
 
             // Flextype UI JS
-            'fieldsets/fields/InputDateTimePicker/field.js',
-            'fieldsets/fields/InputSelect/field.js',
-            'fieldsets/fields/InputSelectMedia/field.js',
-            'fieldsets/fields/InputSelectRoutable/field.js',
-            'fieldsets/fields/InputTags/field.js',
-            'fieldsets/fields/InputSelectTemplate/field.js',
-            'fieldsets/fields/InputSelectVisibility/field.js',
-            'fieldsets/fields/InputEditor/field.js',
+            'blocks/blocks/InputDateTimePicker/block.js',
+            'blocks/blocks/InputSelect/block.js',
+            'blocks/blocks/InputSelectMedia/block.js',
+            'blocks/blocks/InputSelectRoutable/block.js',
+            'blocks/blocks/InputTags/block.js',
+            'blocks/blocks/InputSelectTemplate/block.js',
+            'blocks/blocks/InputSelectVisibility/block.js',
+            'blocks/blocks/InputEditor/block.js',
         ])
         .pipe(concat('flextype-ui.min.js'))
         .pipe(size({ showFiles: true }))

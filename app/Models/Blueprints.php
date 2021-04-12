@@ -376,7 +376,7 @@ class Blueprints
     public function render(array $blueprint, array $values = [], array $vars = []): string
     {
         return flextype('twig')->fetch(
-            'plugins/blueprint/blocks/base.html',
+            'plugins/blueprints/blocks/base.html',
             array_merge([
                 'blueprint' => $blueprint,
                 'values'    => $values,

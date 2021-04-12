@@ -15,7 +15,7 @@ flextype()->group('/' . $admin_route, function () : void {
 
         return flextype('twig')->render(
             $response,
-            'plugins/blueprint/blocks/ui.html',
+            'plugins/blueprints/blocks/ui.html',
             []
         );
     });

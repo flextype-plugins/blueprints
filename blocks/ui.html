@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="row justify-content-center pt-3">
-    {% set blueprintContent = filesystem().file(PATH_PROJECT ~ '/plugins/blueprint/samples/default/blueprint.yaml').get() %}
+    {% set blueprintContent = filesystem().file(PATH_PROJECT ~ '/plugins/blueprints/samples/default/blueprint.yaml').get() %}
 
     {% set blueprint = arrays(flextype.serializers.yaml.decode(blueprintContent)).toArray() %}
 

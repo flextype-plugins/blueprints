@@ -1,9 +1,9 @@
 {
-    "name": "flextype-plugins/blueprint",
+    "name": "flextype-plugins/blueprints",
     "type": "project",
-    "description": "Form Plugin to render user blueprints for Flextype.",
+    "description": "Blueprints plugin to build custom UI for Flextype.",
     "keywords": ["blueprint", "plugin", "flextype", "php", "html"],
-    "homepage": "https://github.com/flextype-plugins/blueprint",
+    "homepage": "https://github.com/flextype-plugins/blueprints",
     "license": "MIT",
     "authors": [
         {

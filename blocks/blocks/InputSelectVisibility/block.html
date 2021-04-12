@@ -1,4 +1,4 @@
-{% import "plugins/blueprint/blocks/macros/grid.html" as grid %}
+{% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% set options = {'draft': __('admin_entries_draft'), 'visible': __('admin_entries_visible'), 'hidden': __('admin_entries_hidden')} %}
 <div class="mb-3 {{ grid.col(properties.size, properties.grid) }}">
     <label for="{{ field_id }}" class="form-label">{{ include(template_from_string(properties.title)) }}</label>
