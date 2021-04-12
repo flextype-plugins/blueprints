@@ -400,14 +400,14 @@ class Blueprints
     public function getElementValue(string $element, array $values, array $properties)
     {
         if (arrays($values)->has($element)) {
-            $fieldValue = arrays($values)->get($element);
+            $blockValue = arrays($values)->get($element);
         } elseif (arrays($properties)->has('value')) {
-            $fieldValue = $properties['value'];
+            $blockValue = $properties['value'];
         } else {
-            $fieldValue = '';
+            $blockValue = '';
         }
 
-        return $fieldValue;
+        return $blockValue;
     }
 
     /**
