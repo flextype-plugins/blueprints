@@ -14,7 +14,7 @@
       {% endif %}>
     {{ csrf() }}
     <ul class="nav nav-tabs mb-3" id="workspaceTab" role="tablist">
-        {% for key, section in blueprint.workspace.tabs %}
+        {% for key, section in blueprint.workspace.body.tabs %}
         <li class="nav-item" role="presentation">
             <button class="nav-link {% if key == 'main' %}active{% endif %}"
                     id="{{ key }}-tab-link"
@@ -28,22 +28,18 @@
         {% endfor %}
     </ul>
     <div class="tab-content" id="workspaceTabContent">
-    {% for key, tab in blueprint.workspace.tabs %}
-        <div class="tab-pane {% if key == 'main' %}show active{% endif %}" id="{{ key }}-tab" role="tabpanel" aria-labelledby="{{ key }}-tab">
-            <div class="row">
-                
-                {% for element, properties in blueprint['workspace']['tabs'][key]['blocks']  %}
-
-                    {% set field_name = flextype.blueprints.getElementName(element) %}
-                    {% set field_id = flextype.blueprints.getElementID(element) %}
-                    {% set field_value = flextype.blueprints.getElementValue(element, values, properties) %}
-
-                    {% include "plugins/blueprints/blocks/blocks/blocks.html" %}
-
-                {% endfor %}
+        {% for key, tab in blueprint.workspace.body.tabs %}
+            <div class="tab-pane {% if key == 'main' %}show active{% endif %}" id="{{ key }}-tab" role="tabpanel" aria-labelledby="{{ key }}-tab">
+                <div class="row">
+                    {% for element, properties in blueprint['workspace']['body']['tabs'][key]['blocks']  %}
+                        {% set blockName = flextype.blueprints.getElementName(element) %}
+                        {% set blockID = flextype.blueprints.getElementID(element) %}
+                        {% set blockValue = flextype.blueprints.getElementValue(element, values, properties) %}
+                        {% include "plugins/blueprints/blocks/blocks/blocks.html" %}
+                    {% endfor %}
+                </div>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
     </div>
     {% if blueprint.workspace.buttons %}
         <div class="mt-3">

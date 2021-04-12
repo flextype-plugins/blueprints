@@ -15,11 +15,9 @@
     {{ csrf() }}
     <div class="row">
     {% for element, properties in blueprint.workspace.blocks  %}
-
-        {% set field_name = flextype.blueprints.getElementName(element) %}
-        {% set field_id = flextype.blueprints.getElementID(element) %}
-        {% set field_value = flextype.blueprints.getElementValue(element, values, properties) %}
-
+        {% set fieldName = flextype.blueprints.getElementName(element) %}
+        {% set fieldID = flextype.blueprints.getElementID(element) %}
+        {% set fieldValue = flextype.blueprints.getElementValue(element, values, properties) %}
         {% include "plugins/blueprints/blocks/fields/fields.html" %}
     {% endfor %}
     </div>

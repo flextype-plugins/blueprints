@@ -32,15 +32,22 @@
 
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 
-<div class="{{ grid.col(fieldset.size, fieldset.grid) }}">
+<div class="{{ grid.col(blueprint.workspace.size, blueprint.workspace.size) }}">
     {% if blueprint.workspace.header %}
-        <div class="header" {% if not blueprint.header.buttons %}style="display: block!important;"{% endif %}>
-            <div class="header-title"><h1 class="{{ blueprint.header.class }}">{{ include(template_from_string(blueprint.header.title)) }}</h1></div>
-            {% if blueprint.header.buttons %}<div class="header-buttons">{% include "plugins/blueprints/blocks/buttons.html" with {"buttons": blueprint.header.buttons} %}</div>{% endif %}
+        <div class="workspace-header" {% if not blueprint.workspace.header.buttons %}style="display: block!important;"{% endif %}>
+            <div class="workspace-header-title">
+                <h1 class="{{ blueprint.workspace.header.class }}">
+                    {{ include(template_from_string(blueprint.workspace.header.title)) }}
+                </h1>
+            </div>
+            {% if blueprint.workspace.header.buttons %}
+                <div class="workspace-header-buttons">
+                    {% include "plugins/blueprints/blocks/buttons.html" with {"buttons": blueprint.workspace.header.buttons} %}
+                </div>
+            {% endif %}
         </div>
     {% endif %}
-
-    {% if blueprint.workspace.tabs %}
+    {% if blueprint.workspace.body.tabs %}
         {% include "plugins/blueprints/blocks/tabs-form.html" %}
     {% else %}
         {% include "plugins/blueprints/blocks/single-form.html" %}

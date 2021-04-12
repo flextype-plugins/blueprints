@@ -1,8 +1,8 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 <div class="mb-3 {{ grid.col(properties.size, properties.grid) }}">
-    <label for="{{ field_id }}" class="form-label">{{ include(template_from_string(properties.title)) }}</label>
-    <textarea id="{{ field_id }}"
-              name="{{ field_name }}"
+    <label for="{{ fieldID }}" class="form-label">{{ include(template_from_string(properties.title)) }}</label>
+    <textarea id="{{ fieldID }}"
+              name="{{ fieldName }}"
               rows="{{ properties.rows }}"
               cols="{{ properties.cols }}"
               class="form-control {{  properties.class }}"
@@ -26,7 +26,7 @@
               {% if properties.validation.minlength %}data-parsley-minlength="{{ properties.validation.minlength }}"{% endif %}
               {% if properties.validation.type %}data-parsley-type="{{ properties.validation.type }}"{% endif %}
               {% if properties.validation.required %}data-parsley-required="true"{% endif %}
-              {% if properties.validation.pattern %}data-parsley-pattern="{{ properties.validation.pattern }}"{% endif %}>{{ include(template_from_string(field_value)) }}</textarea>
+              {% if properties.validation.pattern %}data-parsley-pattern="{{ properties.validation.pattern }}"{% endif %}>{{ include(template_from_string(fieldValue)) }}</textarea>
     {% if properties.help %}
         <small>{{ include(template_from_string(properties.help)) }}</small>
     {% endif %}

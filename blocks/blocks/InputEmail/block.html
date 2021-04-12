@@ -1,10 +1,10 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 <div class="mb-3 {{ grid.col(properties.size, properties.grid) }}">
-    <label for="{{ field_id }}" class="form-label">{{ include(template_from_string(properties.title)) }}</label>
+    <label for="{{ fieldID }}" class="form-label">{{ include(template_from_string(properties.title)) }}</label>
     <input type="email"
-           id="{{ field_id }}"
-           name="{{ field_id }}"
-           value="{{ include(template_from_string(field_value)) }}"
+           id="{{ fieldID }}"
+           name="{{ fieldID }}"
+           value="{{ include(template_from_string(fieldValue)) }}"
            class="form-control {{ properties.class }}"
            style="{{ properties.style }}"
            {% if properties.disabled %}disabled="disabled"{% endif %}

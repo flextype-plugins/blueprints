@@ -1,9 +1,9 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
-{% set field_value = field_value|split(',') %}
+{% set fieldValue = fieldValue|split(',') %}
 <div class="mb-3 {{ grid.col(properties.size, properties.grid) }}">
-    <label for="{{ field_id }}" class="form-label">{{ include(template_from_string(properties.title)) }}</label>
+    <label for="{{ fieldID }}" class="form-label">{{ include(template_from_string(properties.title)) }}</label>
     <select class="form-control js-select-tags {{ properties.class }}"
-            data-name="{{ field_name }}"
+            data-name="{{ fieldName }}"
             multiple="multiple"
             {% if properties.events %}
                 {% for key, value in properties.events %}
@@ -14,13 +14,13 @@
                      {% endif %}
                 {% endfor %}
             {% endif %}>
-        {% for key, value in field_value %}
+        {% for key, value in fieldValue %}
             {% if value is not empty %}
                 <option value="{{ value|trim }}" selected="selected">{{ value|trim }}</option>
             {% endif %}
         {% endfor %}
     </select>
-    <input type="hidden" name="{{ field_name }}" value="{{ field_value|join(',') }}">
+    <input type="hidden" name="{{ fieldName }}" value="{{ fieldValue|join(',') }}">
     {% if properties.help %}
         <small>{{ include(template_from_string(properties.help)) }}</small>
     {% endif %}
