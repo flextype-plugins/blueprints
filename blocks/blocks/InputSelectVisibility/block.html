@@ -1,0 +1,23 @@
+{% import "plugins/blueprint/blocks/macros/grid.html" as grid %}
+{% set options = {'draft': __('admin_entries_draft'), 'visible': __('admin_entries_visible'), 'hidden': __('admin_entries_hidden')} %}
+<div class="mb-3 {{ grid.col(properties.size, properties.grid) }}">
+    <label for="{{ field_id }}" class="form-label">{{ include(template_from_string(properties.title)) }}</label>
+    <select class="form-control {{ properties.class }} js-select-visibility"
+            name="{{ field_name }}"
+            {% if properties.events %}
+                {% for key, value in properties.events %}
+                     {% if key in ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                   'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                   'onkeydown', 'onblur'] %}
+                         {{ key }} = "{{ value }}"
+                     {% endif %}
+                {% endfor %}
+            {% endif %}>
+        {% for key, value in options %}
+            <option value="{{ key }}" {% if key == field_value %} selected="selected" {% endif %}>{{ value }}</option>
+        {% endfor %}
+    </select>
+    {% if properties.help %}
+        <small>{{ include(template_from_string(properties.help)) }}</small>
+    {% endif %}
+</div>

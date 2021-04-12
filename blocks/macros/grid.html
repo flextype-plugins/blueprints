@@ -1,0 +1,38 @@
+{% macro col(size, option) %}
+{% apply spaceless %}
+    {% set colSize =
+        {
+            '1/12':  'col-{option}-1',
+            '2/12':  'col-{option}-2',
+            '3/12':  'col-{option}-3',
+            '4/12':  'col-{option}-4',
+            '5/12':  'col-{option}-5',
+            '6/12':  'col-{option}-6',
+            '7/12':  'col-{option}-7',
+            '8/12':  'col-{option}-8',
+            '9/12':  'col-{option}-9',
+            '10/12': 'col-{option}-10',
+            '11/12': 'col-{option}-12',
+            '12/12': 'col-{option}-12',
+            '12':    'col-{option}-12',
+            'full':  'col-{option}-12',
+         }
+    %}
+
+    {% set colSizeOptions =
+        {
+            'extra small':       'xs',
+            'small':             'sm',
+            'medium':            'md',
+            'large':             'lg',
+            'extra large':       'xl',
+            'extra extra large': 'xxl',
+         }
+    %}
+
+    {% if size not in colSize|keys %}{% set size = 12 %}{% endif %}
+    {% if option not in colSizeOptions|keys %}{% set option = 'medium' %}{% endif %}
+
+    {{ colSize[size]|replace({'{option}': colSizeOptions[option] }) }}
+{% endapply %}
+{% endmacro %}

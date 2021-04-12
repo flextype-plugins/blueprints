@@ -1,0 +1,9 @@
+# enabled: true or false to disable the plugin
+enabled: true
+
+# Blueprint plugin priority
+priority: 45
+
+# place to load
+load_on_site: true
+load_on_admin: true

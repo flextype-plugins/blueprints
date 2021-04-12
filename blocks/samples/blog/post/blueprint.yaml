@@ -1,0 +1,22 @@
+title: 'Blog Post'
+default_field: title
+hide: false
+size: 12
+form:
+  tabs:
+    main:
+      title: Main
+      fields:
+        title: { title: admin_title, type: text, size: 12 }
+        summary: { title: admin_summary, type: html, size: 12 }
+        content: { title: admin_content, type: html, size: 12 }
+        tags: { title: admin_tags, type: tags, size: 12 }
+    settings:
+      title: admin_settings
+      fields:
+        general_heading: { title: admin_general, type: heading }
+        description: { title: admin_description, type: textarea, size: 12 }
+        template: { title: themes_admin_template, type: select_template, size: 4/12 }
+        visibility: { title: admin_visibility, type: select_visibility, size: 4/12 }
+        published_at: { title: admin_published_at, type: datetimepicker, size: 4/12 }
+        routable: { title: admin_routable, type: select_routable, size: 4/12 }

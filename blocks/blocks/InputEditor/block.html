@@ -1,0 +1,30 @@
+{% import "plugins/blueprint/blocks/macros/grid.html" as grid %}
+<div class="mb-3 {{ grid.col(properties.size, properties.grid) }}">
+    <label for="{{ field_id }}" class="form-label">{{ include(template_from_string(properties.title)) }}</label>
+    <textarea id="{{ field_id }}"
+              name="{{ field_name }}"
+              rows="0"
+              cols="0"
+              class="js-html-editor form-control {{ properties.class }}"
+              {% if properties.events %}
+                  {% for key, value in properties.events %}
+                       {% if key in ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                     'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                     'onkeydown', 'onblur'] %}
+                           {{ key }} = "{{ value }}"
+                       {% endif %}
+                  {% endfor %}
+              {% endif %}>{{ include(template_from_string(field_value)) }}</textarea>
+    {% if properties.help %}
+        <small>{{ __(properties.help)}}</small>
+    {% endif %}
+</div>
+
+{% if flextype.registry.get('flextype.settings.locale') == 'en_US' %}
+    {% set trumbowyg_locale = 'en' %}
+{% else %}
+    {% set trumbowyg_locale = flextype.registry.get('flextype.settings.locale')|lower|slice(0, 2) %}
+{% endif %}
+
+<input type="hidden" name="trumbowyg-icons-path" value="{{ url() }}/project/plugins/blueprint/assets/dist/fonts/trumbowyg/icons.svg">
+<input type="hidden" name="trumbowyg-locale" value="{{ trumbowyg_locale }}">

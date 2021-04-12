@@ -1,0 +1,31 @@
+<form action="{% if fieldset.form.action %}{{ include(template_from_string(fieldset.form.action)) }}{% endif %}"
+      method="{% if fieldset.form.method %}{{ fieldset.form.method }}{% else %}post{% endif %}"
+      {% if fieldset.form.id %}id="{{ fieldset.form.id }}"{% endif %}
+      {% if fieldset.form.name %}name="{{ fieldset.form.name }}"{% endif %}
+      data-parsley-validate
+      {% if fieldset.form.events %}
+          {% for key, value in fieldset.form.events %}
+               {% if key in ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                             'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                             'onkeydown', 'onblur', 'onreset', 'onsubmit'] %}
+                   {{ key }} = "{{ value }}"
+               {% endif %}
+          {% endfor %}
+      {% endif %}>
+    {{ csrf() }}
+    <div class="row">
+    {% for element, properties in fieldset.form.fields  %}
+
+        {% set field_name = flextype.form.getElementName(element) %}
+        {% set field_id = flextype.form.getElementID(element) %}
+        {% set field_value = flextype.form.getElementValue(element, values, properties) %}
+
+        {% include "plugins/blueprint/blocks/fields/fields.html" %}
+    {% endfor %}
+    </div>
+    {% if fieldset.form.buttons %}
+        <div class="mt-3">
+            {% include "plugins/blueprint/blocks/buttons.html" with {"buttons": fieldset.form.buttons} %}
+        </div>
+    {% endif %}
+</form>

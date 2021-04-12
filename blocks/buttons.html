@@ -1,0 +1,106 @@
+{% for key, button in buttons %}
+    {% if button.type == 'group' %}
+        <div class="btn-group">
+            <button href="{{ include(template_from_string(button.href)) }}"
+                    type="button"
+                    id="{{ button.id }}"
+                    class="btn btn-primary {{ button.class }}"
+                    {% if properties.events %}
+                        {% for key, value in properties.events %}
+                             {% if key in ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                           'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                           'onkeydown', 'onblur'] %}
+                                 {{ key }} = "{{ value }}"
+                             {% endif %}
+                        {% endfor %}
+                    {% endif %}>{{ include(template_from_string(button.title)) }}</button>
+            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="visually-hidden">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu">
+                {% for key, link in button.links %}
+                    <li><a class="dropdown-item {{ link.class }}"
+                           id="{{ link.id }}"
+                           href="{{ include(template_from_string(link.href)) }}"
+                           {% if link.data %}
+                                {% for key, value in link.data %}
+                                    data-{{ key }} = "{{ value }}"
+                                {% endfor %}
+                           {% endif %}
+                           {% if link.properties.events %}
+                               {% for key, value in link.properties.events %}
+                                    {% if key in ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                                  'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                                  'onkeydown', 'onblur'] %}
+                                        {{ key }} = "{{ value }}"
+                                    {% endif %}
+                               {% endfor %}
+                           {% endif %}>{{ include(template_from_string(link.title)) }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    {% if button.type == 'submit' %}
+        <input type="submit"
+               id="{{ button.id }}"
+               value="{{ include(template_from_string(button.title)) }}"
+               class="btn btn-primary {{ button.class }}"
+               {% if properties.events %}
+                   {% for key, value in properties.events %}
+                        {% if key in ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                      'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                      'onkeydown', 'onblur'] %}
+                            {{ key }} = "{{ value }}"
+                        {% endif %}
+                   {% endfor %}
+               {% endif %}>
+    {% endif %}
+    {% if button.type == 'primary' %}
+        <a href="{{ include(template_from_string(button.href)) }}"
+           id="{{ button.id }}"
+           name="{{ button.name }}"
+           target="{{ button.target }}"
+           class="btn btn-primary {{ button.class }}"
+           {% if properties.events %}
+               {% for key, value in properties.events %}
+                    {% if key in ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                  'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                  'onkeydown', 'onblur'] %}
+                        {{ key }} = "{{ value }}"
+                    {% endif %}
+               {% endfor %}
+           {% endif %}>{{ include(template_from_string(button.title)) }}</a>
+    {% endif %}
+    {% if button.type == 'secondary' %}
+        <a href="{{ include(template_from_string(button.href)) }}"
+           id="{{ button.id }}"
+           name="{{ button.name }}"
+           target="{{ button.target }}"
+           class="btn btn-secondary {{ button.class }}"
+           {% if properties.events %}
+               {% for key, value in properties.events %}
+                    {% if key in ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                  'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                  'onkeydown', 'onblur'] %}
+                        {{ key }} = "{{ value }}"
+                    {% endif %}
+               {% endfor %}
+           {% endif %}>{{ include(template_from_string(button.title)) }}</a>
+    {% endif %}
+    {% if button.type == 'link' %}
+        <a href="{{ include(template_from_string(button.href)) }}"
+           id="{{ button.id }}"
+           name="{{ button.name }}"
+           target="{{ button.target }}"
+           class="btn btn-link {{ button.class }}"
+           {% if properties.events %}
+               {% for key, value in properties.events %}
+                    {% if key in ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                  'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                  'onkeydown', 'onblur'] %}
+                        {{ key }} = "{{ value }}"
+                    {% endif %}
+               {% endfor %}
+           {% endif %}>{{ include(template_from_string(button.title)) }}</a>
+    {% endif %}
+{% endfor %}

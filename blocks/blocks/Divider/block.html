@@ -1,0 +1,5 @@
+{% import "plugins/blueprint/blocks/macros/grid.html" as grid %}
+<div class="mb-3 {{ grid.col(properties.size, properties.grid) }}">
+    <div id="{{ field_id }}"
+         class="divider {% if properties.dashed %}divider--dashed{% endif %}"></div>
+</div>

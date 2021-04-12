@@ -1,0 +1,4 @@
+{% import "plugins/blueprint/blocks/macros/grid.html" as grid %}
+<div class="mb-3 {{ grid.col(properties.size, properties.grid) }}">
+    <div id="{{ field_id }}">{{ include(template_from_string(properties.html)) }}</div>
+</div>

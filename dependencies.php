@@ -1,0 +1,92 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @link https://flextype.org
+ *
+ * For the full copyright and license inblueprintation, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Flextype\Plugin\Blueprint;
+
+use Flextype\Plugin\Blueprint\Models\Blueprint;
+use Flextype\Plugin\Blueprint\Twig\BlueprintTwigExtension;
+use Flextype\Plugin\Twig\Twig\FlextypeTwig;
+use function array_merge;
+use function strtolower;
+use function substr;
+
+/**
+ * Add Blueprint Model to Flextype container
+ */
+flextype()->container()['blueprint'] = fn() => new Blueprint();
+
+/**
+ * Add Blueprint Twig extension
+ */
+FlextypeTwig::macro('blueprint', fn() => flextype('blueprint'));
+
+/**
+ * Add Assets
+ */
+$adminCSS = flextype('registry')->has('assets.admin.css') ? flextype('registry')->get('assets.admin.css') : [];
+$siteCSS  = flextype('registry')->has('assets.site.css') ? flextype('registry')->get('assets.site.css') : [];
+
+if (flextype('registry')->get('plugins.blueprint.settings.load_on_admin')) {
+    flextype('registry')->set(
+        'assets.admin.css',
+        array_merge($adminCSS, [
+            'project/plugins/blueprint/assets/dist/css/flextype-ui.min.css?v=' . filemtime('project/plugins/blueprint/assets/dist/css/flextype-ui.min.css'),
+        ])
+    );
+}
+
+if (flextype('registry')->get('plugins.blueprint.settings.load_on_site')) {
+    flextype('registry')->set(
+        'assets.site.css',
+        array_merge($siteCSS, [
+            'project/plugins/blueprint/assets/dist/css/flextype-ui.min.css?v=' . filemtime('project/plugins/blueprint/assets/dist/css/flextype-ui.min.css'),
+        ])
+    );
+}
+
+if (flextype('registry')->get('flextype.settings.locale') === 'en_US') {
+    $locale = 'en';
+} else {
+    $locale = substr(strtolower(flextype('registry')->get('flextype.settings.locale')), 0, 2);
+}
+
+if ($locale !== 'en') {
+    $trumbowygLocaleJS = 'project/plugins/blueprint/assets/dist/lang/trumbowyg/langs/' . $locale . '.min.js';
+    $flatpickrLocaleJS = 'project/plugins/blueprint/assets/dist/lang/flatpickr/l10n/' . $locale . '.js';
+} else {
+    $trumbowygLocaleJS = '';
+    $flatpickrLocaleJS = '';
+}
+
+$adminJS = flextype('registry')->has('assets.admin.js') ? flextype('registry')->get('assets.admin.js') : [];
+$siteJS  = flextype('registry')->has('assets.site.js') ? flextype('registry')->get('assets.site.js') : [];
+
+if (flextype('registry')->get('plugins.blueprint.settings.load_on_admin')) {
+    flextype('registry')->set(
+        'assets.admin.js',
+        array_merge($adminJS, [
+            'project/plugins/blueprint/assets/dist/js/flextype-ui.min.js?v=' . filemtime('project/plugins/blueprint/assets/dist/js/flextype-ui.min.js'),
+            $trumbowygLocaleJS,
+            $flatpickrLocaleJS,
+        ])
+    );
+}
+
+if (flextype('registry')->get('plugins.blueprint.settings.load_on_site')) {
+    flextype('registry')->set(
+        'assets.site.js',
+        array_merge($siteJS, [
+            'project/plugins/blueprint/assets/dist/js/flextype-ui.min.js?v=' . filemtime('project/plugins/blueprint/assets/dist/js/flextype-ui.min.js'),
+            $trumbowygLocaleJS,
+            $flatpickrLocaleJS,
+        ])
+    );
+}

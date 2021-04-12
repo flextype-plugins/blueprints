@@ -1,0 +1,34 @@
+{% import "plugins/blueprint/blocks/macros/grid.html" as grid %}
+<div class="mb-3 {{ grid.col(properties.size, properties.grid) }}">
+    <label for="{{ field_id }}" class="form-label">{{ include(template_from_string(properties.title)) }}</label>
+    <input type="email"
+           id="{{ field_id }}"
+           name="{{ field_id }}"
+           value="{{ include(template_from_string(field_value)) }}"
+           class="form-control {{ properties.class }}"
+           style="{{ properties.style }}"
+           {% if properties.disabled %}disabled="disabled"{% endif %}
+           {% if properties.events %}
+               {% for key, value in properties.events %}
+                    {% if key in ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                  'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                  'onkeydown', 'onblur'] %}
+                        {{ key }} = "{{ value }}"
+                    {% endif %}
+               {% endfor %}
+           {% endif %}
+           {% if properties.validation.error_message %}data-parsley-error-message="{{ __(properties.validation.error_message) }}"{% endif %}
+           {% if properties.validation.equalto %}data-parsley-equalto="{{ properties.validation.equalto }}"{% endif %}
+           {% if properties.validation.range %}data-parsley-range="{{ properties.validation.range }}"{% endif %}
+           {% if properties.validation.max %}data-parsley-max="{{ properties.validation.max }}"{% endif %}
+           {% if properties.validation.min %}data-parsley-min="{{ properties.validation.min }}"{% endif %}
+           {% if properties.validation.length %}data-parsley-length="{{ properties.validation.length }}"{% endif %}
+           {% if properties.validation.maxlength %}data-parsley-maxlength="{{ properties.validation.maxlength }}"{% endif %}
+           {% if properties.validation.minlength %}data-parsley-minlength="{{ properties.validation.minlength }}"{% endif %}
+           {% if properties.validation.type %}data-parsley-type="{{ properties.validation.type }}"{% endif %}
+           {% if properties.validation.required %}data-parsley-required="true"{% endif %}
+           {% if properties.validation.pattern %}data-parsley-pattern="{{ properties.validation.pattern }}"{% endif %}>
+    {% if properties.help %}
+        <small>{{ include(template_from_string(properties.help)) }}</small>
+    {% endif %}
+</div>

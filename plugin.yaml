@@ -1,0 +1,20 @@
+name: Blueprint
+version: 1.0.0
+description: Blueprint plugin to build custom UI for Flextype.
+icon:
+  name: card-list
+  set: bootstrap
+author:
+  name: Sergey Romanenko
+  email: sergey.romanenko@flextype.org
+  url: https://flextype.org
+homepage: https://github.com/flextype-plugins/blueprint
+documentation: https://github.com/flextype-plugins/blueprint
+changelog: https://github.com/flextype-plugins/blueprint/blob/master/CHANGELOG.md
+bugs: https://github.com/flextype-plugins/blueprint/issues
+license: MIT
+
+dependencies:
+  flextype: 0.9.16
+  twig: '>=2.0.0'
+  jquery: '>=1.0.0'

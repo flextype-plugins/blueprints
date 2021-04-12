@@ -1,0 +1,48 @@
+{% set headingSize =
+    {
+        'huge':   '1',
+        'large':  '2',
+        'medium': '3',
+        'small':  '4',
+        'tiny':   '5',
+     }
+%}
+
+{% set blocks =
+    [
+        'InputText',
+        'InputEmail',
+        'InputPassword',
+        'InputTextarea',
+        'InputHidden',
+        'InputNumber',
+        'InputDateTimePicker',
+        'InputEditor',
+        'InputTags',
+        'InputSelect',
+        'InputSelectRoutable',
+        'InputSelectVisibility',
+        'InputSelectTemplate',
+        'InputSelectMedia',
+        'Heading',
+        'Html',
+        'Divider'
+    ]
+%}
+
+{% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
+
+<div class="{{ grid.col(fieldset.size, fieldset.grid) }}">
+    {% if fieldset.header %}
+        <div class="header" {% if not fieldset.header.buttons %}style="display: block!important;"{% endif %}>
+            <div class="header-title"><h1 class="{{ fieldset.header.class }}">{{ include(template_from_string(fieldset.header.title)) }}</h1></div>
+            {% if fieldset.header.buttons %}<div class="header-buttons">{% include "plugins/blueprint/blocks/buttons.html" with {"buttons": fieldset.header.buttons} %}</div>{% endif %}
+        </div>
+    {% endif %}
+
+    {% if fieldset.form.tabs %}
+        {% include "plugins/blueprint/blocks/tabs-form.html" %}
+    {% else %}
+        {% include "plugins/blueprint/blocks/single-form.html" %}
+    {% endif %}
+</div>

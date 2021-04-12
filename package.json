@@ -1,0 +1,44 @@
+{
+  "name": "Blueprint",
+  "version": "1.0.0",
+  "description": "Blueprint plugin to build custom UI for Flextype.",
+  "homepage": "https://flextype.org",
+  "author": "Sergey Romanenko",
+  "license": "MIT",
+  "keywords": [
+    "flextype",
+    "cms",
+    "flat cms",
+    "flatfile cms",
+    "css",
+    "form",
+    "forms",
+    "plugin"
+  ],
+  "bugs": {
+    "url": "https://github.com/flextype-plugins/blueprint/issues"
+  },
+  "dependencies": {
+    "bootstrap": "^5.0.0-beta2",
+    "clipboard": "^2.0.6",
+    "flatpickr": "^4.6.9",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-csso": "^4.0.1",
+    "gulp-postcss": "^8.0.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "jquery": "^3.6.0",
+    "parsleyjs": "^2.9.2",
+    "speakingurl": "^14.0.1",
+    "postcss-import": "^12.0.0",
+    "select2": "^4.0.13",
+    "sweetalert2": "^10.15.5",
+    "trumbowyg": "^2.23.0",
+    "gulp-sass": "^4.1.0",
+    "node-sass": "^5.0.0",
+    "gulp-gzip": "^1.4.2",
+    "gulp-size": "^3.0.0",
+    "gulp-rename": "^2.0.0"
+  }
+}
