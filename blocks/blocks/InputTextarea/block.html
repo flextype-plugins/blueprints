@@ -2,7 +2,7 @@
 <div class="mb-3 {{ grid.col(properties.size, properties.grid) }}">
     <label for="{{ blockID }}" class="form-label">{{ include(template_from_string(properties.title)) }}</label>
     <textarea id="{{ blockID }}"
-              name="{{ fieldName }}"
+              name="{{ blockName }}"
               rows="{{ properties.rows }}"
               cols="{{ properties.cols }}"
               class="form-control {{  properties.class }}"

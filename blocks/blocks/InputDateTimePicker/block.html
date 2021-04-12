@@ -3,7 +3,7 @@
     <label for="{{ blockID }}" class="form-label">{{ include(template_from_string(properties.title)) }}</label>
     <input type="text"
            id="{{ blockID }}"
-           name="{{ blockID }}"
+           name="{{ blockName }}"
            value="{{ blockValue|date(flextype.registry.get('flextype.settings.date_display_format')) }}"
            class="form-control flatpickr js-datetimepicker {{ properties.class }}"
            {% if properties.events %}

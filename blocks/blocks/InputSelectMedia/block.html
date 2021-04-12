@@ -3,7 +3,7 @@
 <div class="mb-3 {{ grid.col(properties.size, properties.grid) }}">
     <label for="{{ blockID }}" class="form-label">{{ include(template_from_string(properties.title)) }}</label>
     <select class="form-control {{ properties.class }} js-select-media"
-            name="{{ fieldName }}"
+            name="{{ blockName }}"
             {% if properties.events %}
                 {% for key, value in properties.events %}
                      {% if key in ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',

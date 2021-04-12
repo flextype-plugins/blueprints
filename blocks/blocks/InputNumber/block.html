@@ -3,7 +3,7 @@
     <label for="{{ blockID }}" class="form-label">{{ include(template_from_string(properties.title)) }}</label>
     <input type="number"
            id="{{ blockID }}"
-           name="{{ blockID }}"
+           name="{{ blockName }}"
            value="{{ include(template_from_string(blockValue)) }}"
            class="plugin-form-control {{ properties.class }}"
            style="{{ properties.style }}"
