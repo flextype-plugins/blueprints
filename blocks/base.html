@@ -32,24 +32,20 @@
 
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 
-<div class="{{ grid.col(blueprint.workspace.size, blueprint.workspace.size) }}">
+<div class="workspace {{ grid.col(blueprint.workspace.size, blueprint.workspace.size) }}">
     {% if blueprint.workspace.header %}
-        <div class="workspace-header" {% if not blueprint.workspace.header.buttons %}style="display: block!important;"{% endif %}>
-            <div class="workspace-header-title">
-                <h1 class="{{ blueprint.workspace.header.class }}">
-                    {{ include(template_from_string(blueprint.workspace.header.title)) }}
-                </h1>
-            </div>
-            {% if blueprint.workspace.header.buttons %}
-                <div class="workspace-header-buttons">
-                    {% include "plugins/blueprints/blocks/buttons.html" with {"buttons": blueprint.workspace.header.buttons} %}
-                </div>
-            {% endif %}
+        <div class="workspace-header">
+            {% include "plugins/blueprints/blocks/area.html" with {"area": "header"} %}
         </div>
     {% endif %}
-    {% if blueprint.workspace.body.tabs %}
-        {% include "plugins/blueprints/blocks/tabs-form.html" %}
-    {% else %}
-        {% include "plugins/blueprints/blocks/single-form.html" %}
+    {% if blueprint.workspace.body %}
+        <div class="workspace-body">
+               {% include "plugins/blueprints/blocks/area.html" with {"area": "body"} %}
+        </div>
+    {% endif %}
+    {% if blueprint.workspace.footer %}
+       <div class="workspace-footer">
+           {% include "plugins/blueprints/blocks/area.html" with {"area": "footer"} %}
+        </div>
     {% endif %}
 </div>
