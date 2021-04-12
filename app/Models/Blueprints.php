@@ -365,24 +365,25 @@ class Blueprints
     /**
      * Render blueprint.
      *
-     * @param array $blueprint Blueprint data.
-     * @param array $values    Blueprint values.
-     * @param array $vars      Blueprint variables.
+     * @param string $id     Blueprint unique identifier.
+     * @param array  $values Blueprint values.
+     * @param array  $vars   Blueprint variables.
      *
-     * @return string Returns rendered blueprint based on blueprint.
+     * @return void
      *
      * @access public
      */
-    public function render(array $blueprint, array $values = [], array $vars = []): string
+    public function render(string $id, array $values = [], array $vars = []): void
     {
-        return flextype('twig')->fetch(
-            'plugins/blueprints/blocks/base.html',
-            array_merge([
-                'blueprint' => $blueprint,
-                'values'    => $values,
-                'query'     => $_GET,
-            ], $vars)
-        );
+        echo flextype('twig')
+                ->getEnvironment()
+                ->render(
+                    'plugins/blueprints/blocks/base.html',
+                    array_merge([
+                        'blueprint' => $this->fetch($id)->toArray(),
+                        'values'    => $values,
+                        'query'     => $_GET,
+                    ], $vars));
     }
 
     /**
