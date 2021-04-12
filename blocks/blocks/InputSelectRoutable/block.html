@@ -1,7 +1,7 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% set options = {1: __('admin_yes'), 0: __('admin_no')} %}
 <div class="mb-3 {{ grid.col(properties.size, properties.grid) }}">
-    <label for="{{ fieldID }}" class="form-label">{{ include(template_from_string(properties.title)) }}</label>
+    <label for="{{ blockID }}" class="form-label">{{ include(template_from_string(properties.title)) }}</label>
     <select class="form-control {{ properties.class }} js-select-routable"
             name="{{ fieldName }}"
             {% if properties.events %}
@@ -14,7 +14,7 @@
                 {% endfor %}
             {% endif %}>
         {% for key, value in options %}
-            <option value="{{ key }}" {% if key == fieldValue %} selected="selected" {% endif %}>{{ value }}</option>
+            <option value="{{ key }}" {% if key == blockValue %} selected="selected" {% endif %}>{{ value }}</option>
         {% endfor %}
     </select>
     {% if properties.help %}

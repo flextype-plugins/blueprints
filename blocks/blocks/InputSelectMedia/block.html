@@ -1,7 +1,7 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% set media_files = filesystem().find().depth(0).in(PATH_PROJECT ~ '/media/entries/' ~ query.id ~ '/').files() %}
 <div class="mb-3 {{ grid.col(properties.size, properties.grid) }}">
-    <label for="{{ fieldID }}" class="form-label">{{ include(template_from_string(properties.title)) }}</label>
+    <label for="{{ blockID }}" class="form-label">{{ include(template_from_string(properties.title)) }}</label>
     <select class="form-control {{ properties.class }} js-select-media"
             name="{{ fieldName }}"
             {% if properties.events %}
@@ -15,7 +15,7 @@
             {% endif %}>
         {% for media_file in media_files %}
             {% if media_file.getExtension() in flextype.registry.get('plugins.admin.settings.entries.media.accept_file_types') %}
-                <option value="{{ media_file.getFilename() }}" {% if media_file.getFilename() == fieldValue %} selected="selected" {% endif %}>{{ query.id ~ '/' ~ media_file.getFilename() }}</option>
+                <option value="{{ media_file.getFilename() }}" {% if media_file.getFilename() == blockValue %} selected="selected" {% endif %}>{{ query.id ~ '/' ~ media_file.getFilename() }}</option>
             {% endif %}
         {% endfor %}
     </select>

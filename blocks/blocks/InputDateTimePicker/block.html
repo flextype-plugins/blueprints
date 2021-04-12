@@ -1,10 +1,10 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 <div class="mb-3 {{ grid.col(properties.size, properties.grid) }}">
-    <label for="{{ fieldID }}" class="form-label">{{ include(template_from_string(properties.title)) }}</label>
+    <label for="{{ blockID }}" class="form-label">{{ include(template_from_string(properties.title)) }}</label>
     <input type="text"
-           id="{{ fieldID }}"
-           name="{{ fieldID }}"
-           value="{{ fieldValue|date(flextype.registry.get('flextype.settings.date_display_format')) }}"
+           id="{{ blockID }}"
+           name="{{ blockID }}"
+           value="{{ blockValue|date(flextype.registry.get('flextype.settings.date_display_format')) }}"
            class="form-control flatpickr js-datetimepicker {{ properties.class }}"
            {% if properties.events %}
                {% for key, value in properties.events %}
