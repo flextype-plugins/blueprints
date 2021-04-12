@@ -1,5 +1,13 @@
 {% extends "plugins/admin/templates/content/entries/base.html" %}
 
 {% block content %}
-    
+<div class="row justify-content-center pt-3">
+    {% set blueprintContent = filesystem().file(PATH_PROJECT ~ '/plugins/blueprint/samples/default/blueprint.yaml').get() %}
+
+    {% set blueprint = arrays(flextype.serializers.yaml.decode(blueprintContent)).toArray() %}
+
+    {{ flextype.blueprints.render(blueprint,
+                            {},
+                            {})|raw }}
+</div>
 {% endblock %}

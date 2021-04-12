@@ -11,11 +11,11 @@ workspace:
       blocks:
         title:
           title: admin_title
-          type: text
+          type: InputText
           size: 12
         content:
           title: admin_content
-          type: html
+          type: InputEditor
           size: 12
     settings:
       title: admin_settings

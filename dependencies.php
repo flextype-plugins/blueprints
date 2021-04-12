@@ -9,24 +9,24 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Flextype\Plugin\Blueprint;
+namespace Flextype\Plugin\Blueprints;
 
-use Flextype\Plugin\Blueprint\Models\Blueprint;
-use Flextype\Plugin\Blueprint\Twig\BlueprintTwigExtension;
+use Flextype\Plugin\Blueprints\Models\Blueprints;
+use Flextype\Plugin\Blueprints\Twig\BlueprintsTwigExtension;
 use Flextype\Plugin\Twig\Twig\FlextypeTwig;
 use function array_merge;
 use function strtolower;
 use function substr;
 
 /**
- * Add Blueprint Model to Flextype container
+ * Add Blueprints Model to Flextype container
  */
-flextype()->container()['blueprint'] = fn() => new Blueprint();
+flextype()->container()['blueprints'] = fn() => new Blueprints();
 
 /**
- * Add Blueprint Twig extension
+ * Add Blueprints Twig extension
  */
-FlextypeTwig::macro('blueprint', fn() => flextype('blueprint'));
+FlextypeTwig::macro('blueprints', fn() => flextype('blueprints'));
 
 /**
  * Add Assets

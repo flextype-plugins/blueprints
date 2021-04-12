@@ -1,10 +1,10 @@
-<form action="{% if fieldset.form.action %}{{ include(template_from_string(fieldset.form.action)) }}{% endif %}"
-      method="{% if fieldset.form.method %}{{ fieldset.form.method }}{% else %}post{% endif %}"
-      {% if fieldset.form.id %}id="{{ fieldset.form.id }}"{% endif %}
-      {% if fieldset.form.name %}name="{{ fieldset.form.name }}"{% endif %}
+<form action="{% if blueprint.workspace.action %}{{ include(template_from_string(blueprint.workspace.action)) }}{% endif %}"
+      method="{% if blueprint.workspace.method %}{{ blueprint.workspace.method }}{% else %}post{% endif %}"
+      {% if blueprint.workspace.id %}id="{{ blueprint.workspace.id }}"{% endif %}
+      {% if blueprint.workspace.name %}name="{{ blueprint.workspace.name }}"{% endif %}
       data-parsley-validate
-      {% if fieldset.form.events %}
-          {% for key, value in fieldset.form.events %}
+      {% if blueprint.workspace.events %}
+          {% for key, value in blueprint.workspace.events %}
                {% if key in ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
                              'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
                              'onkeydown', 'onblur', 'onreset', 'onsubmit'] %}
@@ -14,18 +14,18 @@
       {% endif %}>
     {{ csrf() }}
     <div class="row">
-    {% for element, properties in fieldset.form.fields  %}
+    {% for element, properties in blueprint.workspace.blocks  %}
 
-        {% set field_name = flextype.form.getElementName(element) %}
-        {% set field_id = flextype.form.getElementID(element) %}
-        {% set field_value = flextype.form.getElementValue(element, values, properties) %}
+        {% set field_name = flextype.blueprints.getElementName(element) %}
+        {% set field_id = flextype.blueprints.getElementID(element) %}
+        {% set field_value = flextype.blueprints.getElementValue(element, values, properties) %}
 
         {% include "plugins/blueprint/blocks/fields/fields.html" %}
     {% endfor %}
     </div>
-    {% if fieldset.form.buttons %}
+    {% if blueprint.workspace.buttons %}
         <div class="mt-3">
-            {% include "plugins/blueprint/blocks/buttons.html" with {"buttons": fieldset.form.buttons} %}
+            {% include "plugins/blueprint/blocks/buttons.html" with {"buttons": blueprint.workspace.buttons} %}
         </div>
     {% endif %}
 </form>

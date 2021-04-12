@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-namespace Flextype\Plugin\Form\Models;
+namespace Flextype\Plugin\Blueprints\Models;
 
 use Atomastic\Arrays\Arrays;
 use Atomastic\Macroable\Macroable;
@@ -398,9 +398,9 @@ class Blueprints
      */
     public function getElementValue(string $element, array $values, array $properties)
     {
-        if (Arrays::has($values, $element)) {
-            $fieldValue = Arrays::get($values, $element);
-        } elseif (Arrays::has($properties, 'value')) {
+        if (arrays($values)->has($element)) {
+            $fieldValue = arrays($values)->get($element);
+        } elseif (arrays($properties)->has('value')) {
             $fieldValue = $properties['value'];
         } else {
             $fieldValue = '';
