@@ -1,0 +1,21 @@
+{% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
+<div class="mb-3 
+            {% if properties.align == 'center' %}text-center{% endif %}
+            {% if properties.align == 'right' %}text-end{% endif %} 
+            {{ grid.col(properties.size, properties.grid) }}">
+    <input type="submit"
+        id="{{ blockID }}"
+        value="{{ include(template_from_string(properties.title)) }}"
+        class="btn btn-primary {{ properties.class }}"
+        style="{{ properties.style }}"
+        {% if properties.disabled %}disabled="disabled"{% endif %}
+        {% if properties.events %}
+            {% for key, value in properties.events %}
+                {% if key in ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                              'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                              'onkeydown', 'onblur'] %}
+                    {{ key }} = "{{ value }}"
+                {% endif %}
+            {% endfor %}
+        {% endif %}>
+</div>
