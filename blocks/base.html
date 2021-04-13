@@ -23,7 +23,7 @@
 
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 
-<div class="workspace {{ grid.col(blueprint.workspace.size, blueprint.workspace.size) }}">
+<div class="workspace {{ grid.col(blueprint.workspace.layout.size, blueprint.workspace.layout.grid) }}">
     {% if blueprint.workspace.header %}
         <div class="workspace-header">
             {% include "plugins/blueprints/blocks/area.html" with {"area": "header"} %}
