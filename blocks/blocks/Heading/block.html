@@ -1,7 +1,8 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
-<div class="mb-3 {{ grid.col(properties.size, properties.grid) }}">
-    <h{% if properties.h %}{{ properties.h }}{% else %}3{% endif %}
+{% import "plugins/blueprints/blocks/macros/heading.html" as heading %}
+<div class="mb-3 {{ grid.col(properties.layout.size, properties.layout.grid) }}">
+    <h{{ heading.size(properties.properties.size ) }}
         id="{{ blockID }}"
-        class="{{ properties.class }}"
-        style="{{ properties.style }}">{{ include(template_from_string(properties.title)) }}</h{% if properties.h %}{{ properties.h }}{% else %}3{% endif %}>
+        class="{{ properties.properties.class }}"
+        style="{{ properties.style }}">{{ include(template_from_string(properties.title)) }}</h{{ heading.size(properties.properties.size ) }}>
 </div>
