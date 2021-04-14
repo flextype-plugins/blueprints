@@ -1,9 +1,9 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% import "plugins/blueprints/blocks/macros/heading.html" as heading %}
 {% import "plugins/blueprints/blocks/macros/attributes/attributes.html" as attributes %}
-<div class="mb-3 {{ grid.col(properties.layout.size, properties.layout.grid) }}">
+<div class="{{ properties.layout.class }} {{ grid.col(properties.layout.size, properties.layout.grid) }}" {{ attributes.style(properties.layout.style) }}>
     <h{{ heading.size(properties.properties.size ) }}
-        {{ attributes.style(properties) }}
         {{ attributes.id(blockID) }}
-        {{ attributes.class(properties.properties) }}>{{ include(template_from_string(properties.title)) }}</h{{ heading.size(properties.properties.size ) }}>
+        {{ attributes.style(properties.properties.style) }}
+        {{ attributes.class(properties.properties.class) }}>{{ include(template_from_string(properties.title)) }}</h{{ heading.size(properties.properties.size ) }}>
 </div>
