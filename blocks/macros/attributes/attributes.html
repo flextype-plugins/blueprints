@@ -1,0 +1,21 @@
+{% macro style(properties) %}
+{% apply spaceless %}
+    {% if properties.style %}
+        style="{% for key, value in properties.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"
+    {% endif %}
+{% endapply %}
+{% endmacro %}
+
+{% macro id(blockID) %}
+{% apply spaceless %}
+    id="{{ blockID }}"
+{% endapply %}
+{% endmacro %}
+
+{% macro class(properties) %}
+{% apply spaceless %}
+    {% if properties.class %}
+      class="{{ properties.class }}"
+    {% endif %}
+{% endapply %}
+{% endmacro %}
