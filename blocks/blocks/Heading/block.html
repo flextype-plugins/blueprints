@@ -1,6 +1,6 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% import "plugins/blueprints/blocks/macros/heading.html" as heading %}
-{% import "plugins/blueprints/blocks/macros/attributes/attributes.html" as attributes %}
+{% import "plugins/blueprints/blocks/macros/attributes.html" as attributes %}
 <div class="{{ properties.layout.class }} {{ grid.col(properties.layout.size, properties.layout.grid) }}" {{ attributes.style(properties.layout.style) }}>
     <h{{ heading.size(properties.properties.size ) }}
         {{ attributes.id(blockID) }}
