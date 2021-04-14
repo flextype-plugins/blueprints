@@ -1,7 +1,7 @@
-{% macro style(properties) %}
+{% macro style(style) %}
 {% apply spaceless %}
-    {% if properties.style %}
-        style="{% for key, value in properties.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"
+    {% if style %}
+        style="{% for key, value in style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"
     {% endif %}
 {% endapply %}
 {% endmacro %}
@@ -12,10 +12,10 @@
 {% endapply %}
 {% endmacro %}
 
-{% macro class(properties) %}
+{% macro class(class) %}
 {% apply spaceless %}
-    {% if properties.class %}
-      class="{{ properties.class }}"
+    {% if class %}
+      class="{{ class }}"
     {% endif %}
 {% endapply %}
 {% endmacro %}
