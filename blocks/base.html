@@ -25,7 +25,9 @@
 
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 
-<div class="workspace {{ grid.col(blueprint.workspace.layout.size, blueprint.workspace.layout.grid) }}">
+<div class="workspace {{ blueprint.workspace.layout.class }}
+                      {{ grid.col(blueprint.workspace.layout.size, blueprint.workspace.layout.grid) }}" 
+                      {% if blueprint.workspace.layout.style %}style="{% for key, value in blueprint.workspace.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
     {% if blueprint.workspace.header %}
         <div class="workspace-header">
             {% include "plugins/blueprints/blocks/area.html" with {"area": "header"} %}
