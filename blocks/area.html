@@ -1,21 +1,76 @@
-<form action="{% if blueprint.workspace.action %}{{ include(template_from_string(blueprint.workspace.action)) }}{% endif %}"
-      method="{% if blueprint.workspace.method %}{{ blueprint.workspace.method }}{% else %}post{% endif %}"
-      {% if blueprint.workspace.id %}id="{{ blueprint.workspace.id }}"{% endif %}
-      {% if blueprint.workspace.name %}name="{{ blueprint.workspace.name }}"{% endif %}
-      data-parsley-validate
-      {% if blueprint.workspace.events %}
-          {% for key, value in blueprint.workspace.events %}
-               {% if key in ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
-                             'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                             'onkeydown', 'onblur', 'onreset', 'onsubmit'] %}
-                   {{ key }} = "{{ value }}"
-               {% endif %}
-          {% endfor %}
-      {% endif %}>
-    {{ csrf() }}
-    {% if blueprint['workspace'][area]['tabs'] %}
+{% if blueprint['workspace'][area]['form']['tabs'] %}
+    <form action="{% if blueprint['workspace'][area]['form']['action'] %}{{ include(template_from_string(blueprint['workspace'][area]['form']['action'])) }}{% endif %}"
+        method="{% if blueprint['workspace'][area]['form']['method'] %}{{ blueprint['workspace'][area]['form']['method'] }}{% else %}post{% endif %}"
+        {% if blueprint['workspace'][area]['form']['id'] %}id="{{ blueprint['workspace'][area]['form']['id'] }}"{% endif %}
+        {% if blueprint['workspace'][area]['form']['name'] %}name="{{ blueprint['workspace'][area]['form']['name'] }}"{% endif %}
+        data-parsley-validate
+        {% if blueprint['workspace'][area]['form']['events'] %}
+            {% for key, value in blueprint['workspace'][area]['form']['events'] %}
+                {% if key in ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                'onkeydown', 'onblur', 'onreset', 'onsubmit'] %}
+                    {{ key }} = "{{ value }}"
+                {% endif %}
+            {% endfor %}
+        {% endif %}>
+        {{ csrf() }}
         <ul class="nav nav-tabs mb-3" id="workspaceTab" role="tablist">
-            {% for key, section in blueprint['workspace'][area]['tabs'] %}
+            {% for key, section in blueprint['workspace'][area]['form']['tabs'] %}
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link {% if key == 'main' %}active{% endif %}"
+                            id="{{ key }}-tab-link"
+                            data-bs-toggle="tab"
+                            data-bs-target="#{{ key }}-tab"
+                            type="button"
+                            role="tab"
+                            aria-controls="{{ key }}-tab"
+                            aria-selected="{% if key == 'main' %}true{% else %}false{% endif %}">{{ include(template_from_string(section.title)) }}</button>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="tab-content" id="workspaceTabContent">
+            {% for key, tab in blueprint['workspace'][area]['form']['tabs'] %}
+                <div class="tab-pane {% if key == 'main' %}show active{% endif %}" id="{{ key }}-tab" role="tabpanel" aria-labelledby="{{ key }}-tab">
+                    <div class="row">
+                        {% for element, properties in blueprint['workspace'][area]['form']['tabs'][key]['blocks']  %}
+                            {% set blockName = flextype.blueprints.getElementName(element) %}
+                            {% set blockID = flextype.blueprints.getElementID(element) %}
+                            {% set blockValue = flextype.blueprints.getElementValue(element, values, properties) %}
+                            {% include "plugins/blueprints/blocks/blocks/blocks.html" %}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </form>
+{% elseif blueprint['workspace'][area]['form'] %}
+    <form action="{% if blueprint['workspace'][area]['form']['action'] %}{{ include(template_from_string(blueprint['workspace'][area]['form']['action'])) }}{% endif %}"
+        method="{% if blueprint['workspace'][area]['form']['method'] %}{{ blueprint['workspace'][area]['form']['method'] }}{% else %}post{% endif %}"
+        {% if blueprint['workspace'][area]['form']['id'] %}id="{{ blueprint['workspace'][area]['form']['id'] }}"{% endif %}
+        {% if blueprint['workspace'][area]['form']['name'] %}name="{{ blueprint['workspace'][area]['form']['name'] }}"{% endif %}
+        data-parsley-validate
+        {% if blueprint['workspace'][area]['form']['events'] %}
+            {% for key, value in blueprint['workspace'][area]['form']['events'] %}
+                {% if key in ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                'onkeydown', 'onblur', 'onreset', 'onsubmit'] %}
+                    {{ key }} = "{{ value }}"
+                {% endif %}
+            {% endfor %}
+        {% endif %}>
+        {{ csrf() }}
+        <div class="row">
+            {% for element, properties in blueprint['workspace'][area]['form']['blocks'] %}
+                {% set blockName = flextype.blueprints.getElementName(element) %}
+                {% set blockID = flextype.blueprints.getElementID(element) %}
+                {% set blockValue = flextype.blueprints.getElementValue(element, values, properties) %}
+                {% include "plugins/blueprints/blocks/blocks/blocks.html" %}
+            {% endfor %}
+        </div>
+    </form>
+{% elseif blueprint['workspace'][area]['tabs'] %}
+    <ul class="nav nav-tabs mb-3" id="workspaceTab" role="tablist">
+        {% for key, section in blueprint['workspace'][area]['tabs'] %}
             <li class="nav-item" role="presentation">
                 <button class="nav-link {% if key == 'main' %}active{% endif %}"
                         id="{{ key }}-tab-link"
@@ -26,30 +81,29 @@
                         aria-controls="{{ key }}-tab"
                         aria-selected="{% if key == 'main' %}true{% else %}false{% endif %}">{{ include(template_from_string(section.title)) }}</button>
             </li>
-            {% endfor %}
-        </ul>
-        <div class="tab-content" id="workspaceTabContent">
-            {% for key, tab in blueprint['workspace'][area]['tabs'] %}
-                <div class="tab-pane {% if key == 'main' %}show active{% endif %}" id="{{ key }}-tab" role="tabpanel" aria-labelledby="{{ key }}-tab">
-                    <div class="row">
-                        {% for element, properties in blueprint['workspace'][area]['tabs'][key]['blocks']  %}
-                            {% set blockName = flextype.blueprints.getElementName(element) %}
-                            {% set blockID = flextype.blueprints.getElementID(element) %}
-                            {% set blockValue = flextype.blueprints.getElementValue(element, values, properties) %}
-                            {% include "plugins/blueprints/blocks/blocks/blocks.html" %}
-                        {% endfor %}
-                    </div>
+        {% endfor %}
+    </ul>
+    <div class="tab-content" id="workspaceTabContent">
+        {% for key, tab in blueprint['workspace'][area]['tabs'] %}
+            <div class="tab-pane {% if key == 'main' %}show active{% endif %}" id="{{ key }}-tab" role="tabpanel" aria-labelledby="{{ key }}-tab">
+                <div class="row">
+                    {% for element, properties in blueprint['workspace'][area]['tabs'][key]['blocks']  %}
+                        {% set blockName = flextype.blueprints.getElementName(element) %}
+                        {% set blockID = flextype.blueprints.getElementID(element) %}
+                        {% set blockValue = flextype.blueprints.getElementValue(element, values, properties) %}
+                        {% include "plugins/blueprints/blocks/blocks/blocks.html" %}
+                    {% endfor %}
                 </div>
-            {% endfor %}
-        </div>
-    {% else %}
-        <div class="row">
-            {% for element, properties in blueprint['workspace'][area]['blocks'] %}
-                {% set blockName = flextype.blueprints.getElementName(element) %}
-                {% set blockID = flextype.blueprints.getElementID(element) %}
-                {% set blockValue = flextype.blueprints.getElementValue(element, values, properties) %}
-                {% include "plugins/blueprints/blocks/blocks/blocks.html" %}
-            {% endfor %}
-        </div>
-    {% endif %}
-</form>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="row">
+        {% for element, properties in blueprint['workspace'][area]['blocks'] %}
+            {% set blockName = flextype.blueprints.getElementName(element) %}
+            {% set blockID = flextype.blueprints.getElementID(element) %}
+            {% set blockValue = flextype.blueprints.getElementValue(element, values, properties) %}
+            {% include "plugins/blueprints/blocks/blocks/blocks.html" %}
+        {% endfor %}
+    </div>
+{% endif %}
