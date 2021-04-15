@@ -1,6 +1,12 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
-<div class="mb-3 {{ grid.col(properties.size, properties.grid) }}">
-    <label for="{{ blockID }}" class="form-label">{{ include(template_from_string(properties.title)) }}</label>
+<div class="{{ properties.layout.class }}
+            {{ grid.col(properties.layout.size, properties.layout.grid) }}" 
+            {% if properties.layout.style %}style="{% for key, value in properties.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
+    {% if properties.properties.label %}
+        <label for="{{ blockID }}" 
+               class="form-label {{ properties.properties.label.class }}"
+               {% if properties.properties.label.style %}style="{% for key, value in properties.properties.label.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>{{ include(template_from_string(properties.properties.label.title)) }}</label>
+    {% endif %}
     <textarea id="{{ blockID }}"
               name="{{ blockName }}"
               rows="0"
@@ -15,16 +21,16 @@
                        {% endif %}
                   {% endfor %}
               {% endif %}>{{ include(template_from_string(blockValue)) }}</textarea>
-    {% if properties.help %}
-        <small>{{ __(properties.help)}}</small>
+    {% if properties.properties.help %}
+        <small>{{ __(properties.properties.help)}}</small>
     {% endif %}
+
+    {% if flextype.registry.get('flextype.settings.locale') == 'en_US' %}
+        {% set trumbowygLocale = 'en' %}
+    {% else %}
+        {% set trumbowygLocale = flextype.registry.get('flextype.settings.locale')|lower|slice(0, 2) %}
+    {% endif %}
+
+    <input type="hidden" name="trumbowyg-icons-path" value="{{ url() }}/project/plugins/blueprints/assets/dist/fonts/trumbowyg/icons.svg">
+    <input type="hidden" name="trumbowyg-locale" value="{{ trumbowygLocale }}">
 </div>
-
-{% if flextype.registry.get('flextype.settings.locale') == 'en_US' %}
-    {% set trumbowyg_locale = 'en' %}
-{% else %}
-    {% set trumbowyg_locale = flextype.registry.get('flextype.settings.locale')|lower|slice(0, 2) %}
-{% endif %}
-
-<input type="hidden" name="trumbowyg-icons-path" value="{{ url() }}/project/plugins/blueprints/assets/dist/fonts/trumbowyg/icons.svg">
-<input type="hidden" name="trumbowyg-locale" value="{{ trumbowyg_locale }}">
