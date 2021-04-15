@@ -29,25 +29,15 @@
 <div class="workspace {{ blueprint.workspace.layout.class }}
                       {{ grid.col(blueprint.workspace.layout.size, blueprint.workspace.layout.grid) }}" 
                       {% if blueprint.workspace.layout.style %}style="{% for key, value in blueprint.workspace.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
-    {% if blueprint.workspace.header %}
-        <div class="workspace-header {{ blueprint.workspace.header.layout.class }}
-                                     {{ grid.col(blueprint.workspace.header.layout.size, blueprint.workspace.header.layout.grid) }}" 
-                                     {% if blueprint.workspace.header.layout.style %}style="{% for key, value in blueprint.workspace.header.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
-            {% include "plugins/blueprints/blocks/area.html" with {"area": "header"} %}
-        </div>
-    {% endif %}
-    {% if blueprint.workspace.body %}
-        <div class="workspace-body {{ blueprint.workspace.body.layout.class }}
-                                   {{ grid.col(blueprint.workspace.body.layout.size, blueprint.workspace.body.layout.grid) }}" 
-                                   {% if blueprint.workspace.body.layout.style %}style="{% for key, value in blueprint.workspace.body.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
-            {% include "plugins/blueprints/blocks/area.html" with {"area": "body"} %}
-        </div>
-    {% endif %}
-    {% if blueprint.workspace.footer %}
-       <div class="workspace-footer {{ blueprint.workspace.footer.layout.class }}
-                                    {{ grid.col(blueprint.workspace.footer.layout.size, blueprint.workspace.footer.layout.grid) }}" 
-                                    {% if blueprint.workspace.footer.layout.style %}style="{% for key, value in blueprint.workspace.footer.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
-           {% include "plugins/blueprints/blocks/area.html" with {"area": "footer"} %}
-        </div>
-    {% endif %}
+    <div class="row">
+        {% for key, value in blueprint.workspace %}
+            {% if key != 'layout' and key != 'properties' %}
+                    <div class="workspace-area {{ blueprint['workspace'][key]['layout']['class'] }}
+                        {{ grid.col(blueprint['workspace'][key]['layout']['size'], blueprint['workspace'][key]['layout']['grid']) }}" 
+                        {% if blueprint['workspace'][key]['layout']['style'] %}style="{% for key, value in blueprint['workspace'][key]['layout']['style'] %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
+                        {% include "plugins/blueprints/blocks/area.html" with {"area": key} %}
+                    </div>
+            {% endif %}
+        {% endfor %}
+    </div>
 </div>
