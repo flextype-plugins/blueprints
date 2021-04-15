@@ -1,0 +1,18 @@
+{% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
+<div class="{{ properties.layout.class }}
+            {{ grid.col(properties.layout.size, properties.layout.grid) }}" 
+            {% if properties.layout.style %}style="{% for key, value in properties.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
+    <a id="{{ blockID }}
+       {% if properties.properties.style %}style="{% for key, value in properties.properties.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}
+       href="{% if properties.properties.href %}"
+       {% if properties.properties.newTab %}target="_blank"{% endif %}
+       {% if properties.events %}
+       {% for key, value in properties.events %}
+            {% if key in ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                          'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                          'onkeydown', 'onblur'] %}
+                {{ key }} = "{{ value }}"
+            {% endif %}
+       {% endfor %}
+   {% endif %}>{{ include(template_from_string(properties.properties.title)) }}</a>
+</div>
