@@ -1,6 +1,12 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% set btnSizes = {'large': 'btn-lg', 'small': 'btn-sm'} %}
-{% set btnTypes = {'primary': 'primary', 'secondary': 'secondary', 'link': 'link'} %}
+{% set btnTypes = {'primary': 'primary',
+                    'secondary': 'secondary',
+                    'success': 'success',
+                    'info': 'info',
+                    'warning': 'warning',
+                    'danger': 'danger',
+                    'link': 'link'} %}
 <div class="{{ properties.layout.class }}
             {{ grid.col(properties.layout.size, properties.layout.grid) }}" 
             {% if properties.layout.style %}style="{% for key, value in properties.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
