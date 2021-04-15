@@ -1,13 +1,19 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
-<div class="mb-3 {{ grid.col(properties.size, properties.grid) }}">
-    <label for="{{ blockID }}" class="form-label">{{ include(template_from_string(properties.title)) }}</label>
+<div class="{{ properties.layout.class }}
+            {{ grid.col(properties.layout.size, properties.layout.grid) }}" 
+            {% if properties.layout.style %}style="{% for key, value in properties.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
+    {% if properties.properties.label %}
+        <label for="{{ blockID }}" 
+                class="form-label {{ properties.properties.label.class }}"
+                {% if properties.properties.label.style %}style="{% for key, value in properties.properties.label.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>{{ include(template_from_string(properties.properties.label.title)) }}</label>
+    {% endif %}
     <input type="email"
            id="{{ blockID }}"
            name="{{ blockName }}"
            value="{{ include(template_from_string(blockValue)) }}"
-           class="form-control {{ properties.class }}"
+           class="form-control {{ properties.properties.class }}"
            style="{{ properties.style }}"
-           {% if properties.disabled %}disabled="disabled"{% endif %}
+           {% if properties.properties.disabled %}disabled="disabled"{% endif %}
            {% if properties.events %}
                {% for key, value in properties.events %}
                     {% if key in ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
@@ -28,7 +34,7 @@
            {% if properties.validation.type %}data-parsley-type="{{ properties.validation.type }}"{% endif %}
            {% if properties.validation.required %}data-parsley-required="true"{% endif %}
            {% if properties.validation.pattern %}data-parsley-pattern="{{ properties.validation.pattern }}"{% endif %}>
-    {% if properties.help %}
-        <small>{{ include(template_from_string(properties.help)) }}</small>
+    {% if properties.properties.help %}
+        <small>{{ include(template_from_string(properties.properties.help)) }}</small>
     {% endif %}
 </div>
