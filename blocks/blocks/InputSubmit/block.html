@@ -6,7 +6,7 @@
             {% if properties.layout.style %}style="{% for key, value in properties.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
     <input 
         type="{% block type %}submit{% endblock %}"
-        value="{{ include(template_from_string(properties.title)) }}"
+        value="{{ include(template_from_string(properties.properties.title)) }}"
         id="{{ blockID }}"
         class="btn  {% if properties.properties.type %}
                         btn-{% if properties.properties.outline %}outline-{% endif %}{{ btnTypes[properties.properties.type] }}
