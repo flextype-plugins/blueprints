@@ -12,8 +12,10 @@
            name="{{ blockName }}"
            value="{{ include(template_from_string(blockValue)) }}"
            class="form-control {{ properties.properties.class }}"
-           style="{{ properties.properties.style }}"
+           {% if properties.properties.style %}style="{% for key, value in properties.properties.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}
            {% if properties.properties.disabled %}disabled="disabled"{% endif %}
+           {% if properties.properties.readonly %}readonly="readonly"{% endif %}
+           {% if properties.properties.placeholder %}placeholder="{{ properties.properties.placeholder }}"{% endif %}
            {% if properties.events %}
                {% for key, value in properties.events %}
                     {% if key in ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
