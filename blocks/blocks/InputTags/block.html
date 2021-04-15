@@ -1,8 +1,14 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% set blockValue = blockValue|split(',') %}
-<div class="mb-3 {{ grid.col(properties.size, properties.grid) }}">
-    <label for="{{ blockID }}" class="form-label">{{ include(template_from_string(properties.title)) }}</label>
-    <select class="form-control js-select-tags {{ properties.class }}"
+<div class="{{ properties.layout.class }}
+            {{ grid.col(properties.layout.size, properties.layout.grid) }}" 
+            {% if properties.layout.style %}style="{% for key, value in properties.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
+    {% if properties.properties.label %}
+        <label for="{{ blockID }}" 
+                class="form-label {{ properties.properties.label.class }}"
+                {% if properties.properties.label.style %}style="{% for key, value in properties.properties.label.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>{{ include(template_from_string(properties.properties.label.title)) }}</label>
+    {% endif %}
+    <select class="form-control js-select-tags {{ properties.properties.class }}"
             data-name="{{ blockName }}"
             multiple="multiple"
             {% if properties.events %}
@@ -20,8 +26,8 @@
             {% endif %}
         {% endfor %}
     </select>
-    <input type="hidden" name="{{ blockName }}" value="{{ blockValue|join(',') }}">
-    {% if properties.help %}
-        <small>{{ include(template_from_string(properties.help)) }}</small>
+    <input type="hidden" id="{{ blockID }}" name="{{ blockName }}" value="{{ blockValue|join(',') }}">
+    {% if properties.properties.help %}
+        <small>{{ include(template_from_string(properties.properties.help)) }}</small>
     {% endif %}
 </div>
