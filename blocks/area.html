@@ -24,7 +24,7 @@
                             type="button"
                             role="tab"
                             aria-controls="{{ key }}-tab"
-                            aria-selected="{% if key == 'main' %}true{% else %}false{% endif %}">{{ include(template_from_string(section.title)) }}</button>
+                            aria-selected="{% if key == 'main' %}true{% else %}false{% endif %}">{{ include(template_from_string(section.properties.title)) }}</button>
                 </li>
             {% endfor %}
         </ul>
@@ -79,7 +79,7 @@
                         type="button"
                         role="tab"
                         aria-controls="{{ key }}-tab"
-                        aria-selected="{% if key == 'main' %}true{% else %}false{% endif %}">{{ include(template_from_string(section.title)) }}</button>
+                        aria-selected="{% if key == 'main' %}true{% else %}false{% endif %}">{{ include(template_from_string(section.properties.title)) }}</button>
             </li>
         {% endfor %}
     </ul>
