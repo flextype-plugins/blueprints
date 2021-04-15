@@ -1,9 +1,17 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% set options = {1: __('admin_yes'), 0: __('admin_no')} %}
-<div class="mb-3 {{ grid.col(properties.size, properties.grid) }}">
-    <label for="{{ blockID }}" class="form-label">{{ include(template_from_string(properties.title)) }}</label>
-    <select class="form-control {{ properties.class }} js-select-routable"
+<div class="{{ properties.layout.class }}
+            {{ grid.col(properties.layout.size, properties.layout.grid) }}" 
+            {% if properties.layout.style %}style="{% for key, value in properties.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
+    {% if properties.properties.label %}
+        <label for="{{ blockID }}" 
+                class="form-label {{ properties.properties.label.class }}"
+                {% if properties.properties.label.style %}style="{% for key, value in properties.properties.label.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>{{ include(template_from_string(properties.properties.label.title)) }}</label>
+    {% endif %} 
+    <select class="form-control {{ properties.properties.class }} js-select-routable"
             name="{{ blockName }}"
+            id="{{ blockID }}"
+            {% if properties.properties.style %}style="{% for key, value in properties.properties.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}
             {% if properties.events %}
                 {% for key, value in properties.events %}
                      {% if key in ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
@@ -17,7 +25,7 @@
             <option value="{{ key }}" {% if key == blockValue %} selected="selected" {% endif %}>{{ value }}</option>
         {% endfor %}
     </select>
-    {% if properties.help %}
-        <small>{{ include(template_from_string(properties.help)) }}</small>
+    {% if properties.properties.help %}
+        <small>{{ include(template_from_string(properties.properties.help)) }}</small>
     {% endif %}
 </div>
