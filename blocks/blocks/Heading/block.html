@@ -1,9 +1,26 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
-{% import "plugins/blueprints/blocks/macros/heading.html" as heading %}
-{% import "plugins/blueprints/blocks/macros/attributes.html" as attributes %}
-<div class="{{ properties.layout.class }} {{ grid.col(properties.layout.size, properties.layout.grid) }}" {{ attributes.style(properties.layout.style) }}>
-    <h{{ heading.size(properties.properties.size ) }}
-        {{ attributes.id(blockID) }}
-        {{ attributes.style(properties.properties.style) }}
-        {{ attributes.class(properties.properties.class) }}>{{ include(template_from_string(properties.title)) }}</h{{ heading.size(properties.properties.size ) }}>
+{% macro headingSize(size) %}
+{% apply spaceless %}
+    {% set headingSize =
+        {
+            'huge':   '1',
+            'large':  '2',
+            'medium': '3',
+            'small':  '4',
+            'tiny':   '5',
+        }
+    %}
+
+    {% if size not in headingSize|keys %}{% set size = 'medium' %}{% endif %}
+
+    {{ headingSize[size] }}
+{% endapply %}
+{% endmacro %}
+<div class="{{ properties.layout.class }}
+            {{ grid.col(properties.layout.size, properties.layout.grid) }}" 
+            {% if properties.layout.style %}style="{% for key, value in properties.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
+    <h{{ _self.headingSize(properties.properties.size ) }}
+        id="{{ blockID }}"
+        {% if properties.properties.style %}style="{% for key, value in properties.properties.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}
+        class="{{ properties.properties.class }}">{{ include(template_from_string(properties.title)) }}</h{{ _self.headingSize(properties.properties.size ) }}>
 </div>
