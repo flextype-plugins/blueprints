@@ -56,7 +56,7 @@ sass.compiler      = require('node-sass');
     return gulp
         .src([
 
-            // jQuery Form Validatator
+            // jQuery
             'node_modules/jquery/dist/jquery.min.js',
 
             // ParsleyJS Form Validatator
