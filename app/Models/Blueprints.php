@@ -414,13 +414,18 @@ class Blueprints
      * Get blueprint element name.
      *
      * @param string $element Element.
+     * @param string $default Default element name.
      *
      * @return string Returns blueprint element name.
      *
      * @access public
      */
-    public function getElementName(string $element) : string
+    public function getElementName(string $element, string $default = null) : string
     {
+        if ($default) {
+            return $default;
+        }
+        
         $pos = strpos($element, '.');
 
         if ($pos === false) {
@@ -442,13 +447,18 @@ class Blueprints
      * Get blueprint element ID.
      *
      * @param string $element Element.
+     * @param string $default Default element ID.
      *
      * @return string Returns blueprint element ID.
      *
      * @access public
      */
-    public function getElementID(string $element) : string
+    public function getElementID(string $element, string $default = null) : string
     {
+        if ($default) {
+            return $default;
+        }
+
         $pos = strpos($element, '.');
 
         if ($pos === false) {
