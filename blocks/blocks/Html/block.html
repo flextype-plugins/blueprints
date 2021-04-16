@@ -1,7 +1,11 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
+{% if properties.layout %}
 <div class="{{ properties.layout.class }}
             {{ grid.col(properties.layout.size, properties.layout.grid) }}" 
             {% if properties.layout.style %}style="{% for key, value in properties.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
+{% endif %}
     <div id="{{ blockID }}"
          {% if properties.properties.style %}style="{% for key, value in properties.properties.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>{{ include(template_from_string(properties.properties.html)) }}</div>
+{% if properties.layout %}
 </div>
+{% endif %}
