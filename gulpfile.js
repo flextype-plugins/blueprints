@@ -143,7 +143,7 @@ sass.compiler      = require('node-sass');
  */
  gulp.task('watch', function () {
     gulp.watch(
-        ["fieldsets/**/*.html", "assets/src/"],
+        ["blocks/**/*.html", "assets/src/"],
         gulp.series('css')
     );
  });
