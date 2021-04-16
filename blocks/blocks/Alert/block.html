@@ -17,7 +17,7 @@
                     {{ properties.properties.class }}" 
         role="alert"
         {% if properties.properties.style %}style="{% for key, value in properties.properties.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
-        A simple primary alert—check it out!
+        {{ include(template_from_string(properties.properties.message)) }}
     </div>
 {% if properties.layout %}
 </div>
