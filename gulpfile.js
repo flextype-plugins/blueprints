@@ -30,7 +30,7 @@ sass.compiler      = require('node-sass');
             'node_modules/trumbowyg/dist/plugins/table/ui/trumbowyg.table.css',
 
             // Flextype UI CSS
-            'assets/src/flextype-ui.scss'
+            'assets/src/blueprints.scss'
         ])
         .pipe(sass().on('error', sass.logError))
         .pipe(autoprefixer({
@@ -40,11 +40,11 @@ sass.compiler      = require('node-sass');
             cascade: false
         }))
         .pipe(csso())
-        .pipe(concat('flextype-ui.min.css'))
+        .pipe(concat('blueprints.min.css'))
         .pipe(gulp.dest("assets/dist/css/"))
         .pipe(size({ showFiles: true }))
         .pipe(gzip())
-        .pipe(rename("flextype-ui.min.css.gz"))
+        .pipe(rename("blueprints.min.css.gz"))
         .pipe(gulp.dest("assets/dist/css/"))
         .pipe(size({ showFiles: true, gzip: true }));
 });
@@ -88,11 +88,11 @@ sass.compiler      = require('node-sass');
             'blocks/blocks/InputSelectVisibility/block.js',
             'blocks/blocks/InputEditor/block.js',
         ])
-        .pipe(concat('flextype-ui.min.js'))
+        .pipe(concat('blueprints.min.js'))
         .pipe(size({ showFiles: true }))
         .pipe(gulp.dest('assets/dist/js/'))
         .pipe(gzip())
-        .pipe(rename("flextype-ui.min.js.gz"))
+        .pipe(rename("blueprints.min.js.gz"))
         .pipe(gulp.dest("assets/dist/js/"))
         .pipe(size({ showFiles: true, gzip: true }));
  });

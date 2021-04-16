@@ -38,7 +38,7 @@ if (flextype('registry')->get('plugins.blueprints.settings.load_on_admin')) {
     flextype('registry')->set(
         'assets.admin.css',
         array_merge($adminCSS, [
-            'project/plugins/blueprints/assets/dist/css/flextype-ui.min.css?v=' . filemtime('project/plugins/blueprints/assets/dist/css/flextype-ui.min.css'),
+            'project/plugins/blueprints/assets/dist/css/blueprints.min.css?v=' . filemtime('project/plugins/blueprints/assets/dist/css/blueprints.min.css'),
         ])
     );
 }
@@ -47,7 +47,7 @@ if (flextype('registry')->get('plugins.blueprints.settings.load_on_site')) {
     flextype('registry')->set(
         'assets.site.css',
         array_merge($siteCSS, [
-            'project/plugins/blueprints/assets/dist/css/flextype-ui.min.css?v=' . filemtime('project/plugins/blueprints/assets/dist/css/flextype-ui.min.css'),
+            'project/plugins/blueprints/assets/dist/css/blueprints.min.css?v=' . filemtime('project/plugins/blueprints/assets/dist/css/blueprints.min.css'),
         ])
     );
 }
@@ -73,7 +73,7 @@ if (flextype('registry')->get('plugins.blueprints.settings.load_on_admin')) {
     flextype('registry')->set(
         'assets.admin.js',
         array_merge($adminJS, [
-            'project/plugins/blueprints/assets/dist/js/flextype-ui.min.js?v=' . filemtime('project/plugins/blueprints/assets/dist/js/flextype-ui.min.js'),
+            'project/plugins/blueprints/assets/dist/js/blueprints.min.js?v=' . filemtime('project/plugins/blueprints/assets/dist/js/blueprints.min.js'),
             $trumbowygLocaleJS,
             $flatpickrLocaleJS,
         ])
@@ -84,7 +84,7 @@ if (flextype('registry')->get('plugins.blueprints.settings.load_on_site')) {
     flextype('registry')->set(
         'assets.site.js',
         array_merge($siteJS, [
-            'project/plugins/blueprints/assets/dist/js/flextype-ui.min.js?v=' . filemtime('project/plugins/blueprints/assets/dist/js/flextype-ui.min.js'),
+            'project/plugins/blueprints/assets/dist/js/blueprints.min.js?v=' . filemtime('project/plugins/blueprints/assets/dist/js/blueprints.min.js'),
             $trumbowygLocaleJS,
             $flatpickrLocaleJS,
         ])
