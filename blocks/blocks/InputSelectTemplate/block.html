@@ -1,8 +1,10 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% set templates = filesystem().find().depth(0).in(PATH_PROJECT ~ '/themes/' ~ flextype.registry.get('plugins.site.settings.theme') ~ '/templates/').files() %}
+{% if properties.layout %}
 <div class="{{ properties.layout.class }}
             {{ grid.col(properties.layout.size, properties.layout.grid) }}" 
             {% if properties.layout.style %}style="{% for key, value in properties.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
+{% endif %}    
     {% if properties.properties.label %}
         <label for="{{ blockID }}" 
                 class="form-label {{ properties.properties.label.class }}"
@@ -30,4 +32,6 @@
     {% if properties.properties.help %}
         <small>{{ include(template_from_string(properties.properties.help)) }}</small>
     {% endif %}
+{% if properties.layout %}
 </div>
+{% endif %}
