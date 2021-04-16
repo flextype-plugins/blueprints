@@ -7,3 +7,28 @@ priority: 45
 # place to load
 load_on_site: true
 load_on_admin: true
+
+blocks:
+  - Anchor
+  - Alert
+  - Divider
+  - Group
+  - Heading
+  - Html
+  - Image
+  - InputText
+  - InputEmail
+  - InputPassword
+  - InputTextarea
+  - InputHidden
+  - InputNumber
+  - InputDateTimePicker
+  - InputEditor
+  - InputTags
+  - InputSelect
+  - InputSelectRoutable
+  - InputSelectVisibility
+  - InputSelectTemplate
+  - InputReset
+  - InputButton
+  - InputSubmit

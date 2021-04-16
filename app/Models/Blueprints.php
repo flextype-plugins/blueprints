@@ -383,6 +383,7 @@ class Blueprints
                         'blueprint' => $this->fetch($id)->toArray(),
                         'values'    => $values,
                         'query'     => $_GET,
+                        'blocks'    => flextype('registry')->get('plugins.blueprints.settings.blocks'),
                     ], $vars));
     }
 

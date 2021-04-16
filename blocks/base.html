@@ -1,33 +1,4 @@
-{% set blocks =
-    [
-        'InputText',
-        'InputEmail',
-        'InputPassword',
-        'InputTextarea',
-        'InputHidden',
-        'InputNumber',
-        'InputDateTimePicker',
-        'InputEditor',
-        'InputTags',
-        'InputSelect',
-        'InputSelectRoutable',
-        'InputSelectVisibility',
-        'InputSelectTemplate',
-        'InputReset',
-        'InputButton',
-        'InputSubmit',
-        'Heading',
-        'Html',
-        'Divider',
-        'Anchor',
-        'Alert',
-        'Group',
-        'Image'
-    ]
-%}
-
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
-
 <div class="workspace {{ blueprint.workspace.layout.class }}
                       {{ grid.col(blueprint.workspace.layout.size, blueprint.workspace.layout.grid) }}" 
                       {% if blueprint.workspace.layout.style %}style="{% for key, value in blueprint.workspace.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
