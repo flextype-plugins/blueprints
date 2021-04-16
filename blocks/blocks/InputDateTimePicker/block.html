@@ -1,7 +1,9 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
+{% if properties.layout %}
 <div class="{{ properties.layout.class }}
             {{ grid.col(properties.layout.size, properties.layout.grid) }}" 
             {% if properties.layout.style %}style="{% for key, value in properties.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
+{% endif %}
         {% if properties.properties.label %}
             <label for="{{ blockID }}" 
                    class="form-label {{ properties.properties.label.class }}"
@@ -36,4 +38,6 @@
 
     <input type="hidden" name="flatpickr-date-format" value="{{ flextype.registry.get('flextype.settings.date_format') }}">
     <input type="hidden" name="flatpickr-locale" value="{{ flatpickrLocale }}">
+{% if properties.layout %}
 </div>
+{% endif %}
