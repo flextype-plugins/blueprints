@@ -5,8 +5,10 @@
                      'info': 'info',
                      'warning': 'warning',
                      'danger': 'danger'} %}
+{% if properties.layout %}
 <div class="{{ properties.layout.class }} {{ grid.col(properties.layout.size, properties.layout.grid) }}" 
      {% if properties.layout.style %}style="{% for key, value in properties.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
+{% endif %}
     <div class="alert {% if properties.properties.type %}
                         alert-{{ alertTypes[properties.properties.type] }}
                     {% else %}
@@ -17,4 +19,6 @@
         {% if properties.properties.style %}style="{% for key, value in properties.properties.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
         A simple primary alert—check it out!
     </div>
+{% if properties.layout %}
 </div>
+{% endif %}
