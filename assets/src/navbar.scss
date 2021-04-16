@@ -31,15 +31,21 @@
     }
 
     .dropdown-toggle {
-        @extend .d-flex;
-        @extend .ps-0;
+        display: flex;
+        padding-left: 0;
 
         &:after {
             position: absolute;
-            top: 13px;
+            top: 14px;
             right: -5px;
         }
+
+        > svg {
+            width: 20px;
+            height: 20px;
+        }
     }
+
 
     .dropdown-menu {
         border: 0;
