@@ -17,6 +17,10 @@
                     {{ properties.properties.class }}" 
         role="alert"
         {% if properties.properties.style %}style="{% for key, value in properties.properties.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
+        {% if properties.properties.header.title %}
+            <h4 class="alert-heading">{{ include(template_from_string(properties.properties.header.title)) }}</h4>
+            <hr>
+        {% endif %}
         {{ include(template_from_string(properties.properties.message)) }}
     </div>
 {% if properties.layout %}
