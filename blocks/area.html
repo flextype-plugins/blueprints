@@ -60,8 +60,8 @@
             {% endfor %}
         {% endif %}>
         {{ csrf() }}
-        <div class="row {{ blueprint['workspace']['areas'][area]['form']['properties']['class'] }}"
-             {% if blueprint['workspace']['areas'][area]['form']['properties']['style'] %}style="{% for key, value in blueprint['workspace']['areas'][area]['form']['properties']['style'] %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
+        <div class="row {{ blueprint['workspace']['areas'][area]['properties']['class'] }}"
+             {% if blueprint['workspace']['areas'][area]['properties']['style'] %}style="{% for key, value in blueprint['workspace']['areas'][area]['properties']['style'] %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
             {% for element, properties in blueprint['workspace']['areas'][area]['form']['blocks'] %}
                 {% set blockName = flextype.blueprints.getElementName(element, properties.name) %}
                 {% set blockID = flextype.blueprints.getElementID(element, properties.id) %}
