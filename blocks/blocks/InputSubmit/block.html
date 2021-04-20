@@ -1,8 +1,8 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% if properties.layout %}
-<div class="{{ properties.layout.class }}
-            {{ grid.col(properties.layout.size, properties.layout.grid) }}" 
-            {% if properties.layout.style %}style="{% for key, value in properties.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
+<div class="{{ properties.layout.class }} {{ grid.col(properties.layout.size, properties.layout.grid) }}" 
+    {% if properties.layout.data %}{% for key, value in properties.layout.data %}data-{{ strings(key).kebab() }} = "{{ value }}" {% endfor %}{% endif %}
+    {% if properties.layout.style %}style="{% for key, value in properties.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
 {% endif %}
 {% set btnSizes = {'large': 'btn-lg', 'small': 'btn-sm'} %}
 {% set btnTypes = {'primary': 'primary',
@@ -26,6 +26,7 @@
                     {{ btnSizes[properties.properties.size] }}
                 {% endif %}
                 {{ properties.properties.class }}"
+    {% if properties.properties.data %}{% for key, value in properties.properties.data %}data-{{ strings(key).kebab() }} = "{{ value }}" {% endfor %}{% endif %}
     {% if properties.properties.style %}style="{% for key, value in properties.properties.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}
     {% if properties.properties.disabled %}disabled="disabled"{% endif %}
     {% if properties.events %}
