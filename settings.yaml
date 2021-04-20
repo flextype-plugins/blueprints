@@ -11,6 +11,7 @@ load_on_admin: true
 blocks:
   - Anchor
   - Alert
+  - Button
   - Divider
   - Group
   - Heading
