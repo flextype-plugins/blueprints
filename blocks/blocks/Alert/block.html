@@ -6,16 +6,13 @@
                      'warning': 'warning',
                      'danger': 'danger'} %}
 {% if properties.layout %}
-<div class="{{ properties.layout.class }} {{ grid.col(properties.layout.size, properties.layout.grid) }}" 
-     {% if properties.layout.style %}style="{% for key, value in properties.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
+<div class="{{ properties.layout.class }} {{ grid.col(properties.layout.size, properties.layout.grid) }}"
+    {% if properties.layout.data %}{% for key, value in layout.properties.data %}data-{{ strings(key).kebab() }} = "{{ value }}" {% endfor %}{% endif %}
+    {% if properties.layout.style %}style="{% for key, value in properties.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
 {% endif %}
-    <div class="alert {% if properties.properties.type %}
-                        alert-{{ alertTypes[properties.properties.type] }}
-                    {% else %}
-                        alrert-primary
-                    {% endif %}
-                    {{ properties.properties.class }}" 
+    <div class="alert {% if properties.properties.type %}alert-{{ alertTypes[properties.properties.type] }}{% else %}alrert-primary{% endif %}{{ properties.properties.class }}" 
         role="alert"
+        {% if properties.properties.data %}{% for key, value in properties.properties.data %}data-{{ strings(key).kebab() }} = "{{ value }}" {% endfor %}{% endif %}
         {% if properties.properties.style %}style="{% for key, value in properties.properties.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
         {% if properties.properties.header.title %}
             <h4 class="alert-heading">{{ include(template_from_string(properties.properties.header.title)) }}</h4>
