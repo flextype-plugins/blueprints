@@ -1,8 +1,8 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% if properties.layout %}
-<div class="{{ properties.layout.class }}
-            {{ grid.col(properties.layout.size, properties.layout.grid) }}" 
-            {% if properties.layout.style %}style="{% for key, value in properties.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
+<div class="{{ properties.layout.class }} {{ grid.col(properties.layout.size, properties.layout.grid) }}"
+    {% if properties.layout.data %}{% for key, value in properties.layout.data %}data-{{ strings(key).kebab() }} = "{{ value }}" {% endfor %}{% endif %}
+    {% if properties.layout.style %}style="{% for key, value in properties.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
 {% endif %}    
             {% if properties.properties.label %}
         <label for="{{ blockID }}" 
@@ -12,6 +12,7 @@
     <select id="{{ blockID }}"
             name="{{ blockName }}"  
             class="form-control {{ properties.properties.class }} js-select"      
+            {% if properties.properties.data %}{% for key, value in properties.properties.data %}data-{{ strings(key).kebab() }} = "{{ value }}" {% endfor %}{% endif %}
             {% if properties.properties.style %}style="{% for key, value in properties.properties.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}
             {% if properties.events %}
                 {% for key, value in properties.events %}
