@@ -402,8 +402,8 @@ class Blueprints
     {
         if (arrays($values)->has($element)) {
             $blockValue = arrays($values)->get($element);
-        } elseif (arrays($properties)->has('value')) {
-            $blockValue = $properties['value'];
+        } elseif (arrays($properties)->has('properties.value')) {
+            $blockValue = arrays($properties)->get('properties.value');
         } else {
             $blockValue = '';
         }
