@@ -11,7 +11,6 @@
         height="{{ properties.properties.height }}"
         width="{{ properties.properties.width }}"
         loading="{{ properties.properties.loading }}"
-        loading="{{ properties.properties.loading }}"
         {% if properties.properties.data %}{% for key, value in properties.properties.data %}data-{{ strings(key).kebab() }} = "{{ value }}" {% endfor %}{% endif %}
         {% if properties.properties.style %}style="{% for key, value in properties.properties.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
 {% if properties.layout %}
