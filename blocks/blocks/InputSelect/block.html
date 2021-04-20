@@ -24,10 +24,10 @@
                 {% endfor %}
             {% endif %}>
 
-        {% if properties.options is iterable %}
-            {% set options = properties.options %}
+        {% if properties.properties.options is iterable %}
+            {% set options = properties.properties.options %}
         {% else %}
-            {% set options = flextype.serializers.json.decode(raw(include(template_from_string(properties.options)))) %}
+            {% set options = flextype.serializers.json.decode(raw(include(template_from_string(properties.properties.options)))) %}
         {% endif %}
 
         {% for key, value in options %}
