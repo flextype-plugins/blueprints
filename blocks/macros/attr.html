@@ -27,3 +27,9 @@
     {% endif %}
 {% endapply %}
 {% endmacro %}
+
+{% macro href(link) %}
+{% apply spaceless %}
+    {% if link %}href="{{ link }}"{% endif %}
+{% endapply %}
+{% endmacro %}
