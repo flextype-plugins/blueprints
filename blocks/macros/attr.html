@@ -65,3 +65,11 @@
     {% endif %}
 {% endapply %}
 {% endmacro %}
+
+{% macro loading(loading) %}
+{% apply spaceless %}
+    {% if loading %}
+        loading = "{{ loading }}"
+    {% endif %}
+{% endapply %}
+{% endmacro %}
