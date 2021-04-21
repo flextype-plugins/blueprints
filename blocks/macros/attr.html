@@ -81,3 +81,11 @@
     {% endif %}
 {% endapply %}
 {% endmacro %}
+
+{% macro height(height) %}
+{% apply spaceless %}
+    {% if height %}
+        height = "{{ height }}"
+    {% endif %}
+{% endapply %}
+{% endmacro %}
