@@ -139,3 +139,21 @@
     {% endif %}
 {% endapply %}
 {% endmacro %}
+
+{% macro validation(validation) %}
+{% apply spaceless %}
+    {% if validation %}
+        {% if validation.error_message %}data-parsley-error-message="{{ include(template_from_string(validation.error_message)) }}"{% endif %}
+        {% if validation.equalto %}data-parsley-equalto="{{ validation.equalto }}"{% endif %}
+        {% if validation.range %}data-parsley-range="{{ validation.range }}"{% endif %}
+        {% if validation.max %}data-parsley-max="{{ validation.max }}"{% endif %}
+        {% if validation.min %}data-parsley-min="{{ validation.min }}"{% endif %}
+        {% if validation.length %}data-parsley-length="{{ validation.length }}"{% endif %}
+        {% if validation.maxlength %}data-parsley-maxlength="{{ validation.maxlength }}"{% endif %}
+        {% if validation.minlength %}data-parsley-minlength="{{ validation.minlength }}"{% endif %}
+        {% if validation.type %}data-parsley-type="{{ validation.type }}"{% endif %}
+        {% if validation.required %}data-parsley-required="true"{% endif %}
+        {% if validation.pattern %}data-parsley-pattern="{{ validation.pattern }}"{% endif %}
+    {% endif %}
+{% endapply %}
+{% endmacro %}
