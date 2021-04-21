@@ -1,0 +1,7 @@
+{% macro class(items) %}
+{% apply spaceless %}
+    {% if items|length > 0 %}
+        class = "{% for class in items %}{{ class ? class }}{{ items|length > 1 and not loop.last ? ' ' : ''}}{% endfor %}"
+    {% endif %}
+{% endapply %}
+{% endmacro %}
