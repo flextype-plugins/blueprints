@@ -19,3 +19,11 @@
     {% endif %}
 {% endapply %}
 {% endmacro %}
+
+{% macro data(items) %}
+{% apply spaceless %}
+    {% if items|length > 0 %}
+        {% for key, value in items %}data-{{ strings(key).kebab() }} = "{{ value }}" {% endfor %}
+    {% endif %}
+{% endapply %}
+{% endmacro %}
