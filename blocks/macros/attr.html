@@ -5,3 +5,9 @@
     {% endif %}
 {% endapply %}
 {% endmacro %}
+
+{% macro data(items) %}
+{% apply spaceless %}
+    {% for key, value in items %}data-{{ strings(key).kebab() }} = "{{ value }}" {% endfor %}
+{% endapply %}
+{% endmacro %}
