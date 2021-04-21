@@ -89,3 +89,19 @@
     {% endif %}
 {% endapply %}
 {% endmacro %}
+
+{% macro alt(alt) %}
+{% apply spaceless %}
+    {% if alt %}
+        alt = "{{ include(template_from_string(alt)) }}"
+    {% endif %}
+{% endapply %}
+{% endmacro %}
+
+{% macro src(src) %}
+{% apply spaceless %}
+    {% if src %}
+        src = "{{ src }}"
+    {% endif %}
+{% endapply %}
+{% endmacro %}
