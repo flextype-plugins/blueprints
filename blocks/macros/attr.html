@@ -1,21 +1,21 @@
 {% macro class(items) %}
 {% apply spaceless %}
     {% if items|length > 0 %}
-        class = "{% for class in items %}{{ class ? class }}{{ items|length > 1 and not loop.last ? ' ' : ''}}{% endfor %}"
+        class = "{% for class in items %}{{ class ? include(template_from_string(class)) }}{{ items|length > 1 and not loop.last ? ' ' : ''}}{% endfor %}"
     {% endif %}
 {% endapply %}
 {% endmacro %}
 
 {% macro data(items) %}
 {% apply spaceless %}
-    {% for key, value in items %}data-{{ strings(key).kebab() }} = "{{ value }}" {% endfor %}
+    {% for key, value in items %}data-{{ strings(key).kebab() }} = "{{ include(template_from_string(value)) }}" {% endfor %}
 {% endapply %}
 {% endmacro %}
 
 {% macro style(items) %}
 {% apply spaceless %}
     {% if items|length > 0 %}
-        style="{% for key, value in items %}{{ strings(key).kebab() }}: {{ value }};{{ items|length > 1 and not loop.last ? ' ' : ''}}{% endfor %}"
+        style="{% for key, value in items %}{{ strings(key).kebab() }}: {{ include(template_from_string(value)) }};{{ items|length > 1 and not loop.last ? ' ' : ''}}{% endfor %}"
     {% endif %}
 {% endapply %}
 {% endmacro %}
@@ -23,20 +23,20 @@
 {% macro data(items) %}
 {% apply spaceless %}
     {% if items|length > 0 %}
-        {% for key, value in items %}data-{{ strings(key).kebab() }} = "{{ value }}" {% endfor %}
+        {% for key, value in items %}data-{{ strings(key).kebab() }} = "{{ include(template_from_string(value)) }}" {% endfor %}
     {% endif %}
 {% endapply %}
 {% endmacro %}
 
 {% macro href(link) %}
 {% apply spaceless %}
-    {% if link %}href="{{ link }}"{% endif %}
+    {% if link %}href="{{ include(template_from_string(link)) }}"{% endif %}
 {% endapply %}
 {% endmacro %}
 
 {% macro target(target) %}
 {% apply spaceless %}
-    {% if target %}target="{{ target }}"{% endif %}
+    {% if target %}target="{{ include(template_from_string(target)) }}"{% endif %}
 {% endapply %}
 {% endmacro %}
 
@@ -45,7 +45,7 @@
     {% if items|length > 0 %}
         {% for key, value in items %}
             {% if key in events %}
-                {{ key }} = "{{ value }}"
+                {{ key }} = "{{ include(template_from_string(value)) }}"
             {% endif %}
         {% endfor %}
     {% endif %}
@@ -55,7 +55,7 @@
 {% macro id(value) %}
 {% apply spaceless %}
     {% if value %}
-        id = "{{ value }}"
+        id = "{{ include(template_from_string(value)) }}"
     {% endif %}
 {% endapply %}
 {% endmacro %}
@@ -63,7 +63,7 @@
 {% macro name(value) %}
 {% apply spaceless %}
     {% if value %}
-        name = "{{ value }}"
+        name = "{{ include(template_from_string(value)) }}"
     {% endif %}
 {% endapply %}
 {% endmacro %}
@@ -79,7 +79,7 @@
 {% macro loading(loading) %}
 {% apply spaceless %}
     {% if loading %}
-        loading = "{{ loading }}"
+        loading = "{{ include(template_from_string(loading)) }}"
     {% endif %}
 {% endapply %}
 {% endmacro %}
@@ -87,7 +87,7 @@
 {% macro width(width) %}
 {% apply spaceless %}
     {% if width %}
-        width = "{{ width }}"
+        width = "{{ include(template_from_string(width)) }}"
     {% endif %}
 {% endapply %}
 {% endmacro %}
@@ -95,7 +95,7 @@
 {% macro height(height) %}
 {% apply spaceless %}
     {% if height %}
-        height = "{{ height }}"
+        height = "{{ include(template_from_string(height)) }}"
     {% endif %}
 {% endapply %}
 {% endmacro %}
@@ -111,7 +111,7 @@
 {% macro src(src) %}
 {% apply spaceless %}
     {% if src %}
-        src = "{{ src }}"
+        src = "{{ include(template_from_string(src)) }}"
     {% endif %}
 {% endapply %}
 {% endmacro %}
@@ -144,16 +144,16 @@
 {% apply spaceless %}
     {% if validation %}
         {% if validation.error_message %}data-parsley-error-message="{{ include(template_from_string(validation.error_message)) }}"{% endif %}
-        {% if validation.equalto %}data-parsley-equalto="{{ validation.equalto }}"{% endif %}
-        {% if validation.range %}data-parsley-range="{{ validation.range }}"{% endif %}
-        {% if validation.max %}data-parsley-max="{{ validation.max }}"{% endif %}
-        {% if validation.min %}data-parsley-min="{{ validation.min }}"{% endif %}
-        {% if validation.length %}data-parsley-length="{{ validation.length }}"{% endif %}
-        {% if validation.maxlength %}data-parsley-maxlength="{{ validation.maxlength }}"{% endif %}
-        {% if validation.minlength %}data-parsley-minlength="{{ validation.minlength }}"{% endif %}
-        {% if validation.type %}data-parsley-type="{{ validation.type }}"{% endif %}
+        {% if validation.equalto %}data-parsley-equalto="{{ include(template_from_string(validation.equalto)) }}"{% endif %}
+        {% if validation.range %}data-parsley-range="{{ include(template_from_string(validation.range)) }}"{% endif %}
+        {% if validation.max %}data-parsley-max="{{ include(template_from_string(validation.max)) }}"{% endif %}
+        {% if validation.min %}data-parsley-min="{{ include(template_from_string(validation.min)) }}"{% endif %}
+        {% if validation.length %}data-parsley-length="{{ include(template_from_string(validation.length)) }}"{% endif %}
+        {% if validation.maxlength %}data-parsley-maxlength="{{ include(template_from_string(validation.maxlength)) }}"{% endif %}
+        {% if validation.minlength %}data-parsley-minlength="{{ include(template_from_string(validation.minlength)) }}"{% endif %}
+        {% if validation.type %}data-parsley-type="{{ include(template_from_string(validation.type)) }}"{% endif %}
         {% if validation.required %}data-parsley-required="true"{% endif %}
-        {% if validation.pattern %}data-parsley-pattern="{{ validation.pattern }}"{% endif %}
+        {% if validation.pattern %}data-parsley-pattern="{{ include(template_from_string(validation.pattern)) }}"{% endif %}
     {% endif %}
 {% endapply %}
 {% endmacro %}
@@ -161,7 +161,7 @@
 {% macro min(value) %}
 {% apply spaceless %}
     {% if value %}
-        min = "{{ value }}"
+        min = "{{ include(template_from_string(value)) }}"
     {% endif %}
 {% endapply %}
 {% endmacro %}
@@ -169,7 +169,7 @@
 {% macro max(value) %}
 {% apply spaceless %}
     {% if value %}
-        max = "{{ value }}"
+        max = "{{ include(template_from_string(value)) }}"
     {% endif %}
 {% endapply %}
 {% endmacro %}
@@ -177,7 +177,7 @@
 {% macro step(value) %}
 {% apply spaceless %}
     {% if value %}
-        step = "{{ value }}"
+        step = "{{ include(template_from_string(value)) }}"
     {% endif %}
 {% endapply %}
 {% endmacro %}
