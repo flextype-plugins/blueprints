@@ -39,3 +39,15 @@
     {% if target %}target="{{ target }}"{% endif %}
 {% endapply %}
 {% endmacro %}
+
+{% macro events(items, events) %}
+{% apply spaceless %}
+    {% if items|length > 0 %}
+        {% for key, value in items %}
+            {% if key in events %}
+                {{ key }} = "{{ value }}"
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endapply %}
+{% endmacro %}
