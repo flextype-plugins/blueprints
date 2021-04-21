@@ -1,28 +1,22 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% if properties.layout %}
-<div class="{{ properties.layout.class }} {{ grid.col(properties.layout.size, properties.layout.grid) }}"
-    {% if properties.layout.data %}{% for key, value in properties.layout.data %}data-{{ strings(key).kebab() }} = "{{ value }}" {% endfor %}{% endif %}
-    {% if properties.layout.style %}style="{% for key, value in properties.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
+<div {{ attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]) }}
+    {{ attr.data(properties.layout.data) }}
+    {{ attr.style(properties.layout.style) }}>
 {% endif %}    
-            {% if properties.properties.label %}
+    {% if properties.properties.label %}
         <label for="{{ blockID }}" 
-                class="form-label {{ properties.properties.label.class }}"
-                {% if properties.properties.label.style %}style="{% for key, value in properties.properties.label.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>{{ include(template_from_string(properties.properties.label.title)) }}</label>
+            {{ attr.class(['form-label', properties.properties.label.class]) }}
+            {{ attr.style(properties.properties.label.style) }}>{{ include(template_from_string(properties.properties.label.title)) }}</label>
     {% endif %} 
-    <select id="{{ blockID }}"
-            name="{{ blockName }}"  
-            class="form-control {{ properties.properties.class }} js-select"      
-            {% if properties.properties.data %}{% for key, value in properties.properties.data %}data-{{ strings(key).kebab() }} = "{{ value }}" {% endfor %}{% endif %}
-            {% if properties.properties.style %}style="{% for key, value in properties.properties.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}
-            {% if properties.events %}
-                {% for key, value in properties.events %}
-                     {% if key in ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
-                                   'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                   'onkeydown', 'onblur'] %}
-                         {{ key }} = "{{ value }}"
-                     {% endif %}
-                {% endfor %}
-            {% endif %}>
+    <select {{ attr.id(blockID) }}
+            {{ attr.name(blockName) }}
+            {{ attr.class(['form-control', 'js-select', properties.properties.class]) }}
+            {{ attr.data(properties.properties.data) }}
+            {{ attr.style(properties.properties.style) }} 
+            {{ attr.events(properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                                'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                                'onkeydown', 'onblur']) }}>
 
         {% if properties.properties.options is iterable %}
             {% set options = properties.properties.options %}
@@ -31,7 +25,7 @@
         {% endif %}
 
         {% for key, value in options %}
-            <option value="{{ key }}" {% if key == blockValue %} selected="selected" {% endif %}>{{ value }}</option>
+            <option value="{{ key }}" {% if key == blockValue %} selected="selected" {% endif %}>{{ include(template_from_string(value)) }}</option>
         {% endfor %}
     </select>
     {% if properties.properties.help %}
