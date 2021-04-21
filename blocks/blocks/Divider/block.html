@@ -1,13 +1,18 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% if properties.layout %}
-<div class="{{ properties.layout.class }} {{ grid.col(properties.layout.size, properties.layout.grid) }}"
-    {% if properties.layout.data %}{% for key, value in properties.layout.data %}data-{{ strings(key).kebab() }} = "{{ value }}" {% endfor %}{% endif %}
-    {% if properties.layout.style %}style="{% for key, value in properties.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
+{% if properties.properties.dashed %}
+    {% set dashed = "divider--dashed" %}
+{% else %}
+    {% set dashed = null %}
 {% endif %}
-    <div id="{{ blockID }}"
-        {% if properties.properties.data %}{% for key, value in properties.properties.data %}data-{{ strings(key).kebab() }} = "{{ value }}" {% endfor %}{% endif %}
-        {% if properties.properties.style %}style="{% for key, value in properties.properties.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}
-        class="divider {% if properties.dashed %}divider--dashed{% endif %} {{ properties.properties.class }}"></div>
+<div {{ attr.class(properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)) }}
+    {{ attr.data(properties.layout.data) }}
+    {{ attr.style(properties.layout.style) }}>
+{% endif %}
+    <div {{ attr.id(properties.properties.id) }} 
+        {{ attr.data(properties.properties.data) }}
+        {{ attr.style(properties.properties.style) }} 
+        {{ attr.class('divider', properties.properties.class, dashed) }}></div>
 {% if properties.layout %}
 </div>
 {% endif %}
