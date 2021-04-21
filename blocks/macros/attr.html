@@ -157,3 +157,27 @@
     {% endif %}
 {% endapply %}
 {% endmacro %}
+
+{% macro min(value) %}
+{% apply spaceless %}
+    {% if value %}
+        min = "{{ value }}"
+    {% endif %}
+{% endapply %}
+{% endmacro %}
+
+{% macro max(value) %}
+{% apply spaceless %}
+    {% if value %}
+        max = "{{ value }}"
+    {% endif %}
+{% endapply %}
+{% endmacro %}
+
+{% macro step(value) %}
+{% apply spaceless %}
+    {% if value %}
+        step = "{{ value }}"
+    {% endif %}
+{% endapply %}
+{% endmacro %}
