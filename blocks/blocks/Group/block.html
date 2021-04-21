@@ -1,8 +1,9 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
+{% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
 {% if properties.layout %}
-<div class="{{ properties.layout.class }} {{ grid.col(properties.layout.size, properties.layout.grid) }}" 
-    {% if properties.layout.data %}{% for key, value in properties.layout.data %}data-{{ strings(key).kebab() }} = "{{ value }}" {% endfor %}{% endif %}
-    {% if properties.layout.style %}style="{% for key, value in properties.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
+<div {{ attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]) }} 
+    {{ attr.data(properties.properties.data) }}
+    {{ attr.style(properties.properties.style) }}>
 {% endif %}
     {% for element, properties in properties['blocks'] %}
         {% set blockName = flextype.blueprints.getElementName(element, properties.name) %}
