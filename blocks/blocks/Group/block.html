@@ -2,8 +2,8 @@
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
 {% if properties.layout %}
 <div {{ attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]) }} 
-    {{ attr.data(properties.properties.data) }}
-    {{ attr.style(properties.properties.style) }}>
+    {{ attr.data(properties.layout.data) }}
+    {{ attr.style(properties.layout.style) }}>
 {% endif %}
     {% for element, properties in properties['blocks'] %}
         {% set blockName = flextype.blueprints.getElementName(element, properties.name) %}
