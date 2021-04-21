@@ -1,1 +1,2 @@
-<input type="hidden" name="{{ blockName }}" id="{{ blockID }}" value="{{ include(template_from_string(blockValue)) }}">
+{% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
+<input type="hidden" {{ attr.id(blockID) }} {{ attr.name(blockName) }} {{ attr.value(blockValue) }}">
