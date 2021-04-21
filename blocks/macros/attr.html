@@ -57,3 +57,11 @@
     id="{{ value }}"
 {% endapply %}
 {% endmacro %}
+
+{% macro disabled(disabled) %}
+{% apply spaceless %}
+    {% if disabled %}
+        disabled = "disabled"
+    {% endif %}
+{% endapply %}
+{% endmacro %}
