@@ -11,3 +11,11 @@
     {% for key, value in items %}data-{{ strings(key).kebab() }} = "{{ value }}" {% endfor %}
 {% endapply %}
 {% endmacro %}
+
+{% macro style(items) %}
+{% apply spaceless %}
+    {% if items|length > 0 %}
+        style="{% for key, value in items %}{{ strings(key).kebab() }}: {{ value }};{{ items|length > 1 and not loop.last ? ' ' : ''}}{% endfor %}"
+    {% endif %}
+{% endapply %}
+{% endmacro %}
