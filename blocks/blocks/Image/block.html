@@ -1,18 +1,19 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
+{% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
 {% if properties.layout %}
-<div class="{{ properties.layout.class }} {{ grid.col(properties.layout.size, properties.layout.grid) }}" 
-        {% if properties.layout.data %}{% for key, value in properties.layout.data %}data-{{ strings(key).kebab() }} = "{{ value }}" {% endfor %}{% endif %}
-        {% if properties.layout.style %}style="{% for key, value in properties.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
+<div {{ attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]) }}" 
+    {{ attr.data(properties.layout.data) }}
+    {{ attr.style(properties.layout.style) }}>
 {% endif %}
-    <img id="{{ blockID }}" 
-        src="{{ properties.properties.src }}" 
-        alt="{{ include(template_from_string(properties.properties.alt)) }}"
-        class="{{ properties.properties.class }}"
-        height="{{ properties.properties.height }}"
-        width="{{ properties.properties.width }}"
-        loading="{{ properties.properties.loading }}"
-        {% if properties.properties.data %}{% for key, value in properties.properties.data %}data-{{ strings(key).kebab() }} = "{{ value }}" {% endfor %}{% endif %}
-        {% if properties.properties.style %}style="{% for key, value in properties.properties.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
+    <img {{ attr.id((blockID) }}
+        {{ attr.src((properties.properties.src) }}
+        {{ attr.alt((properties.properties.alt) }}
+        {{ attr.class(properties.properties.class) }}
+        {{ attr.height(properties.properties.height) }}
+        {{ attr.width(properties.properties.width) }}
+        {{ attr.loading(properties.properties.loading) }}
+        {{ attr.data(properties.properties.data) }}
+        {{ attr.style(properties.properties.style) }}>
 {% if properties.layout %}
 </div>
 {% endif %}
