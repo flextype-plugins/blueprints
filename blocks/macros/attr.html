@@ -73,3 +73,11 @@
     {% endif %}
 {% endapply %}
 {% endmacro %}
+
+{% macro width(width) %}
+{% apply spaceless %}
+    {% if width %}
+        width = "{{ width }}"
+    {% endif %}
+{% endapply %}
+{% endmacro %}
