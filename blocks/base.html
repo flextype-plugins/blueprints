@@ -1,12 +1,12 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
-<div class="row {{ blueprint.workspace.properties.class }}" 
-    {% if blueprint.workspace.properties.style %}style="{% for key, value in blueprint.workspace.properties.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
-    <div class="{{ blueprint.workspace.layout.class }} {{ grid.col(blueprint.workspace.layout.size, blueprint.workspace.layout.grid) }}" 
-        {% if blueprint.workspace.layout.style %}style="{% for key, value in blueprint.workspace.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
+{% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
+<div {{ attr.class(['row', blueprint.workspace.properties.class]) }}
+    {{ attr.style(blueprint.workspace.properties.style) }}>
+    <div {{ attr.class([blueprint.workspace.layout.class, grid.col(blueprint.workspace.layout.size, blueprint.workspace.layout.grid)]) }}
+        {{ attr.style(blueprint.workspace.layout.style) }}>
         {% for key, value in blueprint.workspace.areas %}
-            <div class="{{ blueprint['workspace']['areas'][key]['layout']['class'] }}
-                {{ grid.col(blueprint['workspace']['areas'][key]['layout']['size'], blueprint['workspace']['areas'][key]['layout']['grid']) }}" 
-                {% if blueprint['workspace']['areas'][key]['properties']['style'] %}style="{% for key, value in blueprint['workspace']['areas'][key]['properties']['style'] %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
+            <div {{ attr.class([blueprint['workspace']['areas'][key]['layout']['class'], grid.col(blueprint['workspace']['areas'][key]['layout']['size'], blueprint['workspace']['areas'][key]['layout']['grid'])]) }}
+                {{ attr.style(blueprint['workspace']['areas'][key]['properties']['style']) }}>
                 {% include "plugins/blueprints/blocks/area.html" with {"area": key} %}
             </div>
         {% endfor %}
