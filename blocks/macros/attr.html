@@ -33,3 +33,9 @@
     {% if link %}href="{{ link }}"{% endif %}
 {% endapply %}
 {% endmacro %}
+
+{% macro target(target) %}
+{% apply spaceless %}
+    {% if target %}target="{{ target }}"{% endif %}
+{% endapply %}
+{% endmacro %}
