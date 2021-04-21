@@ -54,7 +54,17 @@
 
 {% macro id(value) %}
 {% apply spaceless %}
-    id="{{ value }}"
+    {% if value %}
+        id = "{{ value }}"
+    {% endif %}
+{% endapply %}
+{% endmacro %}
+
+{% macro name(value) %}
+{% apply spaceless %}
+    {% if value %}
+        name = "{{ value }}"
+    {% endif %}
 {% endapply %}
 {% endmacro %}
 
@@ -102,6 +112,30 @@
 {% apply spaceless %}
     {% if src %}
         src = "{{ src }}"
+    {% endif %}
+{% endapply %}
+{% endmacro %}
+
+{% macro readonly(readonly) %}
+{% apply spaceless %}
+    {% if readonly %}
+        readonly = "readonly"
+    {% endif %}
+{% endapply %}
+{% endmacro %}
+
+{% macro placeholder(placeholder) %}
+{% apply spaceless %}
+    {% if placeholder %}
+        placeholder = "{{ include(template_from_string(placeholder)) }}"
+    {% endif %}
+{% endapply %}
+{% endmacro %}
+
+{% macro value(value) %}
+{% apply spaceless %}
+    {% if value %}
+        value = "{{ include(template_from_string(value)) }}"
     {% endif %}
 {% endapply %}
 {% endmacro %}
