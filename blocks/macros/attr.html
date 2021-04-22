@@ -181,3 +181,19 @@
     {% endif %}
 {% endapply %}
 {% endmacro %}
+
+{% macro rows(value) %}
+{% apply spaceless %}
+    {% if value %}
+        rows = "{{ include(template_from_string(value)) }}"
+    {% endif %}
+{% endapply %}
+{% endmacro %}
+
+{% macro cols(value) %}
+{% apply spaceless %}
+    {% if value %}
+        cols = "{{ include(template_from_string(value)) }}"
+    {% endif %}
+{% endapply %}
+{% endmacro %}
