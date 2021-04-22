@@ -1,43 +1,28 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% if properties.layout %}
-<div class="{{ properties.layout.class }} {{ grid.col(properties.layout.size, properties.layout.grid) }}"
-    {% if properties.layout.data %}{% for key, value in properties.layout.data %}data-{{ strings(key).kebab() }} = "{{ value }}" {% endfor %}{% endif %} 
-    {% if properties.layout.style %}style="{% for key, value in properties.layout.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>
+<div {{ attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]) }}
+    {{ attr.data(properties.layout.data) }}
+    {{ attr.style(properties.layout.style) }}>
 {% endif %}
     {% if properties.properties.label %}
-        <label for="{{ blockID }}" 
-               class="form-label {{ properties.properties.label.class }}"
-               {% if properties.properties.label.style %}style="{% for key, value in properties.properties.label.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>{{ include(template_from_string(properties.properties.label.title)) }}</label>
+    <label for="{{ blockID }}" 
+            {{ attr.class(['form-label', properties.properties.label.class]) }}
+            {{ attr.style(properties.properties.label.style) }}>{{ include(template_from_string(properties.properties.label.title)) }}</label>
     {% endif %}
-    <textarea id="{{ blockID }}"
-              name="{{ blockName }}"
-              rows="{{ properties.properties.rows }}"
-              cols="{{ properties.properties.cols }}"
-              class="form-control {{  properties.properties.class }}"
-              {% if properties.properties.data %}{% for key, value in properties.properties.data %}data-{{ strings(key).kebab() }} = "{{ value }}" {% endfor %}{% endif %}
-              {% if properties.properties.style %}style="{% for key, value in properties.properties.style %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}
-              {% if properties.properties.disabled %}disabled="disabled"{% endif %}
-              {% if properties.properties.readonly %}readonly="readonly"{% endif %}
-              {% if properties.events %}
-                  {% for key, value in properties.events %}
-                       {% if key in ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
-                                     'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                     'onkeydown', 'onblur'] %}
-                           {{ key }} = "{{ value }}"
-                       {% endif %}
-                  {% endfor %}
-              {% endif %}
-              {% if properties.validation.error_message %}data-parsley-error-message="{{ __(properties.validation.error_message) }}"{% endif %}
-              {% if properties.validation.equalto %}data-parsley-equalto="{{ properties.validation.equalto }}"{% endif %}
-              {% if properties.validation.range %}data-parsley-range="{{ properties.validation.range }}"{% endif %}
-              {% if properties.validation.max %}data-parsley-max="{{ properties.validation.max }}"{% endif %}
-              {% if properties.validation.min %}data-parsley-min="{{ properties.validation.min }}"{% endif %}
-              {% if properties.validation.length %}data-parsley-length="{{ properties.validation.length }}"{% endif %}
-              {% if properties.validation.maxlength %}data-parsley-maxlength="{{ properties.validation.maxlength }}"{% endif %}
-              {% if properties.validation.minlength %}data-parsley-minlength="{{ properties.validation.minlength }}"{% endif %}
-              {% if properties.validation.type %}data-parsley-type="{{ properties.validation.type }}"{% endif %}
-              {% if properties.validation.required %}data-parsley-required="true"{% endif %}
-              {% if properties.validation.pattern %}data-parsley-pattern="{{ properties.validation.pattern }}"{% endif %}>{{ include(template_from_string(blockValue)) }}</textarea>
+    <textarea {{ attr.id(blockID) }}
+                {{ attr.name(blockName) }}
+                {{ attr.rows(properties.properties.rows) }}
+                {{ attr.cols(properties.properties.cols) }}
+                {{ attr.class(['form-control', properties.properties.class]) }}
+                {{ attr.data(properties.properties.data) }}
+                {{ attr.style(properties.properties.style) }}
+                {{ attr.placeholder(properties.properties.placeholder) }}
+                {{ attr.readonly(properties.properties.readonly) }}
+                {{ attr.disabled(properties.properties.disabled) }}
+                {{ attr.events(properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                                    'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                                    'onkeydown', 'onblur']) }}
+                {{ attr.validation(properties.validation) }}>{{ include(template_from_string(blockValue)) }}</textarea>
     {% if properties.properties.help %}
         <small>{{ include(template_from_string(properties.properties.help)) }}</small>
     {% endif %}
