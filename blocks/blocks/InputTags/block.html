@@ -1,4 +1,5 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
+{% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
 {% set blockValue = blockValue|split(',') %}
 {% if properties.layout %}
 <div {{ attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]) }}
