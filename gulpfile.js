@@ -82,10 +82,7 @@ sass.compiler      = require('node-sass');
             // Flextype UI JS
             'blocks/blocks/InputDateTimePicker/block.js',
             'blocks/blocks/InputSelect/block.js',
-            'blocks/blocks/InputSelectRoutable/block.js',
             'blocks/blocks/InputTags/block.js',
-            'blocks/blocks/InputSelectTemplate/block.js',
-            'blocks/blocks/InputSelectVisibility/block.js',
             'blocks/blocks/InputEditor/block.js',
         ])
         .pipe(concat('blueprints.min.js'))
