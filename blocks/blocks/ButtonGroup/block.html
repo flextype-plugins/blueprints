@@ -1,0 +1,55 @@
+{% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
+{% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
+{% if properties.layout %}
+<div {{ attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]) }}
+    {{ attr.data(properties.layout.data) }}
+    {{ attr.style(properties.layout.style) }}>
+{% endif %}
+{% set btnSizes = {'large': 'btn-lg', 'small': 'btn-sm'} %}
+{% set btnTypes = {'primary': 'primary',
+                    'secondary': 'secondary',
+                    'success': 'success',
+                    'info': 'info',
+                    'warning': 'warning',
+                    'danger': 'danger',
+                    'link': 'link'} %}   
+{% if properties.properties.type %}
+    {% if properties.properties.outline %}{% set outline = "outline-" %}{% endif %}
+    {% set btnType = "btn-" ~ outline ~ btnTypes[properties.properties.type] %}
+{% else %}
+    {% if properties.properties.outline %}{% set outline = "outline-" %}{% endif %}
+    {% set btnType = "btn-" ~ outline ~ "primary" %}
+{% endif %}
+<div class="btn-group">
+    <button type="button"
+            {{ attr.id(blockID) }}
+            {{ attr.data(properties.properties.data) }}
+            {{ attr.style(properties.properties.style) }}
+            {{ attr.class(['btn', btnType, btnSizes[properties.properties.size], properties.properties.class]) }}
+            {{ attr.events(properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                                'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                                'onkeydown', 'onblur']) }}>{{ include(template_from_string(properties.properties.title)) }}</button>
+    <button type="button" 
+            {{ attr.class(['btn', 'dropdown-toggle', 'dropdown-toggle-split', btnType, btnSizes[properties.properties.size], properties.properties.class]) }}
+            {{ attr.data(properties.properties.data) }}
+            {{ attr.style(properties.properties.style) }} 
+            data-bs-toggle="dropdown" 
+            aria-expanded="false">
+        <span class="visually-hidden">Toggle Dropdown</span>
+    </button>
+    <ul class="dropdown-menu">
+        {% for key, value in properties.properties.items %}
+            <li><a {{ attr.class(['dropdown-item', 'd-flex', 'align-items-center', value.class]) }}
+                    {{ attr.id(value.id) }}
+                    {{ attr.href(value.href) }}
+                    {{ attr.data(value.data) }}
+                    {{ attr.style(value.style) }} 
+                    {{ attr.events(value.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                                  'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                                  'onkeydown', 'onblur']) }}>{% if value.icon %}<span class="dropdown-item-icon pe-3 d-flex">{{ icon(value.icon.name, value.icon.set) }}</span> {% endif %}{{ include(template_from_string(value.title)) }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% if properties.layout %}
+</div>
+{% endif %}
