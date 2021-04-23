@@ -1,4 +1,5 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
+{% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
 {% if properties.layout %}
 <div {{ attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]) }}
     {{ attr.data(properties.layout.data) }}
@@ -27,7 +28,7 @@
                                             'onkeydown', 'onblur']) }}
         {{ attr.validation(properties.validation) }}>
     {% if properties.properties.help %}
-        <small>{{ __(properties.properties.help)}}</small>
+        <small>{{ include(template_from_string(properties.properties.help)) }}</small>
     {% endif %}
 {% if properties.layout %}
 </div>
