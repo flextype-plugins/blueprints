@@ -1,4 +1,5 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
+{% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
 {% if properties.layout %}
 <div {{ attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]) }}
     {{ attr.data(properties.layout.data) }}
@@ -9,6 +10,7 @@
             {{ attr.class(['form-label', properties.properties.label.class]) }}
             {{ attr.style(properties.properties.label.style) }}>{{ include(template_from_string(properties.properties.label.title)) }}</label>
     {% endif %} 
+
     <select {{ attr.id(blockID) }}
             {{ attr.name(blockName) }}
             {{ attr.class(['form-control', 'js-select', properties.properties.class]) }}
