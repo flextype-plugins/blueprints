@@ -1,16 +1,29 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
+
 {% if properties.layout %}
 <div {{ attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]) }} 
     {{ attr.data(properties.layout.data) }}
     {{ attr.style(properties.layout.style) }}>
 {% endif %}
+
+{% if properties.properties.nesting %}
+<div {{ attr.class(['row', properties.properties.class]) }}
+    {{ attr.data(properties.properties.data) }}
+    {{ attr.style(properties.properties.style) }}>
+{% endif %}
+
     {% for element, properties in properties['blocks'] %}
         {% set blockName = flextype.blueprints.getElementName(element, properties.name) %}
         {% set blockID = flextype.blueprints.getElementID(element, properties.id) %}
         {% set blockValue = flextype.blueprints.getElementValue(element, values, properties) %}
         {% include "plugins/blueprints/blocks/blocks/blocks.html" %}
     {% endfor %}
+
+{% if properties.properties.nesting %}
+</div>
+{% endif %}
+
 {% if properties.layout %}
 </div>
 {% endif %}
