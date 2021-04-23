@@ -12,6 +12,7 @@ blocks:
   - Anchor
   - Alert
   - Button
+  - ButtonGroup
   - Divider
   - Group
   - Heading
