@@ -24,7 +24,7 @@
 
 {% macro href(value) %}
 {% apply spaceless %}
-    {% if link %}href="{{ value|raw }}"{% endif %}
+    {% if value %}href="{{ value|raw }}"{% endif %}
 {% endapply %}
 {% endmacro %}
 
