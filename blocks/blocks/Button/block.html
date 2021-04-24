@@ -22,14 +22,14 @@
 {% endif %}
 <button 
     type="button"
-    {{ attr.id(blockID) }}
-    {{ attr.class(['btn', btnType, btnSizes[properties.properties.size], properties.properties.class]) }}
-    {{ attr.data(properties.properties.data) }}
-    {{ attr.style(properties.properties.style) }} 
-    {{ attr.disabled(properties.properties.disabled) }}
-    {{ attr.events(properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+    {{ include(template_from_string(attr.id(blockID))) }}
+    {{ include(template_from_string(attr.class(['btn', btnType, btnSizes[properties.properties.size], properties.properties.class]))) }}
+    {{ include(template_from_string(attr.data(properties.properties.data))) }}
+    {{ include(template_from_string(attr.style(properties.properties.style))) }} 
+    {{ include(template_from_string(attr.disabled(properties.properties.disabled))) }}
+    {{ include(template_from_string(attr.events(properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
                                         'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                        'onkeydown', 'onblur']) }}>{{ include(template_from_string(properties.properties.title)) }}</button>
+                                        'onkeydown', 'onblur']))) }}>{{ include(template_from_string(properties.properties.title)) }}</button>
 {% if properties.layout %}
 </div>
 {% endif %}

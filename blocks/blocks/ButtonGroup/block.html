@@ -22,31 +22,31 @@
 {% endif %}
 <div class="btn-group">
     <button type="button"
-            {{ attr.id(blockID) }}
-            {{ attr.data(properties.properties.data) }}
-            {{ attr.style(properties.properties.style) }}
-            {{ attr.class(['btn', btnType, btnSizes[properties.properties.size], properties.properties.class]) }}
-            {{ attr.events(properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+            {{ include(template_from_string(attr.id(blockID))) }}
+            {{ include(template_from_string(attr.data(properties.properties.data))) }}
+            {{ include(template_from_string(attr.style(properties.properties.style))) }}
+            {{ include(template_from_string(attr.class(['btn', btnType, btnSizes[properties.properties.size], properties.properties.class]))) }}
+            {{ include(template_from_string(attr.events(properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
                                                 'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                                'onkeydown', 'onblur']) }}>{{ include(template_from_string(properties.properties.title)) }}</button>
+                                                'onkeydown', 'onblur']))) }}>{{ include(template_from_string(properties.properties.title)) }}</button>
     <button type="button" 
-            {{ attr.class(['btn', 'dropdown-toggle', 'dropdown-toggle-split', btnType, btnSizes[properties.properties.size], properties.properties.class]) }}
-            {{ attr.data(properties.properties.data) }}
-            {{ attr.style(properties.properties.style) }} 
+            {{ include(template_from_string(attr.class(['btn', 'dropdown-toggle', 'dropdown-toggle-split', btnType, btnSizes[properties.properties.size], properties.properties.class]))) }}
+            {{ include(template_from_string(attr.data(properties.properties.data))) }}
+            {{ include(template_from_string(attr.style(properties.properties.style))) }} 
             data-bs-toggle="dropdown" 
             aria-expanded="false">
         <span class="visually-hidden">Toggle Dropdown</span>
     </button>
     <ul class="dropdown-menu">
         {% for key, value in properties.properties.items %}
-            <li><a {{ attr.class(['dropdown-item', 'd-flex', 'align-items-center', value.class]) }}
-                    {{ attr.id(value.id) }}
-                    {{ attr.href(value.href) }}
-                    {{ attr.data(value.data) }}
-                    {{ attr.style(value.style) }} 
-                    {{ attr.events(value.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+            <li><a {{ include(template_from_string(attr.class(['dropdown-item', 'd-flex', 'align-items-center', value.class]))) }}
+                    {{ include(template_from_string(attr.id(value.id))) }}
+                    {{ include(template_from_string(attr.href(value.href))) }}
+                    {{ include(template_from_string(attr.data(value.data))) }}
+                    {{ include(template_from_string(attr.style(value.style))) }} 
+                    {{ include(template_from_string(attr.events(value.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
                                                   'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                                  'onkeydown', 'onblur']) }}>{% if value.icon %}<span class="dropdown-item-icon pe-3 d-flex">{{ icon(value.icon.name, value.icon.set) }}</span> {% endif %}{{ include(template_from_string(value.title)) }}</a></li>
+                                                  'onkeydown', 'onblur']))) }}>{% if value.icon %}<span class="dropdown-item-icon pe-3 d-flex">{{ icon(value.icon.name, value.icon.set) }}</span> {% endif %}{{ include(template_from_string(value.title)) }}</a></li>
         {% endfor %}
     </ul>
 </div>

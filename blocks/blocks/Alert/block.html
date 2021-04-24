@@ -12,13 +12,13 @@
     {% set alertType = "alrert-primary" %}
 {% endif %}
 {% if properties.layout %}
-<div {{ attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]) }}"
-    {{ attr.data(properties.layout.data) }}
-    {{ attr.style(properties.layout.style) }}>
+<div {{ include(template_from_string(attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]))) }}
+    {{ include(template_from_string(attr.data(properties.layout.data))) }}
+    {{ include(template_from_string(attr.style(properties.layout.style))) }}>
 {% endif %}
-    <div {{ attr.class(['alert', properties.properties.class, alertType]) }}" 
-        {{ attr.data(properties.properties.data) }}
-        {{ attr.style(properties.properties.style) }}
+    <div {{ include(template_from_string(attr.class(['alert', properties.properties.class, alertType]))) }}
+        {{ include(template_from_string(attr.data(properties.properties.data))) }}
+        {{ include(template_from_string(attr.style(properties.properties.style))) }}
         role="alert">
         {% if properties.properties.header.title %}
             <h4 class="alert-heading">{{ include(template_from_string(properties.properties.header.title)) }}</h4>

@@ -18,15 +18,15 @@
 {% endapply %}
 {% endmacro %}
 {% if properties.layout %}
-<div {{ attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]) }}
-    {{ attr.data(properties.layout.data) }}
-    {{ attr.style(properties.layout.style) }}>
+<div {{ include(template_from_string(attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]))) }}
+    {{ include(template_from_string(attr.data(properties.layout.data))) }}
+    {{ include(template_from_string(attr.style(properties.layout.style))) }}>
 {% endif %}
-    <h{{ _self.headingSize(properties.properties.size ) }}
-        {{ attr.id(blockID) }}
-        {{ attr.data(properties.properties.data) }}
-        {{ attr.style(properties.properties.style) }}
-        {{ attr.class(properties.properties.class) }}>{{ include(template_from_string(properties.properties.title)) }}</h{{ _self.headingSize(properties.properties.size ) }}>
+    <h{{ _self.headingSize(properties.properties.size) }}
+        {{ include(template_from_string(attr.id(blockID))) }}
+        {{ include(template_from_string(attr.data(properties.properties.data))) }}
+        {{ include(template_from_string(attr.style(properties.properties.style))) }}
+        {{ include(template_from_string(attr.class(properties.properties.class))) }}>{{ include(template_from_string(properties.properties.title)) }}</h{{ _self.headingSize(properties.properties.size ) }}>
 {% if properties.layout %}
 </div>
 {% endif %}

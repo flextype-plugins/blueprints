@@ -6,14 +6,14 @@
 {% else %}
     {% set dashed = null %}
 {% endif %}
-<div {{ attr.class(properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)) }}
-    {{ attr.data(properties.layout.data) }}
-    {{ attr.style(properties.layout.style) }}>
+<div {{ include(template_from_string(attr.class(properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)))) }}
+    {{ include(template_from_string(attr.data(properties.layout.data))) }}
+    {{ include(template_from_string(attr.style(properties.layout.style))) }}>
 {% endif %}
-    <div {{ attr.id(properties.properties.id) }} 
-        {{ attr.data(properties.properties.data) }}
-        {{ attr.style(properties.properties.style) }} 
-        {{ attr.class('divider', properties.properties.class, dashed) }}></div>
+    <div {{ include(template_from_string(attr.id(properties.properties.id))) }} 
+        {{ include(template_from_string(attr.data(properties.properties.data))) }}
+        {{ include(template_from_string(attr.style(properties.properties.style))) }} 
+        {{ include(template_from_string(attr.class('divider', properties.properties.class, dashed))) }}></div>
 {% if properties.layout %}
 </div>
 {% endif %}

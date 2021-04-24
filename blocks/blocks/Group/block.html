@@ -2,15 +2,15 @@
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
 
 {% if properties.layout %}
-<div {{ attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]) }} 
-    {{ attr.data(properties.layout.data) }}
-    {{ attr.style(properties.layout.style) }}>
+<div {{ include(template_from_string(attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]))) }} 
+    {{ include(template_from_string(attr.data(properties.layout.data))) }}
+    {{ include(template_from_string(attr.style(properties.layout.style))) }}>
 {% endif %}
 
 {% if properties.properties.nesting %}
-<div {{ attr.class(['row', properties.properties.class]) }}
-    {{ attr.data(properties.properties.data) }}
-    {{ attr.style(properties.properties.style) }}>
+<div {{ include(template_from_string(attr.class(['row', properties.properties.class]))) }}
+    {{ include(template_from_string(attr.data(properties.properties.data))) }}
+    {{ include(template_from_string(attr.style(properties.properties.style))) }}>
 {% endif %}
 
     {% for element, properties in properties['blocks'] %}

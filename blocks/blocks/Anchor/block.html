@@ -1,19 +1,20 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
+
 {% if properties.layout %}
-<div {{ attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]) }}
-    {{ attr.data(properties.layout.data) }}
-    {{ attr.style(properties.layout.style) }}>
+<div {{ include(template_from_string(attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]))) }}
+    {{ include(template_from_string(attr.data(properties.layout.data))) }}
+    {{ include(template_from_string(attr.style(properties.layout.style))) }}>
 {% endif %}
-    <a {{ attr.id(blockID) }}
-    {{ attr.data(properties.properties.data) }}
-    {{ attr.class([properties.properties.class]) }}
-    {{ attr.style(properties.properties.style) }}
-    {{ attr.href(properties.properties.href) }}
-    {{ attr.target(properties.properties.target) }}
-    {{ attr.events(properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+    <a {{ include(template_from_string(attr.id(blockID)))  }}
+    {{ include(template_from_string(attr.data(properties.properties.data))) }}
+    {{ include(template_from_string(attr.class([properties.properties.class]))) }}
+    {{ include(template_from_string(attr.style(properties.properties.style))) }}
+    {{ include(template_from_string(attr.href(properties.properties.href))) }}
+    {{ include(template_from_string(attr.target(properties.properties.target))) }}
+    {{ include(template_from_string(attr.events(properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
                                         'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                        'onkeydown', 'onblur']) }}>{{ include(template_from_string(properties.properties.title)) }}</a>
+                                        'onkeydown', 'onblur']))) }}>{{ include(template_from_string(properties.properties.title)) }}</a>
 {% if properties.layout %}
 </div>
 {% endif %}

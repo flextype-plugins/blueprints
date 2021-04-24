@@ -61,8 +61,8 @@
             {% endfor %}
         {% endif %}>
         {{ csrf() }}
-        <div {{ attr.class(['row', blueprint['workspace']['areas'][area]['properties']['class']]) }}
-            {{ attr.style(blueprint['workspace']['areas'][area]['properties']['style']) }}>
+        <div {{ include(template_from_string(attr.class(['row', blueprint['workspace']['areas'][area]['properties']['class']]))) }}
+            {{ include(template_from_string(attr.style(blueprint['workspace']['areas'][area]['properties']['style']))) }}>
             {% for element, properties in blueprint['workspace']['areas'][area]['form']['blocks'] %}
                 {% set blockName = flextype.blueprints.getElementName(element, properties.name) %}
                 {% set blockID = flextype.blueprints.getElementID(element, properties.id) %}
@@ -89,8 +89,8 @@
     <div class="tab-content" id="workspaceTabContent">
         {% for key, tab in blueprint['workspace']['areas'][area]['tabs'] %}
             <div class="tab-pane {% if key == 'main' %}show active{% endif %}" id="{{ key }}-tab" role="tabpanel" aria-labelledby="{{ key }}-tab">
-                <div {{ attr.class(['row', blueprint['workspace']['areas'][area]['tabs'][key]['properties']['class']]) }}
-                    {{ attr.style(blueprint['workspace']['areas'][area]['tabs'][key]['properties']['style']) }}>       
+                <div {{ include(template_from_string(attr.class(['row', blueprint['workspace']['areas'][area]['tabs'][key]['properties']['class']]))) }}
+                    {{ include(template_from_string(attr.style(blueprint['workspace']['areas'][area]['tabs'][key]['properties']['style']))) }}>       
                     {% for element, properties in blueprint['workspace']['areas'][area]['tabs'][key]['blocks']  %}
                         {% set blockName = flextype.blueprints.getElementName(element, element.name) %}
                         {% set blockID = flextype.blueprints.getElementID(element, element.id) %}
@@ -102,8 +102,8 @@
         {% endfor %}
     </div>
 {% else %}
-    <div {{ attr.class(['row', blueprint['workspace']['areas'][area]['properties']['class']]) }}
-        {{ attr.style(blueprint['workspace']['areas'][area]['properties']['style']) }}>
+    <div {{ include(template_from_string(attr.class(['row', blueprint['workspace']['areas'][area]['properties']['class']]))) }}
+        {{ include(template_from_string(attr.style(blueprint['workspace']['areas'][area]['properties']['style']))) }}>
         {% for element, properties in blueprint['workspace']['areas'][area]['blocks'] %}
             {% set blockName = flextype.blueprints.getElementName(element, properties.name) %}
             {% set blockID = flextype.blueprints.getElementID(element, properties.id) %}

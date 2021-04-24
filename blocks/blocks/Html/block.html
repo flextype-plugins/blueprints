@@ -1,14 +1,14 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
 {% if properties.layout %}
-<div {{ attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]) }}
-    {{ attr.data(properties.layout.data) }}
-    {{ attr.style(properties.layout.style) }}>
+<div {{ include(template_from_string(attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]))) }}
+    {{ include(template_from_string(attr.data(properties.layout.data))) }}
+    {{ include(template_from_string(attr.style(properties.layout.style))) }}>
 {% endif %}
-    <div {{ attr.id(blockID) }}
-        {{ attr.class([properties.properties.class]) }}
-        {{ attr.data(properties.properties.data) }}
-        {{ attr.style(properties.properties.style) }}>{{ include(template_from_string(properties.properties.html)) }}</div>
+    <div {{ include(template_from_string(attr.id(blockID))) }}
+        {{ include(template_from_string(attr.class([properties.properties.class]))) }}
+        {{ include(template_from_string(attr.data(properties.properties.data))) }}
+        {{ include(template_from_string(attr.style(properties.properties.style))) }}>{{ include(template_from_string(properties.properties.html)) }}</div>
 {% if properties.layout %}
 </div>
 {% endif %}

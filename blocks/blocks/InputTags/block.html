@@ -2,22 +2,22 @@
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
 {% set blockValue = blockValue|split(',') %}
 {% if properties.layout %}
-<div {{ attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]) }}
-    {{ attr.data(properties.layout.data) }}
-    {{ attr.style(properties.layout.style) }}>
+<div {{ include(template_from_string(attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]))) }}
+    {{ include(template_from_string(attr.data(properties.layout.data))) }}
+    {{ include(template_from_string(attr.style(properties.layout.style))) }}>
 {% endif %}
     {% if properties.properties.label %}
     <label for="{{ blockID }}" 
-            {{ attr.class(['form-label', properties.properties.label.class]) }}
-            {{ attr.style(properties.properties.label.style) }}>{{ include(template_from_string(properties.properties.label.title)) }}</label>
+            {{ include(template_from_string(attr.class(['form-label', properties.properties.label.class]))) }}
+            {{ include(template_from_string(attr.style(properties.properties.label.style))) }}>{{ include(template_from_string(properties.properties.label.title)) }}</label>
     {% endif %}
     <select data-name="{{ blockName }}"
             multiple="multiple"
-            {{ attr.class(['form-control', 'js-select-tags' properties.properties.class]) }}
-            {{ attr.data(properties.properties.data) }}
-            {{ attr.events(properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+            {{ include(template_from_string(attr.class(['form-control', 'js-select-tags' properties.properties.class]))) }}
+            {{ include(template_from_string(attr.data(properties.properties.data))) }}
+            {{ include(template_from_string(attr.events(properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
                                                 'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                                'onkeydown', 'onblur']) }}>
+                                                'onkeydown', 'onblur']))) }}>
         {% for key, value in blockValue %}
             {% if value is not empty %}
                 <option value="{{ value|trim }}" selected="selected">{{ value|trim }}</option>

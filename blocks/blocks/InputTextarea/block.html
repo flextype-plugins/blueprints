@@ -1,29 +1,29 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
 {% if properties.layout %}
-<div {{ attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]) }}
-    {{ attr.data(properties.layout.data) }}
-    {{ attr.style(properties.layout.style) }}>
+<div {{ include(template_from_string(attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]))) }}
+    {{ include(template_from_string(attr.data(properties.layout.data))) }}
+    {{ include(template_from_string(attr.style(properties.layout.style))) }}>
 {% endif %}
     {% if properties.properties.label %}
     <label for="{{ blockID }}" 
-            {{ attr.class(['form-label', properties.properties.label.class]) }}
-            {{ attr.style(properties.properties.label.style) }}>{{ include(template_from_string(properties.properties.label.title)) }}</label>
+            {{ include(template_from_string(attr.class(['form-label', properties.properties.label.class]))) }}
+            {{ include(template_from_string(attr.style(properties.properties.label.style))) }}>{{ include(template_from_string(properties.properties.label.title)) }}</label>
     {% endif %}
     <textarea {{ attr.id(blockID) }}
-                {{ attr.name(blockName) }}
-                {{ attr.rows(properties.properties.rows) }}
-                {{ attr.cols(properties.properties.cols) }}
-                {{ attr.class(['form-control', properties.properties.class]) }}
-                {{ attr.data(properties.properties.data) }}
-                {{ attr.style(properties.properties.style) }}
-                {{ attr.placeholder(properties.properties.placeholder) }}
-                {{ attr.readonly(properties.properties.readonly) }}
-                {{ attr.disabled(properties.properties.disabled) }}
-                {{ attr.events(properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                {{ include(template_from_string(attr.name(blockName))) }}
+                {{ include(template_from_string(attr.rows(properties.properties.rows))) }}
+                {{ include(template_from_string(attr.cols(properties.properties.cols))) }}
+                {{ include(template_from_string(attr.class(['form-control', properties.properties.class]))) }}
+                {{ include(template_from_string(attr.data(properties.properties.data))) }}
+                {{ include(template_from_string(attr.style(properties.properties.style))) }}
+                {{ include(template_from_string(attr.placeholder(properties.properties.placeholder))) }}
+                {{ include(template_from_string(attr.readonly(properties.properties.readonly))) }}
+                {{ include(template_from_string(attr.disabled(properties.properties.disabled))) }}
+                {{ include(template_from_string(attr.events(properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
                                                     'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                                    'onkeydown', 'onblur']) }}
-                {{ attr.validation(properties.validation) }}>{{ include(template_from_string(blockValue)) }}</textarea>
+                                                    'onkeydown', 'onblur']))) }}
+                {{ include(template_from_string(attr.validation(properties.validation))) }}>{{ include(template_from_string(blockValue)) }}</textarea>
     {% if properties.properties.help %}
         <small>{{ include(template_from_string(properties.properties.help)) }}</small>
     {% endif %}

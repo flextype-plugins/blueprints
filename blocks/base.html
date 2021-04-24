@@ -1,12 +1,12 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
-<div {{ attr.class(['row', blueprint.workspace.properties.class]) }}
-    {{ attr.style(blueprint.workspace.properties.style) }}>
-    <div {{ attr.class([blueprint.workspace.layout.class, grid.col(blueprint.workspace.layout.size, blueprint.workspace.layout.grid)]) }}
-        {{ attr.style(blueprint.workspace.layout.style) }}>
+<div {{ include(template_from_string(attr.class(['row', blueprint.workspace.properties.class]))) }}
+    {{ include(template_from_string(attr.style(blueprint.workspace.properties.style))) }}>
+    <div {{ include(template_from_string(attr.class([blueprint.workspace.layout.class, grid.col(blueprint.workspace.layout.size, blueprint.workspace.layout.grid)]))) }}
+        {{ include(template_from_string(attr.style(blueprint.workspace.layout.style))) }}>
         {% for key, value in blueprint.workspace.areas %}
-            <div {{ attr.class([blueprint['workspace']['areas'][key]['layout']['class'], grid.col(blueprint['workspace']['areas'][key]['layout']['size'], blueprint['workspace']['areas'][key]['layout']['grid'])]) }}
-                {{ attr.style(blueprint['workspace']['areas'][key]['properties']['style']) }}>
+            <div {{ include(template_from_string(attr.class([blueprint['workspace']['areas'][key]['layout']['class'], grid.col(blueprint['workspace']['areas'][key]['layout']['size'], blueprint['workspace']['areas'][key]['layout']['grid'])]))) }}
+                {{ include(template_from_string(attr.style(blueprint['workspace']['areas'][key]['properties']['style']))) }}>
                 {% include "plugins/blueprints/blocks/area.html" with {"area": key} %}
             </div>
         {% endfor %}
