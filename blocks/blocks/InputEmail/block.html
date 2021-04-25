@@ -11,9 +11,9 @@
                 {{ include(template_from_string(attr.style(properties.properties.label.style))) }}>{{ include(template_from_string(properties.properties.label.title)) }}</label>
     {% endif %}
     <input type="email"
-        {{ include(template_from_string(attr.id(blockID) }}
-        {{ include(template_from_string(attr.name(blockName) }}
-        {{ include(template_from_string(attr.value(blockValue) }}
+        {{ include(template_from_string(attr.id(blockID))) }}
+        {{ include(template_from_string(attr.name(blockName))) }}
+        {{ include(template_from_string(attr.value(blockValue))) }}
         {{ include(template_from_string(attr.class(['form-control', properties.properties.class]))) }}
         {{ include(template_from_string(attr.data(properties.properties.data))) }}
         {{ include(template_from_string(attr.style(properties.properties.style))) }}
