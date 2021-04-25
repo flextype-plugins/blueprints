@@ -2,7 +2,6 @@ const gulp         = require('gulp');
 const concat       = require('gulp-concat');
 const csso         = require('gulp-csso');
 const autoprefixer = require('gulp-autoprefixer');
-const sourcemaps   = require('gulp-sourcemaps');
 const sass         = require('gulp-sass');
 const size         = require("gulp-size");
 const gzip         = require("gulp-gzip");
@@ -15,7 +14,6 @@ sass.compiler      = require('node-sass');
  gulp.task("css", function () {
     return gulp
         .src([
-
             // Swal2
             'node_modules/sweetalert2/dist/sweetalert2.min.css',
 
@@ -55,9 +53,11 @@ sass.compiler      = require('node-sass');
  gulp.task('js', function () {
     return gulp
         .src([
-
             // jQuery
             'node_modules/jquery/dist/jquery.min.js',
+
+            // Swal2
+            'node_modules/sweetalert2/dist/sweetalert2.min.js',
 
             // ParsleyJS Form Validatator
             'node_modules/parsleyjs/dist/parsley.min.js',
@@ -124,15 +124,14 @@ sass.compiler      = require('node-sass');
 /**
  * Task: gulp default
  */
- gulp.task(
-     'default',
-     gulp.series(
-         'trumbowyg-fonts',
-         'trumbowyg-langs',
-         'flatpickr-langs',
-         'css',
-         'js'
-     )
+ gulp.task('default',
+    gulp.series(
+        'trumbowyg-fonts',
+        'trumbowyg-langs',
+        'flatpickr-langs',
+        'css',
+        'js'
+    )
  );
 
 /**
@@ -141,6 +140,6 @@ sass.compiler      = require('node-sass');
  gulp.task('watch', function () {
     gulp.watch(
         ["blocks/**/*.html", "assets/src/"],
-        gulp.series('css')
+        gulp.series('default')
     );
  });
