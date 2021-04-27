@@ -388,6 +388,31 @@ class Blueprints
     }
 
     /**
+     * Render blueprint from array.
+     *
+     * @param array $blueprint Blueprint array.
+     * @param array $values    Blueprint values.
+     * @param array $vars      Blueprint variables.
+     *
+     * @return void
+     *
+     * @access public
+     */
+    public function renderFromArray(array $blueprint, array $values = [], array $vars = []): void
+    {
+        echo flextype('twig')
+                ->getEnvironment()
+                ->render(
+                    'plugins/blueprints/blocks/base.html',
+                    array_merge([
+                        'blueprint' => $blueprint,
+                        'values'    => $values,
+                        'query'     => $_GET,
+                        'blocks'    => flextype('registry')->get('plugins.blueprints.settings.blocks'),
+                    ], $vars));
+    }
+
+    /**
      * Get blueprint element value.
      *
      * @param string $element    Blueprint element.
