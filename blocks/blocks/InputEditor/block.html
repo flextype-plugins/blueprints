@@ -15,10 +15,10 @@
             rows="0"
             cols="0"
             {{ include(template_from_string(attr.data(properties.properties.data))) }}
-            {{ include(template_from_string(attr.class(['js-html-editor', 'form-control', properties.properties.class]) }}
+            {{ include(template_from_string(attr.class(['js-html-editor', 'form-control', properties.properties.class]))) }}
             {{ include(template_from_string(attr.events(properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
-                                                'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                                'onkeydown', 'onblur']) }}>{{ include(template_from_string(blockValue)))) }}</textarea>
+                                                                            'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                                                            'onkeydown', 'onblur']))) }}>{{ include(template_from_string(blockValue)) }}</textarea>
     {% if properties.properties.help %}
         <small>{{ __(properties.properties.help)}}</small>
     {% endif %}
