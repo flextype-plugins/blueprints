@@ -28,7 +28,6 @@ blocks:
   - InputEditor
   - InputTags
   - InputSelect
-  - InputSelectTemplate
   - InputReset
   - InputButton
   - InputSubmit
