@@ -8,7 +8,7 @@
         {% if properties.properties.label %}
             <label for="{{ blockID }}"
                    {{ include(template_from_string(attr.class(['form-label', properties.properties.label.class]))) }}
-                   {{ include(template_from_string(attr.style(properties.properties.label.style) }}>{{ include(template_from_string(properties.properties.label.title)))) }}</label>
+                   {{ include(template_from_string(attr.style(properties.properties.label.style))) }}>{{ include(template_from_string(properties.properties.label.title)) }}</label>
         {% endif %}
     <input type="text"
            {{ include(template_from_string(attr.id(blockID))) }}
