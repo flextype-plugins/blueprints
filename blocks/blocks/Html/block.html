@@ -8,7 +8,7 @@
     <div {{ include(template_from_string(attr.id(blockID))) }}
         {{ include(template_from_string(attr.class([properties.properties.class]))) }}
         {{ include(template_from_string(attr.data(properties.properties.data))) }}
-        {{ include(template_from_string(attr.style(properties.properties.style))) }}>{{ include(template_from_string(properties.properties.html)) }}</div>
+        {{ include(template_from_string(attr.style(properties.properties.style))) }}>{{ include(template_from_string(properties.properties.value)) }}</div>
 {% if properties.layout %}
 </div>
 {% endif %}
