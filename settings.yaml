@@ -17,6 +17,7 @@ blocks:
   - Group
   - Heading
   - Html
+  - Markdown
   - Image
   - InputText
   - InputEmail
