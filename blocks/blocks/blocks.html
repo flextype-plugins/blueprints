@@ -1,5 +1,5 @@
 {% for block in blocks %}
-    {% if properties.type == block %}
-        {% include "plugins/blueprints/blocks/blocks/" ~ block ~ "/block.html" %}
+    {% if properties.type == block.name %}
+        {% include block.src %}
     {% endif %}
 {% endfor %}
