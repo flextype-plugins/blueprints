@@ -15,7 +15,7 @@ gulp.task("css", function () {
     return gulp
         .src([
             // Swal2
-            'node_modules/sweetalert2/dist/sweetalert2.min.css',
+            //'node_modules/sweetalert2/dist/sweetalert2.min.css',
 
             // Select2
             'node_modules/select2/dist/css/select2.min.css',
@@ -24,11 +24,11 @@ gulp.task("css", function () {
             'node_modules/flatpickr/dist/flatpickr.min.css',
 
             // Trumbowyg
-            'node_modules/trumbowyg/dist/ui/trumbowyg.min.css',
-            'node_modules/trumbowyg/dist/plugins/table/ui/trumbowyg.table.css',
+            //'node_modules/trumbowyg/dist/ui/trumbowyg.min.css',
+            //'node_modules/trumbowyg/dist/plugins/table/ui/trumbowyg.table.css',
 
             // Blueprints CSS
-            'assets/src/blueprints.scss'
+            'assets/src/scss/blueprints.scss'
         ])
         .pipe(sass().on('error', sass.logError))
         .pipe(autoprefixer({
@@ -57,13 +57,13 @@ gulp.task('js', function () {
             'node_modules/jquery/dist/jquery.min.js',
 
             // Swal2
-            'node_modules/sweetalert2/dist/sweetalert2.min.js',
+            //'node_modules/sweetalert2/dist/sweetalert2.min.js',
 
             // ParsleyJS Form Validatator
-            'node_modules/parsleyjs/dist/parsley.min.js',
+            //'node_modules/parsleyjs/dist/parsley.min.js',
 
             // Speakingurl
-            'node_modules/speakingurl/speakingurl.min.js',
+            //'node_modules/speakingurl/speakingurl.min.js',
 
             // Select2
             'node_modules/select2/dist/js/select2.min.js',
@@ -72,12 +72,15 @@ gulp.task('js', function () {
             'node_modules/flatpickr/dist/flatpickr.min.js',
 
             // Trumbowyg
-            'node_modules/trumbowyg/dist/trumbowyg.min.js',
-            'node_modules/trumbowyg/dist/plugins/noembed/trumbowyg.noembed.min.js',
-            'node_modules/trumbowyg/dist/plugins/table/trumbowyg.table.min.js',
+            //'node_modules/trumbowyg/dist/trumbowyg.min.js',
+            //'node_modules/trumbowyg/dist/plugins/noembed/trumbowyg.noembed.min.js',
+            //'node_modules/trumbowyg/dist/plugins/table/trumbowyg.table.min.js',
 
             // Bootstrap
             'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
+
+            // Form Validation
+            'assets/src/js/validation.js',
 
             // Flextype UI JS
             'blocks/blocks/InputDateTimePicker/block.js',
