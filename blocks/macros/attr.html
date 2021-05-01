@@ -199,3 +199,13 @@
     {% endif %}
 {% endapply %}
 {% endmacro %}
+
+{% macro method(value) %}
+{% apply spaceless %}
+    {% if value %}
+        method = "{{ value|raw }}"
+    {% else %}
+        method = "post"
+    {% endif %}
+{% endapply %}
+{% endmacro %}
