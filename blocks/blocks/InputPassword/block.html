@@ -27,6 +27,11 @@
                                             'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
                                             'onkeydown', 'onblur']))) }}
         {{ include(template_from_string(attr.validation(properties.validation))) }}>
+    {% if properties.validation.errorMessage %}
+        <div class="invalid-feedback">
+            {{ include(template_from_string(properties.validation.errorMessage)) }}
+        </div>
+    {% endif %}
     {% if properties.properties.help %}
         <small>{{ include(template_from_string(properties.properties.help)) }}</small>
     {% endif %}
