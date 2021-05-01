@@ -137,17 +137,12 @@
 {% macro validation(validation) %}
 {% apply spaceless %}
     {% if validation %}
-        {% if validation.error_message %}data-parsley-error-message="{{ validation.error_message|raw }}"{% endif %}
-        {% if validation.equalto %}data-parsley-equalto="{{ validation.equalto|raw }}"{% endif %}
-        {% if validation.range %}data-parsley-range="{{ validation.range|raw }}"{% endif %}
-        {% if validation.max %}data-parsley-max="{{ validation.max|raw }}"{% endif %}
-        {% if validation.min %}data-parsley-min="{{ validation.min|raw }}"{% endif %}
-        {% if validation.length %}data-parsley-length="{{ validation.length|raw }}"{% endif %}
-        {% if validation.maxlength %}data-parsley-maxlength="{{ validation.maxlength|raw }}"{% endif %}
-        {% if validation.minlength %}data-parsley-minlength="{{ validation.minlength|raw }}"{% endif %}
-        {% if validation.type %}data-parsley-type="{{ validation.type|raw }}"{% endif %}
-        {% if validation.required %}data-parsley-required="true"{% endif %}
-        {% if validation.pattern %}data-parsley-pattern="{{ validation.pattern|raw }}"{% endif %}
+        {% if validation.max %}max="{{ validation.max|raw }}"{% endif %}
+        {% if validation.min %}min="{{ validation.min|raw }}"{% endif %}
+        {% if validation.maxlength %}maxlength="{{ validation.maxlength|raw }}"{% endif %}
+        {% if validation.minlength %}minlength="{{ validation.minlength|raw }}"{% endif %}
+        {% if validation.required %}required="required"{% endif %}
+        {% if validation.pattern %}pattern="{{ validation.pattern|raw }}"{% endif %}
     {% endif %}
 {% endapply %}
 {% endmacro %}
