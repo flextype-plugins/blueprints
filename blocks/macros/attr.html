@@ -191,3 +191,11 @@
     {% endif %}
 {% endapply %}
 {% endmacro %}
+
+{% macro action(value) %}
+{% apply spaceless %}
+    {% if value %}
+        action = "{{ value|raw }}"
+    {% endif %}
+{% endapply %}
+{% endmacro %}
