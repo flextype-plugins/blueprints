@@ -1,19 +1,15 @@
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
 {% if blueprint['workspace']['areas'][area]['form']['tabs'] %}
-    <form action="{% if blueprint['workspace']['areas'][area]['form']['action'] %}{{ include(template_from_string(blueprint['workspace']['areas'][area]['form']['action'])) }}{% endif %}"
-        method="{% if blueprint['workspace']['areas'][area]['form']['method'] %}{{ blueprint['workspace']['areas'][area]['form']['method'] }}{% else %}post{% endif %}"
-        {% if blueprint['workspace']['areas'][area]['form']['id'] %}id="{{ blueprint['workspace']['areas'][area]['form']['id'] }}"{% endif %}
-        {% if blueprint['workspace']['areas'][area]['form']['name'] %}name="{{ blueprint['workspace']['areas'][area]['form']['name'] }}"{% endif %}
-        data-parsley-validate
-        {% if blueprint['workspace']['areas'][area]['form']['events'] %}
-            {% for key, value in blueprint['workspace']['areas'][area]['form']['events'] %}
-                {% if key in ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
-                                'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                'onkeydown', 'onblur', 'onreset', 'onsubmit'] %}
-                    {{ key }} = "{{ value }}"
-                {% endif %}
-            {% endfor %}
-        {% endif %}>
+    <form
+        {{ include(template_from_string(attr.action(blueprint['workspace']['areas'][area]['form']['action']))) }}
+        {{ include(template_from_string(attr.method(blueprint['workspace']['areas'][area]['form']['method']))) }}
+        {{ include(template_from_string(attr.id(blueprint['workspace']['areas'][area]['form']['id']))) }}
+        {{ include(template_from_string(attr.name(blueprint['workspace']['areas'][area]['form']['name']))) }}
+        {{ include(template_from_string(attr.class(['js-needs-validation', blueprint['workspace']['areas'][area]['form']['class']]))) }}
+        {{ include(template_from_string(attr.events(properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                                                        'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                                                        'onkeydown', 'onblur', 'onreset', 'onsubmit']))) }}
+        novalidate>
         {{ csrf() }}
         <ul class="nav nav-tabs mb-3" id="workspaceTab" role="tablist">
             {% for key, section in blueprint['workspace']['areas'][area]['form']['tabs'] %}
@@ -46,20 +42,16 @@
         </div>
     </form>
 {% elseif blueprint['workspace']['areas'][area]['form'] %}
-    <form action="{% if blueprint['workspace']['areas'][area]['form']['action'] %}{{ include(template_from_string(blueprint['workspace']['areas'][area]['form']['action'])) }}{% endif %}"
-        method="{% if blueprint['workspace']['areas'][area]['form']['method'] %}{{ blueprint['workspace']['areas'][area]['form']['method'] }}{% else %}post{% endif %}"
-        {% if blueprint['workspace']['areas'][area]['form']['id'] %}id="{{ blueprint['workspace']['areas'][area]['form']['id'] }}"{% endif %}
-        {% if blueprint['workspace']['areas'][area]['form']['name'] %}name="{{ blueprint['workspace']['areas'][area]['form']['name'] }}"{% endif %}
-        data-parsley-validate
-        {% if blueprint['workspace']['areas'][area]['form']['events'] %}
-            {% for key, value in blueprint['workspace']['areas'][area]['form']['events'] %}
-                {% if key in ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
-                                'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                'onkeydown', 'onblur', 'onreset', 'onsubmit'] %}
-                    {{ key }} = "{{ value }}"
-                {% endif %}
-            {% endfor %}
-        {% endif %}>
+    <form
+        {{ include(template_from_string(attr.action(blueprint['workspace']['areas'][area]['form']['action']))) }}
+        {{ include(template_from_string(attr.method(blueprint['workspace']['areas'][area]['form']['method']))) }}
+        {{ include(template_from_string(attr.id(blueprint['workspace']['areas'][area]['form']['id']))) }}
+        {{ include(template_from_string(attr.name(blueprint['workspace']['areas'][area]['form']['name']))) }}
+        {{ include(template_from_string(attr.class(['js-needs-validation', blueprint['workspace']['areas'][area]['form']['class']]))) }}
+        {{ include(template_from_string(attr.events(properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                                                        'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                                                        'onkeydown', 'onblur', 'onreset', 'onsubmit']))) }}
+        novalidate>
         {{ csrf() }}
         <div {{ include(template_from_string(attr.class(['row', blueprint['workspace']['areas'][area]['properties']['class']]))) }}
             {{ include(template_from_string(attr.style(blueprint['workspace']['areas'][area]['properties']['style']))) }}>
