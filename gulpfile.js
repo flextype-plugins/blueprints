@@ -14,20 +14,13 @@ sass.compiler      = require('node-sass');
 gulp.task("css", function () {
     return gulp
         .src([
-            // Swal2
-            //'node_modules/sweetalert2/dist/sweetalert2.min.css',
-
             // Select2
             'node_modules/select2/dist/css/select2.min.css',
 
             // Flatpickr
             'node_modules/flatpickr/dist/flatpickr.min.css',
 
-            // Trumbowyg
-            //'node_modules/trumbowyg/dist/ui/trumbowyg.min.css',
-            //'node_modules/trumbowyg/dist/plugins/table/ui/trumbowyg.table.css',
-
-            // Blueprints CSS
+            // Blueprints
             'assets/src/scss/blueprints.scss'
         ])
         .pipe(sass().on('error', sass.logError))
@@ -56,25 +49,11 @@ gulp.task('js', function () {
             // jQuery
             'node_modules/jquery/dist/jquery.min.js',
 
-            // Swal2
-            //'node_modules/sweetalert2/dist/sweetalert2.min.js',
-
-            // ParsleyJS Form Validatator
-            //'node_modules/parsleyjs/dist/parsley.min.js',
-
-            // Speakingurl
-            //'node_modules/speakingurl/speakingurl.min.js',
-
             // Select2
             'node_modules/select2/dist/js/select2.min.js',
 
             // Flatpickr
             'node_modules/flatpickr/dist/flatpickr.min.js',
-
-            // Trumbowyg
-            //'node_modules/trumbowyg/dist/trumbowyg.min.js',
-            //'node_modules/trumbowyg/dist/plugins/noembed/trumbowyg.noembed.min.js',
-            //'node_modules/trumbowyg/dist/plugins/table/trumbowyg.table.min.js',
 
             // Bootstrap
             'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
@@ -98,26 +77,6 @@ gulp.task('js', function () {
 });
 
 /**
- * Task: gulp trumbowyg-fonts
- */
-gulp.task('trumbowyg-fonts', function () {
-    return gulp
-        .src(['node_modules/trumbowyg/dist/ui/icons.svg'])
-        .pipe(size({ showFiles: true }))
-        .pipe(gulp.dest('assets/dist/fonts/trumbowyg'));
-});
-
-/**
- * Task: gulp trumbowyg-langs
- */
-gulp.task('trumbowyg-langs', function () {
-    return gulp
-        .src(['node_modules/trumbowyg/dist/*langs/**/*.min.js'])
-        .pipe(size({ showFiles: true }))
-        .pipe(gulp.dest('assets/dist/lang/trumbowyg'));
-});
-
-/**
  * Task: gulp flatpickr-langs
  */
 gulp.task('flatpickr-langs', function () {
@@ -132,8 +91,6 @@ gulp.task('flatpickr-langs', function () {
  */
 gulp.task('default',
     gulp.series(
-        'trumbowyg-fonts',
-        'trumbowyg-langs',
         'flatpickr-langs',
         'css',
         'js'
