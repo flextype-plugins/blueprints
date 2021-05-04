@@ -8,67 +8,67 @@ priority: 45
 blocks:
   Anchor:
     name: Anchor
-    src: plugins/blueprints/blocks/blocks/Anchor/block.html
+    template: plugins/blueprints/blocks/blocks/Anchor/block.html
   Alert:
     name: Alert
-    src: plugins/blueprints/blocks/blocks/Alert/block.html 
+    template: plugins/blueprints/blocks/blocks/Alert/block.html 
   Button:
     name: Button
-    src: plugins/blueprints/blocks/blocks/Button/block.html 
+    template: plugins/blueprints/blocks/blocks/Button/block.html 
   ButtonGroup:
     name: ButtonGroup
-    src: plugins/blueprints/blocks/blocks/ButtonGroup/block.html 
+    template: plugins/blueprints/blocks/blocks/ButtonGroup/block.html 
   Divider:
     name: Divider
-    src: plugins/blueprints/blocks/blocks/Divider/block.html 
+    template: plugins/blueprints/blocks/blocks/Divider/block.html 
   Group:
     name: Group
-    src: plugins/blueprints/blocks/blocks/Group/block.html 
+    template: plugins/blueprints/blocks/blocks/Group/block.html 
   Heading:
     name: Heading
-    src: plugins/blueprints/blocks/blocks/Heading/block.html 
+    template: plugins/blueprints/blocks/blocks/Heading/block.html 
   Html:
     name: Html
-    src: plugins/blueprints/blocks/blocks/Html/block.html 
+    template: plugins/blueprints/blocks/blocks/Html/block.html 
   Markdown:
     name: Markdown
-    src: plugins/blueprints/blocks/blocks/Markdown/block.html 
+    template: plugins/blueprints/blocks/blocks/Markdown/block.html 
   Image:
     name: Image
-    src: plugins/blueprints/blocks/blocks/Image/block.html 
+    template: plugins/blueprints/blocks/blocks/Image/block.html 
   InputText:
     name: InputText
-    src: plugins/blueprints/blocks/blocks/InputText/block.html 
+    template: plugins/blueprints/blocks/blocks/InputText/block.html
   InputEmail:
     name: InputEmail
-    src: plugins/blueprints/blocks/blocks/InputEmail/block.html 
+    template: plugins/blueprints/blocks/blocks/InputEmail/block.html 
   InputPassword:
     name: InputPassword
-    src: plugins/blueprints/blocks/blocks/InputPassword/block.html 
+    template: plugins/blueprints/blocks/blocks/InputPassword/block.html 
   InputTextarea:
     name: InputTextarea
-    src: plugins/blueprints/blocks/blocks/InputTextarea/block.html 
+    template: plugins/blueprints/blocks/blocks/InputTextarea/block.html 
   InputHidden:
     name: InputHidden
-    src: plugins/blueprints/blocks/blocks/InputHidden/block.html 
+    template: plugins/blueprints/blocks/blocks/InputHidden/block.html 
   InputNumber:
     name: InputNumber
-    src: plugins/blueprints/blocks/blocks/InputNumber/block.html 
+    template: plugins/blueprints/blocks/blocks/InputNumber/block.html 
   InputDateTimePicker:
     name: InputDateTimePicker
-    src: plugins/blueprints/blocks/blocks/InputDateTimePicker/block.html 
+    template: plugins/blueprints/blocks/blocks/InputDateTimePicker/block.html 
   InputTags:
     name: InputTags
-    src: plugins/blueprints/blocks/blocks/InputTags/block.html     
+    template: plugins/blueprints/blocks/blocks/InputTags/block.html     
   InputSelect:
     name: InputSelect
-    src: plugins/blueprints/blocks/blocks/InputSelect/block.html 
+    template: plugins/blueprints/blocks/blocks/InputSelect/block.html 
   InputReset:
     name: InputReset
-    src: plugins/blueprints/blocks/blocks/InputReset/block.html 
+    template: plugins/blueprints/blocks/blocks/InputReset/block.html 
   InputButton:
     name: InputButton
-    src: plugins/blueprints/blocks/blocks/InputButton/block.html  
+    template: plugins/blueprints/blocks/blocks/InputButton/block.html  
   InputSubmit:
     name: InputSubmit
-    src: plugins/blueprints/blocks/blocks/InputSubmit/block.html    
+    template: plugins/blueprints/blocks/blocks/InputSubmit/block.html    
