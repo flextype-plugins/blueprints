@@ -1,5 +1,5 @@
 {% for block in blocks %}
     {% if properties.type == block.name %}
-        {% include block.src %}
+        {% include block.template %}
     {% endif %}
 {% endfor %}
