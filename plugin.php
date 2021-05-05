@@ -57,5 +57,12 @@ if ($locale !== 'en') {
     $blueprintsJS[] = 'project/plugins/blueprints/assets/dist/lang/flatpickr/l10n/' . $locale . '.js';          
 } 
 
-flextype('registry')->set('assets.admin.js.blueprints', $blueprintsJS);
-flextype('registry')->set('assets.admin.css.blueprints', $blueprintsCSS);
+if (flextype('registry')->get('plugins.trumbowyg.settings.assetsLoadOnAdmin')) {
+    flextype('registry')->set('assets.admin.js.blueprints', $blueprintsJS);
+    flextype('registry')->set('assets.admin.css.blueprints', $blueprintsCSS);
+}
+
+if (flextype('registry')->get('plugins.trumbowyg.settings.assetsLoadOnSite')) {
+    flextype('registry')->set('assets.site.js.blueprints', $blueprintsJS);
+    flextype('registry')->set('assets.site.css.blueprints', $blueprintsCSS);
+}
