@@ -4,6 +4,10 @@ enabled: true
 # Blueprint plugin priority
 priority: 40
 
+# Place to load
+assetsLoadOnAdmin: true
+assetsLoadOnSite: true
+
 # Blocks
 blocks:
   Anchor:
