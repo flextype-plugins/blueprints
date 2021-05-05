@@ -65,7 +65,6 @@ gulp.task('js', function () {
             'blocks/blocks/InputDateTimePicker/block.js',
             'blocks/blocks/InputSelect/block.js',
             'blocks/blocks/InputTags/block.js',
-            'blocks/blocks/InputEditor/block.js',
         ])
         .pipe(concat('blueprints.min.js'))
         .pipe(size({ showFiles: true }))

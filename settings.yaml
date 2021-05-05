@@ -2,7 +2,7 @@
 enabled: true
 
 # Blueprint plugin priority
-priority: 45
+priority: 40
 
 # Blocks
 blocks:
