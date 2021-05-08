@@ -49,7 +49,7 @@
 {% macro id(value) %}
 {% apply spaceless %}
     {% if value %}
-        id = "{{ value|raw }}"
+        id = "{{ flextype.blueprints.getBlockID(value)|raw }}"
     {% endif %}
 {% endapply %}
 {% endmacro %}
@@ -57,7 +57,7 @@
 {% macro name(value) %}
 {% apply spaceless %}
     {% if value %}
-        name = "{{ value|raw }}"
+        name = "{{ flextype.blueprints.getBlockName(value)|raw }}"
     {% endif %}
 {% endapply %}
 {% endmacro %}
@@ -126,9 +126,11 @@
 {% endapply %}
 {% endmacro %}
 
-{% macro value(value) %}
+{% macro value(block, values, value) %}
 {% apply spaceless %}
-    {% if value %}
+    {% if (arrays(values).has(block)) %}
+        value = "{{ arrays(values).get(block)|raw }}"
+    {% else %}
         value = "{{ value|raw }}"
     {% endif %}
 {% endapply %}
