@@ -413,87 +413,53 @@ class Blueprints
     }
 
     /**
-     * Get blueprint element value.
+     * Get blueprint block name.
      *
-     * @param string $element    Blueprint element.
-     * @param array  $values     Blueprint values.
-     * @param array  $properties Blueprint properties.
+     * @param string $name Block name.
      *
-     * @return mixed Returns blueprint element value.
+     * @return string Returns blueprint block name.
      *
      * @access public
      */
-    public function getElementValue(string $element, array $values, array $properties)
+    public function getBlockName(string $name) : string
     {
-        if (arrays($values)->has($element)) {
-            $blockValue = arrays($values)->get($element);
-        } elseif (arrays($properties)->has('properties.value')) {
-            $blockValue = arrays($properties)->get('properties.value');
-        } else {
-            $blockValue = '';
-        }
-
-        return $blockValue;
-    }
-
-    /**
-     * Get blueprint element name.
-     *
-     * @param string $element Element.
-     * @param string $default Default element name.
-     *
-     * @return string Returns blueprint element name.
-     *
-     * @access public
-     */
-    public function getElementName(string $element, string $default = null) : string
-    {
-        if ($default) {
-            return $default;
-        }
-        
-        $pos = strpos($element, '.');
+        $pos = strpos($name, '.');
 
         if ($pos === false) {
-            $fieldName = $element;
+            $blockName = $element;
         } else {
-            $fieldName = str_replace('.', '][', "$element") . ']';
+            $blockName = str_replace('.', '][', "$name") . ']';
         }
 
-        $pos = strpos($fieldName, ']');
+        $pos = strpos($blockName, ']');
 
         if ($pos !== false) {
-            $fieldName = substr_replace($fieldName, '', $pos, strlen(']'));
+            $blockName = substr_replace($blockName, '', $pos, strlen(']'));
         }
 
-        return $fieldName;
+        return $blockName;
     }
 
     /**
-     * Get blueprint element ID.
+     * Get blueprint block ID.
      *
-     * @param string $element Element.
-     * @param string $default Default element ID.
+     * @param string $id Block ID.
      *
-     * @return string Returns blueprint element ID.
+     * @return string Returns blueprint block ID.
      *
      * @access public
      */
-    public function getElementID(string $element, string $default = null) : string
+    public function getBlockID(string $id) : string
     {
-        if ($default) {
-            return $default;
-        }
-
-        $pos = strpos($element, '.');
+        $pos = strpos($id, '.');
 
         if ($pos === false) {
-            $fieldName = $element;
+            $blockID = $id;
         } else {
-            $fieldName = str_replace('.', '_', "$element");
+            $blockID = str_replace('.', '_', "$id");
         }
 
-        return $fieldName;
+        return $blockID;
     }
 
     /**
