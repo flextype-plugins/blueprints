@@ -426,7 +426,7 @@ class Blueprints
         $pos = strpos($name, '.');
 
         if ($pos === false) {
-            $blockName = $element;
+            $blockName = $name;
         } else {
             $blockName = str_replace('.', '][', "$name") . ']';
         }
