@@ -104,10 +104,14 @@
 {% endapply %}
 {% endmacro %}
 
-{% macro loading(value) %}
+{% macro loading(value, wrap = true) %}
 {% apply spaceless %}
     {% if value %}
-        loading = "{{ value|raw }}"
+        {% if wrap %}
+            loading="{{ value|raw }}"
+        {% else %}
+            {{ value|raw }}
+        {% endif %}
     {% endif %}
 {% endapply %}
 {% endmacro %}
