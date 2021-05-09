@@ -164,10 +164,14 @@
 {% endapply %}
 {% endmacro %}
 
-{% macro readonly(value) %}
+{% macro readonly(value, wrap = true) %}
 {% apply spaceless %}
     {% if value %}
-        readonly = "readonly"
+        {% if wrap %}
+            readonly="readonly"
+        {% else %}
+            readonly
+        {% endif %}
     {% endif %}
 {% endapply %}
 {% endmacro %}
