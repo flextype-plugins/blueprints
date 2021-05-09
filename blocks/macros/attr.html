@@ -279,10 +279,14 @@
 {% endapply %}
 {% endmacro %}
 
-{% macro action(value) %}
+{% macro action(value, wrap = true) %}
 {% apply spaceless %}
     {% if value %}
-        action = "{{ value|raw }}"
+        {% if wrap %}
+            action="{{ value|raw }}"
+        {% else %}
+           {{ value|raw }}
+        {% endif %}
     {% endif %}
 {% endapply %}
 {% endmacro %}
