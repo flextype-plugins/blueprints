@@ -1,0 +1,18 @@
+{% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
+<form
+    {{ include(template_from_string(attr.action(block.properties.action))) }}
+    {{ include(template_from_string(attr.method(block.properties.method))) }}
+    {{ include(template_from_string(attr.id(block.properties.id))) }}
+    {{ include(template_from_string(attr.name(block.properties.name))) }}
+    {{ include(template_from_string(attr.class(['js-needs-validation', block.properties.class]))) }}
+    {{ include(template_from_string(attr.events(block.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                                                            'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                                                            'onkeydown', 'onblur', 'onreset', 'onsubmit']))) }}
+    novalidate>
+    {{ csrf() }}
+    {% for block in block.blocks %}
+        {% if block.type in blocks|keys %}
+            {% include blocks[block.type]['template'] %}
+        {% endif %}
+    {% endfor %}
+</form>
