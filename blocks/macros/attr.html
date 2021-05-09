@@ -92,10 +92,14 @@
 {% endapply %}
 {% endmacro %}
 
-{% macro disabled(value) %}
+{% macro disabled(value, wrap = true) %}
 {% apply spaceless %}
     {% if value %}
-        disabled = "disabled"
+        {% if wrap %}
+            disabled="disabled"
+        {% else %}
+            disabled
+        {% endif %}
     {% endif %}
 {% endapply %}
 {% endmacro %}
