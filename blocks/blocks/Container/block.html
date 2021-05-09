@@ -1,0 +1,10 @@
+{% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
+<div {{ include(template_from_string(attr.class(['container', block.properties.class]))) }}
+    {{ include(template_from_string(attr.data(block.properties.data))) }}
+    {{ include(template_from_string(attr.style(block.properties.style))) }}>
+    {% for block in block.blocks %}
+        {% if block.type in blocks|keys %}
+            {% include blocks[block.type]['template'] %}
+        {% endif %}
+    {% endfor %}
+</div>
