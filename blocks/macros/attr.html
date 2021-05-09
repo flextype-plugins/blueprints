@@ -140,10 +140,14 @@
 {% endapply %}
 {% endmacro %}
 
-{% macro alt(value) %}
+{% macro alt(value, wrap = true) %}
 {% apply spaceless %}
     {% if value %}
-        alt = "{{ value|raw }}"
+        {% if wrap %}
+            alt="{{ value|raw }}"
+        {% else %}
+            {{ value|raw }}
+        {% endif %}
     {% endif %}
 {% endapply %}
 {% endmacro %}
