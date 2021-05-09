@@ -243,10 +243,14 @@
 {% endapply %}
 {% endmacro %}
 
-{% macro step(value) %}
+{% macro step(value, wrap = true) %}
 {% apply spaceless %}
     {% if value %}
-        step = "{{ value|raw }}"
+        {% if wrap %}
+            step="{{ value|raw }}"
+        {% else %}
+            {{ value|raw }}
+        {% endif %}
     {% endif %}
 {% endapply %}
 {% endmacro %}
