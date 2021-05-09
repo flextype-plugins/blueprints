@@ -152,10 +152,14 @@
 {% endapply %}
 {% endmacro %}
 
-{% macro src(value) %}
+{% macro src(value, wrap = true) %}
 {% apply spaceless %}
     {% if value %}
-        src = "{{ value|raw }}"
+        {% if wrap %}
+            src = "{{ value|raw }}"
+        {% else %}
+            {{ value|raw }}
+        {% endif %}
     {% endif %}
 {% endapply %}
 {% endmacro %}
