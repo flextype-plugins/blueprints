@@ -46,17 +46,19 @@
 {% endapply %}
 {% endmacro %}
 
-{% macro id(value) %}
+{% macro id(value, prefix = null) %}
 {% apply spaceless %}
     {% if value %}
+        {% if prefix %}{% set value = prefix ~ value %}{% endif %}
         id = "{{ flextype.blueprints.getBlockID(value)|raw }}"
     {% endif %}
 {% endapply %}
 {% endmacro %}
 
-{% macro name(value) %}
+{% macro name(value, prefix = null) %}
 {% apply spaceless %}
     {% if value %}
+        {% if prefix %}{% set value = prefix ~ value %}{% endif %}
         name = "{{ flextype.blueprints.getBlockName(value)|raw }}"
     {% endif %}
 {% endapply %}
