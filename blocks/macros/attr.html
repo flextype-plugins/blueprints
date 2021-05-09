@@ -219,10 +219,14 @@
 {% endapply %}
 {% endmacro %}
 
-{% macro min(value) %}
+{% macro min(value, wrap = true) %}
 {% apply spaceless %}
     {% if value %}
-        min = "{{ value|raw }}"
+        {% if wrap %}
+            min="{{ value|raw }}"
+        {% else %}
+            {{ value|raw }}
+        {% endif %}
     {% endif %}
 {% endapply %}
 {% endmacro %}
