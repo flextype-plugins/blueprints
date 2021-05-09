@@ -191,12 +191,17 @@
 {% macro value(block, values, value, wrap = true) %}
 {% apply spaceless %}
     {% if (arrays(values).has(block)) %}
-        {% set result = arrays(values).get(block)|raw %}
+        {% if wrap %}
+            value="{{ arrays(values).get(block)|raw }}"
+        {% else %}
+            {{ arrays(values).get(block)|raw }}
+        {% endif %}
     {% else %}
-        {% set result = value|raw %}
-    {% endif %}
-    {% if result %}
-        {% if wrap %}value = "{{ result }}"{% else %}{{ result }}{% endif %}
+        {% if wrap %}
+            value="{{ value|raw }}"
+        {% else %}
+            {{ value|raw }}
+        {% endif %}
     {% endif %}
 {% endapply %}
 {% endmacro %}
