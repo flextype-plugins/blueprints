@@ -128,12 +128,15 @@
 {% endapply %}
 {% endmacro %}
 
-{% macro value(block, values, value) %}
+{% macro value(block, values, value, wrap = true) %}
 {% apply spaceless %}
     {% if (arrays(values).has(block)) %}
-        value = "{{ arrays(values).get(block)|raw }}"
+        {% set result = arrays(values).get(block)|raw %}
     {% else %}
-        value = "{{ value|raw }}"
+        {% set result = value|raw %}
+    {% endif %}
+    {% if result %}
+        {% if wrap %}value = "{{ result }}"{% else %}{{ result }}{% endif %}
     {% endif %}
 {% endapply %}
 {% endmacro %}
