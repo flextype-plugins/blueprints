@@ -6,7 +6,7 @@
         {{ include(template_from_string(attr.id(blueprint['workspace']['areas'][area]['form']['id']))) }}
         {{ include(template_from_string(attr.name(blueprint['workspace']['areas'][area]['form']['name']))) }}
         {{ include(template_from_string(attr.class(['js-needs-validation', blueprint['workspace']['areas'][area]['form']['class']]))) }}
-        {{ include(template_from_string(attr.events(properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+        {{ include(template_from_string(attr.events(block.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
                                                                         'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
                                                                         'onkeydown', 'onblur', 'onreset', 'onsubmit']))) }}
         novalidate>
@@ -31,9 +31,9 @@
                     <div class="row {{ blueprint['workspace']['areas'][area]['form']['tabs'][key]['properties']['class'] }}"
                          {% if blueprint['workspace']['areas'][area]['form']['tabs'][key]['properties']['style'] %}style="{% for key, value in blueprint['workspace']['areas'][area]['form']['tabs'][key]['properties']['style'] %}{{ strings(key).kebab() }}: {{ value }}; {% endfor %}"{% endif %}>       
                         {% for element, properties in blueprint['workspace']['areas'][area]['form']['tabs'][key]['blocks']  %}
-                            {% set blockName = flextype.blueprints.getElementName(element, properties.name) %}
-                            {% set blockID = flextype.blueprints.getElementID(element, properties.id) %}
-                            {% set blockValue = flextype.blueprints.getElementValue(element, values, properties) %}
+                            {% set attr.name(block.properties.name) = flextype.blueprints.getElementName(element, properties.name) %}
+                            {% set block.properties.id = flextype.blueprints.getElementID(element, properties.id) %}
+                            {% set attr.value(block.properties.name, values, block.properties.value) = flextype.blueprints.getElementValue(element, values, properties) %}
                             {% include "plugins/blueprints/blocks/blocks/blocks.html" %}
                         {% endfor %}
                     </div>
@@ -48,7 +48,7 @@
         {{ include(template_from_string(attr.id(blueprint['workspace']['areas'][area]['form']['id']))) }}
         {{ include(template_from_string(attr.name(blueprint['workspace']['areas'][area]['form']['name']))) }}
         {{ include(template_from_string(attr.class(['js-needs-validation', blueprint['workspace']['areas'][area]['form']['class']]))) }}
-        {{ include(template_from_string(attr.events(properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+        {{ include(template_from_string(attr.events(block.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
                                                                         'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
                                                                         'onkeydown', 'onblur', 'onreset', 'onsubmit']))) }}
         novalidate>
@@ -56,9 +56,9 @@
         <div {{ include(template_from_string(attr.class(['row', blueprint['workspace']['areas'][area]['properties']['class']]))) }}
             {{ include(template_from_string(attr.style(blueprint['workspace']['areas'][area]['properties']['style']))) }}>
             {% for element, properties in blueprint['workspace']['areas'][area]['form']['blocks'] %}
-                {% set blockName = flextype.blueprints.getElementName(element, properties.name) %}
-                {% set blockID = flextype.blueprints.getElementID(element, properties.id) %}
-                {% set blockValue = flextype.blueprints.getElementValue(element, values, properties) %}
+                {% set attr.name(block.properties.name) = flextype.blueprints.getElementName(element, properties.name) %}
+                {% set block.properties.id = flextype.blueprints.getElementID(element, properties.id) %}
+                {% set attr.value(block.properties.name, values, block.properties.value) = flextype.blueprints.getElementValue(element, values, properties) %}
                 {% include "plugins/blueprints/blocks/blocks/blocks.html" %}
             {% endfor %}
         </div>
@@ -84,9 +84,9 @@
                 <div {{ include(template_from_string(attr.class(['row', blueprint['workspace']['areas'][area]['tabs'][key]['properties']['class']]))) }}
                     {{ include(template_from_string(attr.style(blueprint['workspace']['areas'][area]['tabs'][key]['properties']['style']))) }}>       
                     {% for element, properties in blueprint['workspace']['areas'][area]['tabs'][key]['blocks']  %}
-                        {% set blockName = flextype.blueprints.getElementName(element, element.name) %}
-                        {% set blockID = flextype.blueprints.getElementID(element, element.id) %}
-                        {% set blockValue = flextype.blueprints.getElementValue(element, values, properties) %}
+                        {% set attr.name(block.properties.name) = flextype.blueprints.getElementName(element, element.name) %}
+                        {% set block.properties.id = flextype.blueprints.getElementID(element, element.id) %}
+                        {% set attr.value(block.properties.name, values, block.properties.value) = flextype.blueprints.getElementValue(element, values, properties) %}
                         {% include "plugins/blueprints/blocks/blocks/blocks.html" %}
                     {% endfor %}
                 </div>
@@ -94,12 +94,12 @@
         {% endfor %}
     </div>
 {% else %}
-    <div {{ include(template_from_string(attr.class(['row', blueprint['workspace']['areas'][area]['properties']['class']]))) }}
+    <div area {{ include(template_from_string(attr.class(['', blueprint['workspace']['areas'][area]['properties']['class']]))) }}
         {{ include(template_from_string(attr.style(blueprint['workspace']['areas'][area]['properties']['style']))) }}>
         {% for element, properties in blueprint['workspace']['areas'][area]['blocks'] %}
-            {% set blockName = flextype.blueprints.getElementName(element, properties.name) %}
-            {% set blockID = flextype.blueprints.getElementID(element, properties.id) %}
-            {% set blockValue = flextype.blueprints.getElementValue(element, values, properties) %}
+            {% set attr.name(block.properties.name) = flextype.blueprints.getElementName(element, properties.name) %}
+            {% set block.properties.id = flextype.blueprints.getElementID(element, properties.id) %}
+            {% set attr.value(block.properties.name, values, block.properties.value) = flextype.blueprints.getElementValue(element, values, properties) %}
             {% include "plugins/blueprints/blocks/blocks/blocks.html" %}
         {% endfor %}
     </div>
