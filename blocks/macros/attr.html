@@ -116,10 +116,14 @@
 {% endapply %}
 {% endmacro %}
 
-{% macro width(value) %}
+{% macro width(value, wrap = true) %}
 {% apply spaceless %}
     {% if value %}
-        width = "{{ value|raw }}"
+        {% if wrap %}
+            width = "{{ value|raw }}"
+        {% else %}
+            {{ value|raw }}
+        {% endif %}
     {% endif %}
 {% endapply %}
 {% endmacro %}
