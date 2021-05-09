@@ -156,7 +156,7 @@
 {% apply spaceless %}
     {% if value %}
         {% if wrap %}
-            src = "{{ value|raw }}"
+            src="{{ value|raw }}"
         {% else %}
             {{ value|raw }}
         {% endif %}
