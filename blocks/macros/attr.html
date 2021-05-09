@@ -176,10 +176,14 @@
 {% endapply %}
 {% endmacro %}
 
-{% macro placeholder(value) %}
+{% macro placeholder(value, wrap = true) %}
 {% apply spaceless %}
     {% if value %}
-        placeholder = "{{ value|raw }}"
+        {% if wrap %}
+            placeholder="{{ value|raw }}"
+        {% else %}
+            {{ value|raw }}
+        {% endif %}
     {% endif %}
 {% endapply %}
 {% endmacro %}
