@@ -291,12 +291,20 @@
 {% endapply %}
 {% endmacro %}
 
-{% macro method(value) %}
+{% macro method(value, wrap = true) %}
 {% apply spaceless %}
     {% if value %}
-        method = "{{ value|raw }}"
+        {% if wrap %}
+            method="{{ value|raw }}"
+        {% else %}
+            {{ value|raw }}
+        {% endif %}
     {% else %}
-        method = "post"
+        {% if wrap %}
+            method="post"
+        {% else %}
+            post
+        {% endif %}
     {% endif %}
 {% endapply %}
 {% endmacro %}
