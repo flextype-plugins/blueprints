@@ -255,10 +255,14 @@
 {% endapply %}
 {% endmacro %}
 
-{% macro rows(value) %}
+{% macro rows(value, wrap = true) %}
 {% apply spaceless %}
     {% if value %}
-        rows = "{{ value|raw }}"
+        {% if wrap %}
+            rows="{{ value|raw }}"
+        {% else %}
+            {{ value|raw }}
+        {% endif %}
     {% endif %}
 {% endapply %}
 {% endmacro %}
