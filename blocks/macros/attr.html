@@ -231,10 +231,14 @@
 {% endapply %}
 {% endmacro %}
 
-{% macro max(value) %}
+{% macro max(value, wrap = true) %}
 {% apply spaceless %}
     {% if value %}
-        max = "{{ value|raw }}"
+        {% if wrap %}
+            max="{{ value|raw }}"
+        {% else %}
+            {{ value|raw }}
+        {% endif %}
     {% endif %}
 {% endapply %}
 {% endmacro %}
