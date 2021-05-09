@@ -25,9 +25,21 @@ blocks:
   Divider:
     name: Divider
     template: plugins/blueprints/blocks/blocks/Divider/block.html 
-  Group:
-    name: Group
-    template: plugins/blueprints/blocks/blocks/Group/block.html 
+  Container:
+    name: Container
+    template: plugins/blueprints/blocks/blocks/Container/block.html 
+  Row:
+    name: Row
+    template: plugins/blueprints/blocks/blocks/Row/block.html 
+  Column:
+    name: Column
+    template: plugins/blueprints/blocks/blocks/Column/block.html 
+  Tabs:
+    name: Tabs
+    template: plugins/blueprints/blocks/blocks/Tabs/block.html 
+  Form:
+    name: Form
+    template: plugins/blueprints/blocks/blocks/Form/block.html 
   Heading:
     name: Heading
     template: plugins/blueprints/blocks/blocks/Heading/block.html 
