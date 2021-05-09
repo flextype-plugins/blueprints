@@ -128,10 +128,14 @@
 {% endapply %}
 {% endmacro %}
 
-{% macro height(value) %}
+{% macro height(value, wrap = true) %}
 {% apply spaceless %}
     {% if value %}
-        height = "{{ value|raw }}"
+        {% if wrap %}
+            height="{{ value|raw }}"
+        {% else %}
+            {{ value|raw }}
+        {% endif %}
     {% endif %}
 {% endapply %}
 {% endmacro %}
