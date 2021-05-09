@@ -2,7 +2,7 @@
 {% apply spaceless %}
     {% if items|length > 0 %}
         {% if wrap %}
-            class = "{% for class in items %}{{ class ? class|raw }}{{ items|length > 1 and not loop.last ? ' ' : ''}}{% endfor %}"
+            class="{% for class in items %}{{ class ? class|raw }}{{ items|length > 1 and not loop.last ? ' ' : ''}}{% endfor %}"
         {% else %}
             {% for class in items %}{{ class ? class|raw }}{{ items|length > 1 and not loop.last ? ' ' : ''}}{% endfor %}
         {% endif %}
