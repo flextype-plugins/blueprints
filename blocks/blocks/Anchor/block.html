@@ -1,20 +1,11 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
-
-{% if properties.layout %}
-<div {{ include(template_from_string(attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]))) }}
-    {{ include(template_from_string(attr.data(properties.layout.data))) }}
-    {{ include(template_from_string(attr.style(properties.layout.style))) }}>
-{% endif %}
-    <a {{ include(template_from_string(attr.id(blockID)))  }}
-    {{ include(template_from_string(attr.data(properties.properties.data))) }}
-    {{ include(template_from_string(attr.class([properties.properties.class]))) }}
-    {{ include(template_from_string(attr.style(properties.properties.style))) }}
-    {{ include(template_from_string(attr.href(properties.properties.href))) }}
-    {{ include(template_from_string(attr.target(properties.properties.target))) }}
-    {{ include(template_from_string(attr.events(properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
-                                        'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                        'onkeydown', 'onblur']))) }}>{{ include(template_from_string(properties.properties.title)) }}</a>
-{% if properties.layout %}
-</div>
-{% endif %}
+<a {{ include(template_from_string(attr.id(block.properties.id)))  }}
+{{ include(template_from_string(attr.data(block.properties.data))) }}
+{{ include(template_from_string(attr.class([block.properties.class]))) }}
+{{ include(template_from_string(attr.style(block.properties.style))) }}
+{{ include(template_from_string(attr.href(block.properties.href))) }}
+{{ include(template_from_string(attr.target(block.properties.target))) }}
+{{ include(template_from_string(attr.events(block.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                    'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                    'onkeydown', 'onblur']))) }}>{{ include(template_from_string(block.properties.title)) }}</a>

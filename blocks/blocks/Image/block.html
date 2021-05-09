@@ -1,19 +1,11 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
-{% if properties.layout %}
-<div {{ include(template_from_string(attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]))) }}
-    {{ include(template_from_string(attr.data(properties.layout.data))) }}
-    {{ include(template_from_string(attr.style(properties.layout.style))) }}>
-{% endif %}
-    <img {{ include(template_from_string(attr.id((blockID))) }}
-        {{ include(template_from_string(attr.src((properties.properties.src))) }}
-        {{ include(template_from_string(attr.alt((properties.properties.alt))) }}
-        {{ include(template_from_string(attr.class(properties.properties.class))) }}
-        {{ include(template_from_string(attr.height(properties.properties.height))) }}
-        {{ include(template_from_string(attr.width(properties.properties.width))) }}
-        {{ include(template_from_string(attr.loading(properties.properties.loading))) }}
-        {{ include(template_from_string(attr.data(properties.properties.data))) }}
-        {{ include(template_from_string(attr.style(properties.properties.style))) }}>
-{% if properties.layout %}
-</div>
-{% endif %}
+<img {{ include(template_from_string(attr.id((block.properties.id))) }}
+    {{ include(template_from_string(attr.src((block.properties.src))) }}
+    {{ include(template_from_string(attr.alt((block.properties.alt))) }}
+    {{ include(template_from_string(attr.class(block.properties.class))) }}
+    {{ include(template_from_string(attr.height(block.properties.height))) }}
+    {{ include(template_from_string(attr.width(block.properties.width))) }}
+    {{ include(template_from_string(attr.loading(block.properties.loading))) }}
+    {{ include(template_from_string(attr.data(block.properties.data))) }}
+    {{ include(template_from_string(attr.style(block.properties.style))) }}>

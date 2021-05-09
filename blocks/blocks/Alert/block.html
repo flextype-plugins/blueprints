@@ -6,26 +6,18 @@
                      'info': 'info',
                      'warning': 'warning',
                      'danger': 'danger'} %}
-{% if properties.properties.type %}
-    {% set alertType = "alert-" ~  alertTypes[properties.properties.type] %}
+{% if block.properties.type %}
+    {% set alertType = "alert-" ~  alertTypes[block.properties.type] %}
 {% else %}
     {% set alertType = "alrert-primary" %}
 {% endif %}
-{% if properties.layout %}
-<div {{ include(template_from_string(attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]))) }}
-    {{ include(template_from_string(attr.data(properties.layout.data))) }}
-    {{ include(template_from_string(attr.style(properties.layout.style))) }}>
-{% endif %}
-    <div {{ include(template_from_string(attr.class(['alert', properties.properties.class, alertType]))) }}
-        {{ include(template_from_string(attr.data(properties.properties.data))) }}
-        {{ include(template_from_string(attr.style(properties.properties.style))) }}
-        role="alert">
-        {% if properties.properties.header.title %}
-            <h4 class="alert-heading">{{ include(template_from_string(properties.properties.header.title)) }}</h4>
-            <hr>
-        {% endif %}
-        {{ include(template_from_string(properties.properties.message)) }}
-    </div>
-{% if properties.layout %}
+<div {{ include(template_from_string(attr.class(['alert', block.properties.class, alertType]))) }}
+    {{ include(template_from_string(attr.data(block.properties.data))) }}
+    {{ include(template_from_string(attr.style(block.properties.style))) }}
+    role="alert">
+    {% if block.properties.header.title %}
+        <h4 class="alert-heading">{{ include(template_from_string(block.properties.header.title)) }}</h4>
+        <hr>
+    {% endif %}
+    {{ include(template_from_string(block.properties.message)) }}
 </div>
-{% endif %}

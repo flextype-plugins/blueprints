@@ -1,37 +1,29 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
-{% if properties.layout %}
-<div {{ include(template_from_string(attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]))) }}
-    {{ include(template_from_string(attr.data(properties.layout.data))) }}
-    {{ include(template_from_string(attr.style(properties.layout.style))) }}>
+{% if block.properties.label %}
+<label for="{{ block.properties.id }}" 
+        {{ include(template_from_string(attr.class(['form-label', block.properties.label.class]))) }}
+        {{ include(template_from_string(attr.style(block.properties.label.style))) }}>{{ include(template_from_string(block.properties.label.value)) }}</label>
 {% endif %}
-    {% if properties.properties.label %}
-    <label for="{{ blockID }}" 
-            {{ include(template_from_string(attr.class(['form-label', properties.properties.label.class]))) }}
-            {{ include(template_from_string(attr.style(properties.properties.label.style))) }}>{{ include(template_from_string(properties.properties.label.title)) }}</label>
-    {% endif %}
-    <input type="text"
-        {{ include(template_from_string(attr.id(blockID))) }}
-        {{ include(template_from_string(attr.name(blockName))) }}
-        {{ include(template_from_string(attr.value(blockValue))) }}
-        {{ include(template_from_string(attr.class(['form-control', properties.properties.class]))) }}
-        {{ include(template_from_string(attr.data(properties.properties.data))) }}
-        {{ include(template_from_string(attr.style(properties.properties.style))) }}
-        {{ include(template_from_string(attr.placeholder(properties.properties.placeholder))) }}
-        {{ include(template_from_string(attr.readonly(properties.properties.readonly))) }}
-        {{ include(template_from_string(attr.disabled(properties.properties.disabled))) }}
-        {{ include(template_from_string(attr.events(properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
-                                            'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                            'onkeydown', 'onblur']))) }}
-        {{ include(template_from_string(attr.validation(properties.validation))) }}>
-    {% if properties.validation.errorMessage %}
-        <div class="invalid-feedback">
-            {{ include(template_from_string(properties.validation.errorMessage)) }}
-        </div>
-    {% endif %}
-    {% if properties.properties.help %}
-        <small>{{ include(template_from_string(properties.properties.help)) }}</small>
-    {% endif %}
-{% if properties.layout %}
-</div>
+<input type="text"
+    {{ include(template_from_string(attr.id(block.properties.id))) }}
+    {{ include(template_from_string(attr.name(block.properties.name))) }}
+    {{ include(template_from_string(attr.value(block.properties.name, values, block.properties.value))) }}
+    {{ include(template_from_string(attr.class(['form-control', block.properties.class]))) }}
+    {{ include(template_from_string(attr.data(block.properties.data))) }}
+    {{ include(template_from_string(attr.style(block.properties.style))) }}
+    {{ include(template_from_string(attr.placeholder(block.properties.placeholder))) }}
+    {{ include(template_from_string(attr.readonly(block.properties.readonly))) }}
+    {{ include(template_from_string(attr.disabled(block.properties.disabled))) }}
+    {{ include(template_from_string(attr.events(block.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                        'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                        'onkeydown', 'onblur']))) }}
+    {{ include(template_from_string(attr.validation(block.properties.validation))) }}>
+{% if block.properties.validation.errorMessage %}
+    <div class="invalid-feedback">
+        {{ include(template_from_string(block.properties.validation.errorMessage)) }}
+    </div>
+{% endif %}
+{% if block.properties.help %}
+    <small>{{ include(template_from_string(block.properties.help)) }}</small>
 {% endif %}

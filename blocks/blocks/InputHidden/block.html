@@ -1,2 +1,2 @@
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
-<input type="hidden" {{ include(template_from_string(attr.id(blockID))) }} {{ include(template_from_string(attr.name(blockName))) }} {{ include(template_from_string(attr.value(blockValue))) }}>
+<input type="hidden" {{ include(template_from_string(attr.id(block.properties.id))) }} {{ include(template_from_string(attr.name(block.properties.name))) }} {{ include(template_from_string(attr.value(block.properties.name, values, block.properties.value))) }}>

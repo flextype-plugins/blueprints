@@ -1,10 +1,5 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
-{% if properties.layout %}
-<div {{ attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]) }}
-    {{ attr.data(properties.layout.data) }}
-    {{ attr.style(properties.layout.style) }}>
-{% endif %}
 {% set btnSizes = {'large': 'btn-lg', 'small': 'btn-sm'} %}
 {% set btnTypes = {'primary': 'primary',
                     'secondary': 'secondary',
@@ -13,23 +8,20 @@
                     'warning': 'warning',
                     'danger': 'danger',
                     'link': 'link'} %}   
-{% if properties.properties.type %}
-    {% if properties.properties.outline %}{% set outline = "outline-" %}{% endif %}
-    {% set btnType = "btn-" ~ outline ~ btnTypes[properties.properties.type] %}
+{% if block.properties.type %}
+    {% if block.properties.outline %}{% set outline = "outline-" %}{% endif %}
+    {% set btnType = "btn-" ~ outline ~ btnTypes[block.properties.type] %}
 {% else %}
-    {% if properties.properties.outline %}{% set outline = "outline-" %}{% endif %}
+    {% if block.properties.outline %}{% set outline = "outline-" %}{% endif %}
     {% set btnType = "btn-" ~ outline ~ "primary" %}
 {% endif %}
 <button 
     type="button"
-    {{ include(template_from_string(attr.id(blockID))) }}
-    {{ include(template_from_string(attr.class(['btn', btnType, btnSizes[properties.properties.size], properties.properties.class]))) }}
-    {{ include(template_from_string(attr.data(properties.properties.data))) }}
-    {{ include(template_from_string(attr.style(properties.properties.style))) }} 
-    {{ include(template_from_string(attr.disabled(properties.properties.disabled))) }}
-    {{ include(template_from_string(attr.events(properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+    {{ include(template_from_string(attr.id(block.properties.id))) }}
+    {{ include(template_from_string(attr.class(['btn', btnType, btnSizes[block.properties.size], block.properties.class]))) }}
+    {{ include(template_from_string(attr.data(block.properties.data))) }}
+    {{ include(template_from_string(attr.style(block.properties.style))) }} 
+    {{ include(template_from_string(attr.disabled(block.properties.disabled))) }}
+    {{ include(template_from_string(attr.events(block.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
                                         'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                        'onkeydown', 'onblur']))) }}>{{ include(template_from_string(properties.properties.title)) }}</button>
-{% if properties.layout %}
-</div>
-{% endif %}
+                                        'onkeydown', 'onblur']))) }}>{{ include(template_from_string(block.properties.title)) }}</button>

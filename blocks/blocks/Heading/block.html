@@ -17,16 +17,8 @@
     {{ headingSize[size] }}
 {% endapply %}
 {% endmacro %}
-{% if properties.layout %}
-<div {{ include(template_from_string(attr.class([properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)]))) }}
-    {{ include(template_from_string(attr.data(properties.layout.data))) }}
-    {{ include(template_from_string(attr.style(properties.layout.style))) }}>
-{% endif %}
-    <h{{ _self.headingSize(properties.properties.size) }}
-        {{ include(template_from_string(attr.id(blockID))) }}
-        {{ include(template_from_string(attr.data(properties.properties.data))) }}
-        {{ include(template_from_string(attr.style(properties.properties.style))) }}
-        {{ include(template_from_string(attr.class(properties.properties.class))) }}>{{ include(template_from_string(properties.properties.title)) }}</h{{ _self.headingSize(properties.properties.size ) }}>
-{% if properties.layout %}
-</div>
-{% endif %}
+<h{{ _self.headingSize(block.properties.size) }}
+    {{ include(template_from_string(attr.id(block.properties.id))) }}
+    {{ include(template_from_string(attr.data(block.properties.data))) }}
+    {{ include(template_from_string(attr.style(block.properties.style))) }}
+    {{ include(template_from_string(attr.class(block.properties.class))) }}>{{ include(template_from_string(block.properties.title)) }}</h{{ _self.headingSize(block.properties.size ) }}>

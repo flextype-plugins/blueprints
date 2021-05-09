@@ -1,19 +1,13 @@
 {% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
 {% if properties.layout %}
-{% if properties.properties.dashed %}
+{% if block.properties.dashed %}
     {% set dashed = "divider--dashed" %}
 {% else %}
     {% set dashed = null %}
 {% endif %}
-<div {{ include(template_from_string(attr.class(properties.layout.class, grid.col(properties.layout.size, properties.layout.grid)))) }}
-    {{ include(template_from_string(attr.data(properties.layout.data))) }}
-    {{ include(template_from_string(attr.style(properties.layout.style))) }}>
-{% endif %}
-    <div {{ include(template_from_string(attr.id(properties.properties.id))) }} 
-        {{ include(template_from_string(attr.data(properties.properties.data))) }}
-        {{ include(template_from_string(attr.style(properties.properties.style))) }} 
-        {{ include(template_from_string(attr.class('divider', properties.properties.class, dashed))) }}></div>
-{% if properties.layout %}
-</div>
-{% endif %}
+<div {{ include(template_from_string(attr.id(block.properties.id))) }} 
+    {{ include(template_from_string(attr.data(block.properties.data))) }}
+    {{ include(template_from_string(attr.style(block.properties.style))) }} 
+    {{ include(template_from_string(attr.class('divider', block.properties.class, dashed))) }}></div>
+
