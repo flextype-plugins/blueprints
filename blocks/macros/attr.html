@@ -42,9 +42,15 @@
 {% endapply %}
 {% endmacro %}
 
-{% macro target(value) %}
+{% macro target(value, wrap = true) %}
 {% apply spaceless %}
-    {% if value %}target="{{ value|raw }}"{% endif %}
+    {% if value %}
+        {% if wrap %}
+            target="{{ value|raw }}"
+        {% else %}
+            {{ value|raw }}
+        {% endif %}
+    {% endif %}
 {% endapply %}
 {% endmacro %}
 
