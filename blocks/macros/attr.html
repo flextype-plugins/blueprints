@@ -120,7 +120,7 @@
 {% apply spaceless %}
     {% if value %}
         {% if wrap %}
-            width = "{{ value|raw }}"
+            width="{{ value|raw }}"
         {% else %}
             {{ value|raw }}
         {% endif %}
