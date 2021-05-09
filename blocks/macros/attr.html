@@ -267,10 +267,14 @@
 {% endapply %}
 {% endmacro %}
 
-{% macro cols(value) %}
+{% macro cols(value, wrap = true) %}
 {% apply spaceless %}
     {% if value %}
-        cols = "{{ value|raw }}"
+        {% if wrap %}
+            cols="{{ value|raw }}"
+        {% else %}
+            {{ value|raw }}
+        {% endif %}
     {% endif %}
 {% endapply %}
 {% endmacro %}
