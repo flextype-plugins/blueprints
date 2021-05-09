@@ -66,20 +66,28 @@
 {% endapply %}
 {% endmacro %}
 
-{% macro id(value, prefix = null) %}
+{% macro id(value, prefix = null, wrap = true) %}
 {% apply spaceless %}
     {% if value %}
         {% if prefix %}{% set value = prefix ~ value %}{% endif %}
-        id = "{{ flextype.blueprints.getBlockID(value)|raw }}"
+        {% if wrap %}
+            id="{{ flextype.blueprints.getBlockID(value)|raw }}"
+        {% else %}
+            {{ flextype.blueprints.getBlockID(value)|raw }}
+        {% endif %}
     {% endif %}
 {% endapply %}
 {% endmacro %}
 
-{% macro name(value, prefix = null) %}
+{% macro name(value, prefix = null, wrap = true) %}
 {% apply spaceless %}
     {% if value %}
         {% if prefix %}{% set value = prefix ~ value %}{% endif %}
-        name = "{{ flextype.blueprints.getBlockName(value)|raw }}"
+        {% if wrap %}
+            name="{{ flextype.blueprints.getBlockName(value)|raw }}"
+        {% else %}
+            {{ flextype.blueprints.getBlockName(value)|raw }}
+        {% endif %}
     {% endif %}
 {% endapply %}
 {% endmacro %}
