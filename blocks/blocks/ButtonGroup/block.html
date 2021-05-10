@@ -1,48 +1,62 @@
-{% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
-{% if properties.layout %}
-{% set btnSizes = {'large': 'btn-lg', 'small': 'btn-sm'} %}
-{% set btnTypes = {'primary': 'primary',
-                    'secondary': 'secondary',
-                    'success': 'success',
-                    'info': 'info',
-                    'warning': 'warning',
-                    'danger': 'danger',
-                    'link': 'link'} %}   
-{% if block.properties.type %}
-    {% if block.properties.outline %}{% set outline = "outline-" %}{% endif %}
-    {% set btnType = "btn-" ~ outline ~ btnTypes[block.properties.type] %}
-{% else %}
-    {% if block.properties.outline %}{% set outline = "outline-" %}{% endif %}
-    {% set btnType = "btn-" ~ outline ~ "primary" %}
-{% endif %}
-<div class="btn-group">
-    <button type="button"
-            {{ include(template_from_string(attr.id(block.properties.id))) }}
-            {{ include(template_from_string(attr.data(block.properties.data))) }}
-            {{ include(template_from_string(attr.style(block.properties.style))) }}
-            {{ include(template_from_string(attr.class(['btn', btnType, btnSizes[block.properties.size], block.properties.class]))) }}
-            {{ include(template_from_string(attr.events(block.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
-                                                'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                                'onkeydown', 'onblur']))) }}>{{ include(template_from_string(block.properties.title)) }}</button>
-    <button type="button" 
-            {{ include(template_from_string(attr.class(['btn', 'dropdown-toggle', 'dropdown-toggle-split', btnType, btnSizes[block.properties.size], block.properties.toogle.class]))) }}
-            {{ include(template_from_string(attr.data(block.properties.toogle.data))) }}
-            {{ include(template_from_string(attr.style(block.properties.toogle.style))) }} 
-            data-bs-toggle="dropdown" 
-            aria-expanded="false">
-        <span class="visually-hidden">Toggle Dropdown</span>
-    </button>
-    <ul class="dropdown-menu">
-        {% for key, value in block.properties.items %}
-            <li><a {{ include(template_from_string(attr.class(['dropdown-item', 'd-flex', 'align-items-center', value.class]))) }}
-                    {{ include(template_from_string(attr.id(value.id))) }}
-                    {{ include(template_from_string(attr.href(value.href))) }}
-                    {{ include(template_from_string(attr.data(value.data))) }}
-                    {{ include(template_from_string(attr.style(value.style))) }} 
-                    {{ include(template_from_string(attr.events(value.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
-                                                  'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                                  'onkeydown', 'onblur']))) }}>{% if value.icon %}<span class="dropdown-item-icon pe-3 d-flex">{{ icon(value.icon.name, value.icon.set) }}</span> {% endif %}{{ include(template_from_string(value.title)) }}</a></li>
-        {% endfor %}
-    </ul>
+{% set btnGroupSizes = {'large': 'btn-group-lg', 'small': 'btn-group-sm'} %}
+{% set btnGroup = (isChildren == false and block.properties.vertical == true) ? 'btn-group-vertical' : 'btn-group' %}
+<div role="group" {{ include(template_from_string(attr.id(block.properties.id))) }}
+    {{ include(template_from_string(attr.data(block.properties.data))) }}
+    {{ include(template_from_string(attr.style(block.properties.style))) }}
+    {{ include(template_from_string(attr.class([btnGroup, btnGroupSizes[block.properties.size], block.properties.class]))) }}
+    {{ include(template_from_string(attr.events(block.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                        'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                        'onkeydown', 'onblur']))) }}
+                                        >
+    {% for button in block.properties.buttons %}
+        {% if button.type == 'ButtonGroup' %}
+            {% include blocks['ButtonGroup']['template'] with {'block': button, isChildren: true} %}
+        {% else %}
+            {% set btnTypes = {'primary': 'primary',
+                                'secondary': 'secondary',
+                                'success': 'success',
+                                'info': 'info',
+                                'warning': 'warning',
+                                'danger': 'danger',
+                                'link': 'link'} %}   
+            {% if button.properties.type %}
+                {% if button.properties.outline %}{% set outline = "outline-" %}{% endif %}
+                {% set btnType = "btn-" ~ outline ~ btnTypes[button.properties.type] %}
+            {% else %}
+                {% if button.properties.outline %}{% set outline = "outline-" %}{% endif %}
+                {% set btnType = "btn-" ~ outline ~ "primary" %}
+            {% endif %}
+            <button type="button"
+                    {{ include(template_from_string(attr.id(button.properties.id))) }}
+                    {{ include(template_from_string(attr.data(button.properties.data))) }}
+                    {{ include(template_from_string(attr.style(button.properties.style))) }}
+                    {{ include(template_from_string(attr.class(['btn', 'd-flex', 'align-items-center', btnType, button.properties.class]))) }}
+                    {{ include(template_from_string(attr.events(button.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                                        'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                                        'onkeydown', 'onblur']))) }}>{% if button.properties.icon %}<span class="dropdown-item-icon pe-3 d-flex">{{ icon(button.properties.icon.name, button.properties.icon.set) }}</span>{% endif %} {{ include(template_from_string(button.properties.title)) }}</button>
+                {% if button.properties.items and isChildren == true %}
+                    <button type="button" 
+                            {{ include(template_from_string(attr.class(['btn', 'dropdown-toggle', 'dropdown-toggle-split', btnType, button.properties.toogle.class]))) }}
+                            {{ include(template_from_string(attr.data(button.properties.toogle.data))) }}
+                            {{ include(template_from_string(attr.style(button.properties.toogle.style))) }} 
+                            data-bs-toggle="dropdown" 
+                            aria-expanded="false">
+                        <span class="visually-hidden">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        {% for key, value in button.properties.items %}
+                            <li><a {{ include(template_from_string(attr.class(['dropdown-item', 'd-flex', 'align-items-center', value.class]))) }}
+                                    {{ include(template_from_string(attr.id(value.id))) }}
+                                    {{ include(template_from_string(attr.href(value.href))) }}
+                                    {{ include(template_from_string(attr.data(value.data))) }}
+                                    {{ include(template_from_string(attr.style(value.style))) }} 
+                                    {{ include(template_from_string(attr.events(value.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                                                'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                                                'onkeydown', 'onblur']))) }}>{% if value.icon %}<span class="dropdown-item-icon pe-3 d-flex">{{ icon(value.icon.name, value.icon.set) }}</span> {% endif %}{{ include(template_from_string(value.title)) }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+        {% endif %}
+    {% endfor %}
 </div>
