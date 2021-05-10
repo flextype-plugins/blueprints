@@ -1,5 +1,25 @@
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
-<div {{ include(template_from_string(attr.class(['container', block.properties.class]))) }}
+{% macro container(breakpoint) %}
+{% apply spaceless %}
+    {% set containerGridOptions =
+        {
+            'extra small':       'xs',
+            'small':             'sm',
+            'medium':            'md',
+            'large':             'lg',
+            'extra large':       'xl',
+            'extra extra large': 'xxl',
+            'fluid':             'fluid'
+         }
+    %}
+    {% if breakpoint not in containerGridOptions|keys %}
+        container
+    {% else %}
+        container-{{ containerGridOptions[breakpoint] }}
+    {% endif %} 
+{% endapply %}
+{% endmacro %}
+<div {{ include(template_from_string(attr.class([block.properties.class, _self.container(block.properties.breakpoint)]))) }}
     {{ include(template_from_string(attr.data(block.properties.data))) }}
     {{ include(template_from_string(attr.style(block.properties.style))) }}>
     {% for block in block.blocks %}
