@@ -1,25 +1,25 @@
-{% macro col(size, option) %}
+{% macro col(size, breakpoint) %}
 {% apply spaceless %}
     {% set colSize =
         {
-            '1/12':  'col-{option}-1',
-            '2/12':  'col-{option}-2',
-            '3/12':  'col-{option}-3',
-            '4/12':  'col-{option}-4',
-            '5/12':  'col-{option}-5',
-            '6/12':  'col-{option}-6',
-            '7/12':  'col-{option}-7',
-            '8/12':  'col-{option}-8',
-            '9/12':  'col-{option}-9',
-            '10/12': 'col-{option}-10',
-            '11/12': 'col-{option}-12',
-            '12/12': 'col-{option}-12',
-            '12':    'col-{option}-12',
-            'full':  'col-{option}-12',
+            '1/12':  'col-{breakpoint}-1',
+            '2/12':  'col-{breakpoint}-2',
+            '3/12':  'col-{breakpoint}-3',
+            '4/12':  'col-{breakpoint}-4',
+            '5/12':  'col-{breakpoint}-5',
+            '6/12':  'col-{breakpoint}-6',
+            '7/12':  'col-{breakpoint}-7',
+            '8/12':  'col-{breakpoint}-8',
+            '9/12':  'col-{breakpoint}-9',
+            '10/12': 'col-{breakpoint}-10',
+            '11/12': 'col-{breakpoint}-12',
+            '12/12': 'col-{breakpoint}-12',
+            '12':    'col-{breakpoint}-12',
+            'full':  'col-{breakpoint}-12',
          }
     %}
 
-    {% set colSizeOptions =
+    {% set colBreakpointOptions =
         {
             'extra small':       'xs',
             'small':             'sm',
@@ -31,8 +31,8 @@
     %}
 
     {% if size not in colSize|keys %}{% set size = 12 %}{% endif %}
-    {% if option not in colSizeOptions|keys %}{% set option = 'medium' %}{% endif %}
+    {% if breakpoint not in colBreakpointOptions|keys %}{% set breakpoint = 'medium' %}{% endif %}
 
-    {{ colSize[size]|replace({'{option}': colSizeOptions[option] }) }}
+    {{ colSize[size]|replace({'{breakpoint}': colBreakpointOptions[breakpoint] }) }}
 {% endapply %}
 {% endmacro %}
