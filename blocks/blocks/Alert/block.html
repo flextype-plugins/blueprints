@@ -1,4 +1,3 @@
-{% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
 {% set alertTypes = {'primary': 'primary',
                      'secondary': 'secondary',
@@ -16,7 +15,10 @@
     {{ include(template_from_string(attr.style(block.properties.style))) }}
     role="alert">
     {% if block.properties.header.title %}
-        <h4 class="alert-heading">{{ include(template_from_string(block.properties.header.title)) }}</h4>
+        <h4 class="alert-heading"
+        {{ include(template_from_string(attr.class(['alert-heading', block.properties.header.class]))) }}
+        {{ include(template_from_string(attr.data(block.properties.header.data))) }}
+        {{ include(template_from_string(attr.style(block.properties.header.style))) }}>{{ include(template_from_string(block.properties.header.title)) }}</h4>
         <hr>
     {% endif %}
     {{ include(template_from_string(block.properties.message)) }}
