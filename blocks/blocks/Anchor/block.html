@@ -1,4 +1,3 @@
-{% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
 <a {{ include(template_from_string(attr.id(block.properties.id)))  }}
 {{ include(template_from_string(attr.data(block.properties.data))) }}
@@ -7,5 +6,5 @@
 {{ include(template_from_string(attr.href(block.properties.href))) }}
 {{ include(template_from_string(attr.target(block.properties.target))) }}
 {{ include(template_from_string(attr.events(block.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
-                                    'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                    'onkeydown', 'onblur']))) }}>{{ include(template_from_string(block.properties.title)) }}</a>
+                                                                        'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                                                        'onkeydown', 'onblur']))) }}>{{ include(template_from_string(block.properties.title)) }}</a>
