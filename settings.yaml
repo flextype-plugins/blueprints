@@ -11,80 +11,54 @@ assetsLoadOnSite: true
 # Blocks
 blocks:
   Anchor:
-    name: Anchor
     template: plugins/blueprints/blocks/blocks/Anchor/block.html
   Alert:
-    name: Alert
     template: plugins/blueprints/blocks/blocks/Alert/block.html 
   Button:
-    name: Button
     template: plugins/blueprints/blocks/blocks/Button/block.html 
   ButtonGroup:
-    name: ButtonGroup
     template: plugins/blueprints/blocks/blocks/ButtonGroup/block.html 
   Divider:
-    name: Divider
     template: plugins/blueprints/blocks/blocks/Divider/block.html 
   Container:
-    name: Container
     template: plugins/blueprints/blocks/blocks/Container/block.html 
   Row:
-    name: Row
     template: plugins/blueprints/blocks/blocks/Row/block.html 
   Column:
-    name: Column
     template: plugins/blueprints/blocks/blocks/Column/block.html 
   Tabs:
-    name: Tabs
     template: plugins/blueprints/blocks/blocks/Tabs/block.html 
   Form:
-    name: Form
     template: plugins/blueprints/blocks/blocks/Form/block.html 
   Heading:
-    name: Heading
     template: plugins/blueprints/blocks/blocks/Heading/block.html 
   Html:
-    name: Html
     template: plugins/blueprints/blocks/blocks/Html/block.html 
   Markdown:
-    name: Markdown
     template: plugins/blueprints/blocks/blocks/Markdown/block.html 
   Image:
-    name: Image
     template: plugins/blueprints/blocks/blocks/Image/block.html 
   InputText:
-    name: InputText
     template: plugins/blueprints/blocks/blocks/InputText/block.html
   InputEmail:
-    name: InputEmail
     template: plugins/blueprints/blocks/blocks/InputEmail/block.html 
   InputPassword:
-    name: InputPassword
     template: plugins/blueprints/blocks/blocks/InputPassword/block.html 
   InputTextarea:
-    name: InputTextarea
     template: plugins/blueprints/blocks/blocks/InputTextarea/block.html 
   InputHidden:
-    name: InputHidden
     template: plugins/blueprints/blocks/blocks/InputHidden/block.html 
   InputNumber:
-    name: InputNumber
     template: plugins/blueprints/blocks/blocks/InputNumber/block.html 
   InputDateTimePicker:
-    name: InputDateTimePicker
     template: plugins/blueprints/blocks/blocks/InputDateTimePicker/block.html 
   InputTags:
-    name: InputTags
     template: plugins/blueprints/blocks/blocks/InputTags/block.html     
   InputSelect:
-    name: InputSelect
     template: plugins/blueprints/blocks/blocks/InputSelect/block.html 
   InputReset:
-    name: InputReset
     template: plugins/blueprints/blocks/blocks/InputReset/block.html 
   InputButton:
-    name: InputButton
     template: plugins/blueprints/blocks/blocks/InputButton/block.html  
   InputSubmit:
-    name: InputSubmit
     template: plugins/blueprints/blocks/blocks/InputSubmit/block.html    
