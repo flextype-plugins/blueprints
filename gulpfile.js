@@ -14,12 +14,6 @@ sass.compiler      = require('node-sass');
 gulp.task("css", function () {
     return gulp
         .src([
-            // Select2
-            'node_modules/select2/dist/css/select2.min.css',
-
-            // Flatpickr
-            'node_modules/flatpickr/dist/flatpickr.min.css',
-
             // Blueprints
             'assets/src/scss/blueprints.scss'
         ])
@@ -49,22 +43,11 @@ gulp.task('js', function () {
             // jQuery
             'node_modules/jquery/dist/jquery.min.js',
 
-            // Select2
-            'node_modules/select2/dist/js/select2.min.js',
-
-            // Flatpickr
-            'node_modules/flatpickr/dist/flatpickr.min.js',
-
             // Bootstrap
             'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
 
             // Form Validation
-            'assets/src/js/validation.js',
-
-            // Flextype UI JS
-            'blocks/blocks/InputDateTimePicker/block.js',
-            'blocks/blocks/InputSelect/block.js',
-            'blocks/blocks/InputTags/block.js',
+            'assets/src/js/validation.js'
         ])
         .pipe(concat('blueprints.min.js'))
         .pipe(size({ showFiles: true }))
@@ -76,21 +59,10 @@ gulp.task('js', function () {
 });
 
 /**
- * Task: gulp flatpickr-langs
- */
-gulp.task('flatpickr-langs', function () {
-    return gulp
-        .src(['node_modules/flatpickr/dist/*l10n/**/*.js'])
-        .pipe(size({ showFiles: true }))
-        .pipe(gulp.dest('assets/dist/lang/flatpickr'));
-});
-
-/**
  * Task: gulp default
  */
 gulp.task('default',
     gulp.series(
-        'flatpickr-langs',
         'css',
         'js'
     )
