@@ -1,4 +1,4 @@
-{% for block in blueprint.workspace.blocks %}
+{% for block in blueprint.blocks %}
     {% if block.type in blocks|keys %}
         {% include blocks[block.type]['template'] %}
     {% endif %}
