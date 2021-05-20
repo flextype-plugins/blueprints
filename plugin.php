@@ -47,22 +47,12 @@ FlextypeTwig::macro('blueprints', fn() => flextype('blueprints'));
 $blueprintsJS[]  = 'project/plugins/blueprints/assets/dist/js/blueprints.min.js';
 $blueprintsCSS[] = 'project/plugins/blueprints/assets/dist/css/blueprints.min.css';
 
-if (flextype('registry')->get('flextype.settings.locale') == 'en_US') {
-    $locale = 'en';
-} else {
-    $locale = strings(flextype('registry')->get('flextype.settings.locale'))->lower()->substr(0, 2)->toString();
-}
-
-if ($locale !== 'en') {
-    $blueprintsJS[] = 'project/plugins/blueprints/assets/dist/lang/flatpickr/l10n/' . $locale . '.js';          
-} 
-
-if (flextype('registry')->get('plugins.trumbowyg.settings.assetsLoadOnAdmin')) {
+if (flextype('registry')->get('plugins.blueprints.settings.assetsLoadOnAdmin')) {
     flextype('registry')->set('assets.admin.js.blueprints', $blueprintsJS);
     flextype('registry')->set('assets.admin.css.blueprints', $blueprintsCSS);
 }
 
-if (flextype('registry')->get('plugins.trumbowyg.settings.assetsLoadOnSite')) {
+if (flextype('registry')->get('plugins.blueprints.settings.assetsLoadOnSite')) {
     flextype('registry')->set('assets.site.js.blueprints', $blueprintsJS);
     flextype('registry')->set('assets.site.css.blueprints', $blueprintsCSS);
 }
