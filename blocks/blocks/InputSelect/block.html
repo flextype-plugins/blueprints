@@ -1,27 +1,28 @@
-{% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}   
 {% if block.properties.label %}
     <label for="{{ block.properties.id }}" 
         {{ include(template_from_string(attr.class(['form-label', block.properties.label.class]))) }}
         {{ include(template_from_string(attr.style(block.properties.label.style))) }}>{{ include(template_from_string(block.properties.label.title)) }}</label>
 {% endif %} 
-
 <select {{ include(template_from_string(attr.id(block.properties.id))) }}
         {{ include(template_from_string(attr.name(block.properties.name))) }}
-        {{ include(template_from_string(attr.class(['form-control', 'js-select', block.properties.class]))) }}
+        {{ include(template_from_string(attr.class(['form-control', block.properties.class]))) }}
         {{ include(template_from_string(attr.data(block.properties.data))) }}
-        {{ include(template_from_string(attr.style(block.properties.style))) }} 
+        {{ include(template_from_string(attr.style(block.properties.style))) }}
+        {{ include(template_from_string(attr.disabled(block.properties.disabled))) }} 
         {{ include(template_from_string(attr.events(block.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
                                             'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
                                             'onkeydown', 'onblur']))) }}>
 
-    {% if block.properties.options is iterable %}
-        {% set options = block.properties.options %}
-    {% else %}
-        {% set options = flextype.serializers.json.decode(raw(include(template_from_string(block.properties.options)))) %}
+    {% if block.properties.items %}
+        {% if block.properties.items is iterable %}
+            {% set items = block.properties.items %}
+        {% else %}
+            {% set items = flextype.serializers.json.decode(raw(include(template_from_string(block.properties.items)))) %}
+        {% endif %}
     {% endif %}
 
-    {% for key, value in options %}
+    {% for key, value in items %}
         <option value="{{ key }}" {% if key == attr.value(block.properties.name, values, block.properties.value) %} selected="selected" {% endif %}>{{ include(template_from_string(value)) }}</option>
     {% endfor %}
 </select>
