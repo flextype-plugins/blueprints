@@ -1,4 +1,3 @@
-{% import "plugins/blueprints/blocks/macros/grid.html" as grid %}
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
 {% if block.properties.label %}
     <label for="{{ block.properties.id }}" 
@@ -19,11 +18,13 @@
                                         'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
                                         'onkeydown', 'onblur']))) }}
     {{ include(template_from_string(attr.validation(block.properties.validation))) }}>
+
 {% if block.properties.validation.errorMessage %}
     <div class="invalid-feedback">
         {{ include(template_from_string(block.properties.validation.errorMessage)) }}
     </div>
 {% endif %}
+
 {% if block.properties.help %}
     <small>{{ include(template_from_string(block.properties.help)) }}</small>
 {% endif %}
