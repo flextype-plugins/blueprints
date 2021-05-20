@@ -50,8 +50,6 @@ blocks:
     template: plugins/blueprints/blocks/blocks/InputHidden/block.html 
   InputNumber:
     template: plugins/blueprints/blocks/blocks/InputNumber/block.html 
-  InputDateTimePicker:
-    template: plugins/blueprints/blocks/blocks/InputDateTimePicker/block.html 
   InputTags:
     template: plugins/blueprints/blocks/blocks/InputTags/block.html     
   InputSelect:
