@@ -6,7 +6,7 @@ priority: 40
 
 # Place to load
 assetsLoadOnAdmin: true
-assetsLoadOnSite: true
+assetsLoadOnSite: false
 
 # Blocks
 blocks:
