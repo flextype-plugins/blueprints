@@ -1,5 +1,6 @@
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
-<div {{ include(template_from_string(attr.class([block.properties.class]))) }} 
+<div {{ include(template_from_string(attr.id(block.properties.id))) }}
+    {{ include(template_from_string(attr.class([block.properties.class]))) }} 
     {{ include(template_from_string(attr.data(block.properties.data))) }}
     {{ include(template_from_string(attr.style(block.properties.style))) }}>
     <ul class="nav nav-tabs" role="tablist">
