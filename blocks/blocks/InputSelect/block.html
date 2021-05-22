@@ -23,7 +23,8 @@
     {% endif %}
 
     {% for key, value in items %}
-        <option value="{{ key }}" {% if key == attr.value(block.properties.name, values, block.properties.value) %} selected="selected" {% endif %}>{{ include(template_from_string(value)) }}</option>
+    <option value="{{ key }}" 
+            {{ attr.selected(key, properties.name, values, properties.value) }}>{{ include(template_from_string(value)) }}</option>
     {% endfor %}
 </select>
 {% if block.properties.help %}
