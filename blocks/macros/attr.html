@@ -206,6 +206,20 @@
 {% endapply %}
 {% endmacro %}
 
+{% macro selected(key, block, values, value) %}
+{% apply spaceless %}
+    {% if (arrays(values).has(block)) %}
+        {% set value = arrays(values).get(block)|raw %}
+    {% else %}
+        {% set value = value|raw %}
+    {% endif %}
+
+    {% if key == value %}
+        selected="selected"
+    {% endif %}
+{% endapply %}
+{% endmacro %}
+
 {% macro validation(validation) %}
 {% apply spaceless %}
     {% if validation %}
