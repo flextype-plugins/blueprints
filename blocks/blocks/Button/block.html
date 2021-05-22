@@ -23,4 +23,4 @@
     {{ include(template_from_string(attr.disabled(block.properties.disabled))) }}
     {{ include(template_from_string(attr.events(block.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
                                         'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                        'onkeydown', 'onblur']))) }}>{{ include(template_from_string(block.properties.title)) }}</button>
+                                        'onkeydown', 'onblur']))) }}>{{ include(template_from_string(block.properties.value)) }}</button>

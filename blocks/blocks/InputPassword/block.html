@@ -2,7 +2,7 @@
 {% if block.properties.label %}
     <label for="{{ block.properties.id }}" 
         {{ include(template_from_string(attr.class(['form-label', block.properties.label.class]))) }}
-        {{ include(template_from_string(attr.style(block.properties.label.style))) }}>{{ include(template_from_string(block.properties.label.title)) }}</label>
+        {{ include(template_from_string(attr.style(block.properties.label.style))) }}>{{ include(template_from_string(block.properties.label.value)) }}</label>
 {% endif %} 
 <input type="password"
     {{ include(template_from_string(attr.id(block.properties.id))) }}

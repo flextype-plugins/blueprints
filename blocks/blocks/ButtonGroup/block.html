@@ -34,7 +34,7 @@
                     {{ include(template_from_string(attr.class(['btn', 'd-flex', 'align-items-center', btnType, button.properties.class]))) }}
                     {{ include(template_from_string(attr.events(button.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
                                                         'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                                        'onkeydown', 'onblur']))) }}>{% if button.properties.icon %}<span class="dropdown-item-icon pe-3 d-flex">{{ icon(button.properties.icon.name, button.properties.icon.set) }}</span>{% endif %} {{ include(template_from_string(button.properties.title)) }}</button>
+                                                        'onkeydown', 'onblur']))) }}>{% if button.properties.icon %}<span class="dropdown-item-icon pe-3 d-flex">{{ icon(button.properties.icon.name, button.properties.icon.set) }}</span>{% endif %} {{ include(template_from_string(button.properties.value)) }}</button>
                 {% if button.properties.items and isChildren == true %}
                     <button type="button" 
                             {{ include(template_from_string(attr.class(['btn', 'dropdown-toggle', 'dropdown-toggle-split', btnType, button.properties.toogle.class]))) }}
