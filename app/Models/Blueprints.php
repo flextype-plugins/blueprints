@@ -463,6 +463,20 @@ class Blueprints
     }
 
     /**
+     * Get instance of The Form class.
+     *
+     * @param array $data Form data.
+     *
+     * @return Returns instance of The Form class.
+     *
+     * @access public
+     */   
+    public function form(array $data): Form
+    {
+        return new Form($data);
+    }
+
+    /**
      * Get blueprint file location
      *
      * @param string $id Unique identifier of the blueprint(blueprints).
