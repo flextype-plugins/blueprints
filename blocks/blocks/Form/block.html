@@ -10,6 +10,12 @@
                                                                             'onkeydown', 'onblur', 'onreset', 'onsubmit']))) }}
     novalidate>
     {{ csrf() }}
+    {% if block.process.fields %}
+        <input 
+            type="hidden"
+            {{ include(template_from_string(attr.name(block.properties.name, '__process_form_'))) }}
+            value="{{ flextype.serializers.json.encode(block.process) }}">
+    {% endif %}
     {% for block in block.blocks %}
         {% if block.type in blocks|keys %}
             {% include blocks[block.type]['template'] %}
