@@ -1,5 +1,4 @@
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
-{% if properties.layout %}
 {% if block.properties.dashed %}
     {% set dashed = "divider--dashed" %}
 {% else %}
@@ -8,5 +7,5 @@
 <div {{ include(template_from_string(attr.id(block.properties.id))) }} 
     {{ include(template_from_string(attr.data(block.properties.data))) }}
     {{ include(template_from_string(attr.style(block.properties.style))) }} 
-    {{ include(template_from_string(attr.class('divider', block.properties.class, dashed))) }}></div>
+    {{ include(template_from_string(attr.class(['divider', block.properties.class, dashed]))) }}></div>
 
