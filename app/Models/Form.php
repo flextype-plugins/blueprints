@@ -18,12 +18,20 @@ class Form
     use Macroable;
 
     /**
-     * Processed form data.
+     * Form process statements.
      *
      * @var array
      * @access private
      */
-    private $form = [];
+    private $process = [];
+
+    /**
+     * Form raw data.
+     *
+     * @var array
+     * @access private
+     */
+    private $data = [];
 
     /**
      * Create a new Form object.
@@ -36,9 +44,10 @@ class Form
     {
         foreach($data as $processForm => $processStatements) {
             if (strings($processForm)->contains('__process_form')) { 
-                $this->form = json_decode($processStatements, true);    
+                $this->process = json_decode($processStatements, true);    
+                $this->data    = $data; 
             }
-        }
+        } 
     }
 
     /**
@@ -54,15 +63,15 @@ class Form
     {
         $redirect = '';
 
-        if (isset($this->form['redirect'])) {
-            if (isset($this->form['redirect']['route'])) {
-                $redirect .= flextype('router')->pathFor($this->getRedirectArgs($this->form['redirect']['route'])['redirect']);
-                $args = $this->getRedirectArgs($this->form['redirect']['route'])['args'];
+        if (isset($this->process['redirect'])) {
+            if (isset($this->process['redirect']['route'])) {
+                $redirect .= flextype('router')->pathFor($this->getRedirectArgs($this->process['redirect']['route'])['redirect']);
+                $args = $this->getRedirectArgs($this->process['redirect']['route'])['args'];
             }
 
-            if (isset($this->form['redirect']['url'])) {
-                $redirect .= $this->getRedirectArgs($this->form['redirect']['url'])['redirect'];
-                $args = $this->getRedirectArgs($this->form['redirect']['url'])['args'];
+            if (isset($this->process['redirect']['url'])) {
+                $redirect .= $this->getRedirectArgs($this->process['redirect']['url'])['redirect'];
+                $args = $this->getRedirectArgs($this->process['redirect']['url'])['args'];
             }
             
             if (count($args) > 0) {
@@ -91,9 +100,53 @@ class Form
     {
         $data = [];
 
-        if (isset($this->form['fields'])) {
-            foreach($this->form['fields'] as $key => $value) {
-                $data[$value] = arrays($data)->get($value);
+        if (isset($this->process['fields'])) {
+            foreach($this->process['fields'] as $field) {
+                if (is_array($field)) {
+                    foreach($field as $name => $property) {
+                        if (isset($property['type'])) {
+                            switch ($property['type']) {
+                                case 'bool':
+                                    if (isset($property['value'])) {
+                                        $data[$name] = strings(flextype('twig')->fetchFromString($property['value'], $property['data'] ? $property['data'] : []))->toBoolean();
+                                    } else {
+                                        $data[$name] = strings(arrays($this->data)->get($name))->toBoolean();
+                                    }
+                                    break;
+                                case 'float':
+                                    if (isset($property['value'])) {
+                                        $data[$name] = strings(flextype('twig')->fetchFromString($property['value'], $property['data'] ? $property['data'] : []))->toFloat();
+                                    } else {
+                                        $data[$name] = strings(arrays($this->data)->get($name))->toFloat();
+                                    }
+                                    break;
+                                case 'int':
+                                    if (isset($property['value'])) {
+                                        $data[$name] = strings(flextype('twig')->fetchFromString($property['value'], $property['data'] ? $property['data'] : []))->toInteger();
+                                    } else {
+                                        $data[$name] = strings(arrays($this->data)->get($name))->toInteger();
+                                    }
+                                    break;
+                                default:
+                                case 'string':
+                                    if (isset($property['value'])) {
+                                        $data[$name] = strings(flextype('twig')->fetchFromString($property['value'], $property['data'] ? $property['data'] : []))->toString();
+                                    } else {
+                                        $data[$name] = strings(arrays($this->data)->get($name))->toString();
+                                    }
+                                    break;
+                            }
+                        } else {
+                            if (isset($property['value'])) {
+                                $data[$name] = flextype('twig')->fetchFromString($property['value'], $property['data'] ? $property['data'] : []);
+                            } else {
+                                $data[$name] = arrays($this->data)->get($name);
+                            }
+                        }
+                    }
+                } else {
+                    $data[$field] = arrays($this->data)->get($field);
+                }
             }
         }
 
@@ -103,16 +156,16 @@ class Form
     /**
      * Get form message statament.
      * 
-     * @param string $type   Message type.
-     * @param array  $values Values to replace in the translated text.
+     * @param string $type Message type.
+     * @param array  $data Associative array of template variables.
      * 
      * @return string Message statament.
      *
      * @access public
      */
-    public function getMessage(string $type, array $values = []): string 
+    public function getMessage(string $type, array $data = []): string 
     {
-        return isset($this->form['messages'][$type]) ? __($this->form['messages'][$type], $values) : '';
+        return isset($this->process['messages'][$type]) ? flextype('twig')->fetchFromString($this->process['messages'][$type], $data) : '';
     }
 
     /**
