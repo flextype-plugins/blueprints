@@ -108,21 +108,21 @@ class Form
                             switch ($property['type']) {
                                 case 'bool':
                                     if (isset($property['value'])) {
-                                        $data[$name] = strings(flextype('twig')->fetchFromString($property['value'], $property['data'] ? $property['data'] : []))->toBoolean();
+                                        $data[$name] = strings(flextype('twig')->fetchFromString($property['value'], isset($property['data']) ? $property['data'] : []))->toBoolean();
                                     } else {
                                         $data[$name] = strings(arrays($this->data)->get($name))->toBoolean();
                                     }
                                     break;
                                 case 'float':
                                     if (isset($property['value'])) {
-                                        $data[$name] = strings(flextype('twig')->fetchFromString($property['value'], $property['data'] ? $property['data'] : []))->toFloat();
+                                        $data[$name] = strings(flextype('twig')->fetchFromString($property['value'], isset($property['data']) ? $property['data'] : []))->toFloat();
                                     } else {
                                         $data[$name] = strings(arrays($this->data)->get($name))->toFloat();
                                     }
                                     break;
                                 case 'int':
                                     if (isset($property['value'])) {
-                                        $data[$name] = strings(flextype('twig')->fetchFromString($property['value'], $property['data'] ? $property['data'] : []))->toInteger();
+                                        $data[$name] = strings(flextype('twig')->fetchFromString($property['value'], isset($property['data']) ? $property['data'] : []))->toInteger();
                                     } else {
                                         $data[$name] = strings(arrays($this->data)->get($name))->toInteger();
                                     }
@@ -130,7 +130,7 @@ class Form
                                 default:
                                 case 'string':
                                     if (isset($property['value'])) {
-                                        $data[$name] = strings(flextype('twig')->fetchFromString($property['value'], $property['data'] ? $property['data'] : []))->toString();
+                                        $data[$name] = strings(flextype('twig')->fetchFromString($property['value'], isset($property['data']) ? $property['data'] : []))->toString();
                                     } else {
                                         $data[$name] = strings(arrays($this->data)->get($name))->toString();
                                     }
@@ -138,7 +138,7 @@ class Form
                             }
                         } else {
                             if (isset($property['value'])) {
-                                $data[$name] = flextype('twig')->fetchFromString($property['value'], $property['data'] ? $property['data'] : []);
+                                $data[$name] = flextype('twig')->fetchFromString($property['value'], isset($property['data']) ? $property['data'] : []);
                             } else {
                                 $data[$name] = arrays($this->data)->get($name);
                             }
