@@ -90,9 +90,9 @@ class Form
     }
 
     /**
-     * Get form fields statament.
+     * Get form fields statement.
      * 
-     * @return string Fields statament.
+     * @return string Fields statement.
      *
      * @access public
      */
@@ -166,6 +166,45 @@ class Form
     public function getMessages(string $type, array $data = []): string 
     {
         return isset($this->process['messages'][$type]) ? flextype('twig')->fetchFromString($this->process['messages'][$type], $data) : '';
+    }
+
+    /**
+     * Get form actions statement.
+     * 
+     * @return void
+     *
+     * @access public
+     */
+    public function getActions()
+    {
+        if (isset($this->process['actions'])) {
+            foreach($this->process['actions'] as $action) {
+                if (flextype('actions')->has($action['name'])) {
+                    if (isset($action['properties']) && is_array($action['properties'])) {
+                        $properties = array_values($action['properties']);
+                        foreach ($properties as $key => $property) {
+                            switch ($property) {
+                                case '__self.fields':
+                                    $properties[$key] = $this->getFields();
+                                    break;
+                                case '__self.messages':
+                                    $properties[$key] = $this->getMessages();
+                                    break;
+                                case '__self.redirect':
+                                    $properties[$key] = $this->getFields();
+                                    break;
+                                default:
+                                    $properties[$key] = flextype('twig')->fetchFromString($property);
+                                    break;
+                            }
+                        }
+                        flextype('actions')->get($action['name'])(...$properties);
+                    } else {
+                        flextype('actions')->get($action['name'])();
+                    }
+                }
+            }
+        }
     }
 
     /**
