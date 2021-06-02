@@ -102,50 +102,44 @@ class Form
 
         if (isset($this->process['fields'])) {
             foreach($this->process['fields'] as $field) {
-                if (is_array($field)) {
-                    foreach($field as $name => $property) {
-                        if (isset($property['type'])) {
-                            switch ($property['type']) {
-                                case 'bool':
-                                    if (isset($property['value'])) {
-                                        $data[$name] = strings(flextype('twig')->fetchFromString(strings($property['value'])->replace('_value', "'". arrays($this->data)->get($name) . "'"), isset($property['data']) ? $property['data'] : []))->toBoolean();
-                                    } else {
-                                        $data[$name] = strings(arrays($this->data)->get($name))->toBoolean();
-                                    }
-                                    break;
-                                case 'float':
-                                    if (isset($property['value'])) {
-                                        $data[$name] = strings(flextype('twig')->fetchFromString(strings($property['value'])->replace('_value', "'". arrays($this->data)->get($name) . "'"), isset($property['data']) ? $property['data'] : []))->toFloat();
-                                    } else {
-                                        $data[$name] = strings(arrays($this->data)->get($name))->toFloat();
-                                    }
-                                    break;
-                                case 'int':
-                                    if (isset($property['value'])) {
-                                        $data[$name] = strings(flextype('twig')->fetchFromString(strings($property['value'])->replace('_value', "'". arrays($this->data)->get($name) . "'"), isset($property['data']) ? $property['data'] : []))->toInteger();
-                                    } else {
-                                        $data[$name] = strings(arrays($this->data)->get($name))->toInteger();
-                                    }
-                                    break;
-                                default:
-                                case 'string':
-                                    if (isset($property['value'])) {
-                                        $data[$name] = strings(flextype('twig')->fetchFromString(strings($property['value'])->replace('_value', "'". arrays($this->data)->get($name) . "'"), isset($property['data']) ? $property['data'] : []))->toString();
-                                    } else {
-                                        $data[$name] = strings(arrays($this->data)->get($name))->toString();
-                                    }
-                                    break;
-                            }
-                        } else {
-                            if (isset($property['value'])) {
-                                $data[$name] = flextype('twig')->fetchFromString(strings($property['value'])->replace('_value', "'". arrays($this->data)->get($name) . "'"), isset($property['data']) ? $property['data'] : []);
+                if (isset($field['type'])) {
+                    switch ($field['type']) {
+                        case 'bool':
+                            if (isset($field['value'])) {
+                                $data[$field['name']] = strings(flextype('twig')->fetchFromString(strings($field['value'])->replace('__self.value', "'". arrays($this->data)->get($field['name']) . "'"), isset($field['data']) ? $field['data'] : []))->toBoolean();
                             } else {
-                                $data[$name] = arrays($this->data)->get($name);
+                                $data[$field['name']] = strings(arrays($this->data)->get($field['name']))->toBoolean();
                             }
-                        }
+                            break;
+                        case 'float':
+                            if (isset($field['value'])) {
+                                $data[$field['name']] = strings(flextype('twig')->fetchFromString(strings($field['value'])->replace('__self.value', "'". arrays($this->data)->get($field['name']) . "'"), isset($field['data']) ? $field['data'] : []))->toFloat();
+                            } else {
+                                $data[$field['name']] = strings(arrays($this->data)->get($field['name']))->toFloat();
+                            }
+                            break;
+                        case 'int':
+                            if (isset($field['value'])) {
+                                $data[$field['name']] = strings(flextype('twig')->fetchFromString(strings($field['value'])->replace('__self.value', "'". arrays($this->data)->get($field['name']) . "'"), isset($field['data']) ? $field['data'] : []))->toInteger();
+                            } else {
+                                $data[$field['name']] = strings(arrays($this->data)->get($field['name']))->toInteger();
+                            }
+                            break;
+                        default:
+                        case 'string':
+                            if (isset($field['value'])) {
+                                $data[$field['name']] = strings(flextype('twig')->fetchFromString(strings($field['value'])->replace('__self.value', "'". arrays($this->data)->get($field['name']) . "'"), isset($field['data']) ? $field['data'] : []))->toString();
+                            } else {
+                                $data[$field['name']] = strings(arrays($this->data)->get($field['name']))->toString();
+                            }
+                            break;
                     }
                 } else {
-                    $data[$field] = arrays($this->data)->get($field);
+                    if (isset($field['value'])) {
+                        $data[$field['name']] = flextype('twig')->fetchFromString(strings($field['value'])->replace('__self.value', "'". arrays($this->data)->get($field['name']) . "'"), isset($field['data']) ? $field['data'] : []);
+                    } else {
+                        $data[$field['name']] = arrays($this->data)->get($field['name']);
+                    }
                 }
             }
         }
@@ -182,8 +176,8 @@ class Form
                 if (flextype('actions')->has($action['name'])) {
                     if (isset($action['properties']) && is_array($action['properties'])) {
                         $properties = array_values($action['properties']);
-                        foreach ($properties as $key => $property) {
-                            switch ($property) {
+                        foreach ($properties as $key => $field) {
+                            switch ($field) {
                                 case '__self.fields':
                                     $properties[$key] = $this->getFields();
                                     break;
@@ -194,7 +188,7 @@ class Form
                                     $properties[$key] = $this->getFields();
                                     break;
                                 default:
-                                    $properties[$key] = flextype('twig')->fetchFromString($property);
+                                    $properties[$key] = flextype('twig')->fetchFromString($field);
                                     break;
                             }
                         }
