@@ -106,21 +106,21 @@ class Form
                     switch ($field['type']) {
                         case 'bool':
                             if (isset($field['value'])) {
-                                $data[$field['name']] = strings(flextype('twig')->fetchFromString(strings($field['value'])->replace('__self.value', "'". arrays($this->data)->get($field['name']) . "'"), isset($field['data']) ? $field['data'] : []))->toBoolean();
+                                $data[$field['name']] = strings(flextype('twig')->fetchFromString(strings($field['value'])->replace('_self.value', "'". arrays($this->data)->get($field['name']) . "'"), isset($field['data']) ? $field['data'] : []))->toBoolean();
                             } else {
                                 $data[$field['name']] = strings(arrays($this->data)->get($field['name']))->toBoolean();
                             }
                             break;
                         case 'float':
                             if (isset($field['value'])) {
-                                $data[$field['name']] = strings(flextype('twig')->fetchFromString(strings($field['value'])->replace('__self.value', "'". arrays($this->data)->get($field['name']) . "'"), isset($field['data']) ? $field['data'] : []))->toFloat();
+                                $data[$field['name']] = strings(flextype('twig')->fetchFromString(strings($field['value'])->replace('_self.value', "'". arrays($this->data)->get($field['name']) . "'"), isset($field['data']) ? $field['data'] : []))->toFloat();
                             } else {
                                 $data[$field['name']] = strings(arrays($this->data)->get($field['name']))->toFloat();
                             }
                             break;
                         case 'int':
                             if (isset($field['value'])) {
-                                $data[$field['name']] = strings(flextype('twig')->fetchFromString(strings($field['value'])->replace('__self.value', "'". arrays($this->data)->get($field['name']) . "'"), isset($field['data']) ? $field['data'] : []))->toInteger();
+                                $data[$field['name']] = strings(flextype('twig')->fetchFromString(strings($field['value'])->replace('_self.value', "'". arrays($this->data)->get($field['name']) . "'"), isset($field['data']) ? $field['data'] : []))->toInteger();
                             } else {
                                 $data[$field['name']] = strings(arrays($this->data)->get($field['name']))->toInteger();
                             }
@@ -128,7 +128,7 @@ class Form
                         default:
                         case 'string':
                             if (isset($field['value'])) {
-                                $data[$field['name']] = strings(flextype('twig')->fetchFromString(strings($field['value'])->replace('__self.value', "'". arrays($this->data)->get($field['name']) . "'"), isset($field['data']) ? $field['data'] : []))->toString();
+                                $data[$field['name']] = strings(flextype('twig')->fetchFromString(strings($field['value'])->replace('_self.value', "'". arrays($this->data)->get($field['name']) . "'"), isset($field['data']) ? $field['data'] : []))->toString();
                             } else {
                                 $data[$field['name']] = strings(arrays($this->data)->get($field['name']))->toString();
                             }
@@ -136,7 +136,7 @@ class Form
                     }
                 } else {
                     if (isset($field['value'])) {
-                        $data[$field['name']] = flextype('twig')->fetchFromString(strings($field['value'])->replace('__self.value', "'". arrays($this->data)->get($field['name']) . "'"), isset($field['data']) ? $field['data'] : []);
+                        $data[$field['name']] = flextype('twig')->fetchFromString(strings($field['value'])->replace('_self.value', "'". arrays($this->data)->get($field['name']) . "'"), isset($field['data']) ? $field['data'] : []);
                     } else {
                         $data[$field['name']] = arrays($this->data)->get($field['name']);
                     }
@@ -178,13 +178,13 @@ class Form
                         $properties = array_values($action['properties']);
                         foreach ($properties as $key => $field) {
                             switch ($field) {
-                                case '__self.fields':
+                                case '_self.fields':
                                     $properties[$key] = $this->getFields();
                                     break;
-                                case '__self.messages':
+                                case '_self.messages':
                                     $properties[$key] = $this->getMessages();
                                     break;
-                                case '__self.redirect':
+                                case '_self.redirect':
                                     $properties[$key] = $this->getFields();
                                     break;
                                 default:
