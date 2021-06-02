@@ -65,20 +65,20 @@ class Form
 
         if (isset($this->process['redirect'])) {
             if (isset($this->process['redirect']['route'])) {
-                $redirect .= flextype('router')->pathFor($this->getRedirectArgs($this->process['redirect']['route'])['redirect']);
-                $args = $this->getRedirectArgs($this->process['redirect']['route'])['args'];
+                $redirect .= flextype('router')->pathFor($this->process['redirect']['route']);
+                $args = isset($this->process['redirect']['args']) ? $this->process['redirect']['args'] : [];
             }
 
             if (isset($this->process['redirect']['url'])) {
-                $redirect .= $this->getRedirectArgs($this->process['redirect']['url'])['redirect'];
-                $args = $this->getRedirectArgs($this->process['redirect']['url'])['args'];
+                $redirect .= $this->process['redirect']['url'];
+                $args = isset($this->process['redirect']['args']) ? $this->process['redirect']['args'] : [];
             }
             
             if (count($args) > 0) {
                 foreach($args as $key => $value) {
                     $key === array_key_first($args) and $redirect .= '?';
 
-                    $redirect .=  $value . '=' . (empty($values) ? $value : strtr($value, $values));
+                    $redirect .=  $key . '=' . flextype('twig')->fetchFromString((empty($values) ? $value : strtr($value, $values)));
 
                     $key != array_key_last($args) and $redirect .= '&'; 
                 }
@@ -205,27 +205,5 @@ class Form
                 }
             }
         }
-    }
-
-    /**
-     * Get form redirect args.
-     * 
-     * @param string $type   Message type.
-     * @param array  $values Values to replace in the translated text.
-     * 
-     * @return string Message statament.
-     *
-     * @access public
-     */
-    private function getRedirectArgs(string $string): array
-    {
-        $result = [];
-
-        if (strings($string)->contains('args:')) {
-            $result['redirect'] = strings($string)->before('args:')->trim()->toString();
-            $result['args']     = strings($string)->after('args:')->trim()->toArray(',');
-        }
-        
-        return $result;
     }
 }
