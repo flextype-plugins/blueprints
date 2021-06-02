@@ -154,7 +154,7 @@ class Form
     }
 
     /**
-     * Get form message statament.
+     * Get form messages statament.
      * 
      * @param string $type Message type.
      * @param array  $data Associative array of template variables.
@@ -163,7 +163,7 @@ class Form
      *
      * @access public
      */
-    public function getMessage(string $type, array $data = []): string 
+    public function getMessages(string $type, array $data = []): string 
     {
         return isset($this->process['messages'][$type]) ? flextype('twig')->fetchFromString($this->process['messages'][$type], $data) : '';
     }
