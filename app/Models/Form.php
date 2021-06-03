@@ -26,6 +26,14 @@ class Form
     private $process = [];
 
     /**
+     * Template variables.
+     *
+     * @var array
+     * @access private
+     */
+    private $vars = [];
+
+    /**
      * Form raw data.
      *
      * @var array
@@ -44,10 +52,15 @@ class Form
     {
         foreach($data as $processForm => $processStatements) {
             if (strings($processForm)->contains('__process_form')) { 
-                $this->process = json_decode($processStatements, true);    
-                $this->data    = $data; 
+                $this->process = json_decode($processStatements, true); 
+            }
+
+            if (strings($processForm)->contains('__process_vars')) { 
+                $this->vars = json_decode($processStatements, true); 
             }
         } 
+
+        $this->data = $data; 
     }
 
     /**
@@ -78,7 +91,7 @@ class Form
                 foreach($args as $key => $value) {
                     $key === array_key_first($args) and $redirect .= '?';
 
-                    $redirect .=  $key . '=' . flextype('twig')->fetchFromString((empty($values) ? $value : strtr($value, $values)));
+                    $redirect .=  $key . '=' . flextype('twig')->fetchFromString((empty($values) ? $value : strtr($value, $values)), $this->vars);
 
                     $key != array_key_last($args) and $redirect .= '&'; 
                 }
@@ -106,21 +119,21 @@ class Form
                     switch ($field['type']) {
                         case 'bool':
                             if (isset($field['value'])) {
-                                $data[$field['name']] = strings(flextype('twig')->fetchFromString(strings($field['value'])->replace('_self.value', "'". arrays($this->data)->get($field['name']) . "'"), isset($field['data']) ? $field['data'] : []))->toBoolean();
+                                $data[$field['name']] = strings(flextype('twig')->fetchFromString(strings($field['value'])->replace('_self_value', "'". arrays($this->data)->get($field['name']) . "'"), isset($field['data']) ? $field['data'] : $this->vars))->toBoolean();
                             } else {
                                 $data[$field['name']] = strings(arrays($this->data)->get($field['name']))->toBoolean();
                             }
                             break;
                         case 'float':
                             if (isset($field['value'])) {
-                                $data[$field['name']] = strings(flextype('twig')->fetchFromString(strings($field['value'])->replace('_self.value', "'". arrays($this->data)->get($field['name']) . "'"), isset($field['data']) ? $field['data'] : []))->toFloat();
+                                $data[$field['name']] = strings(flextype('twig')->fetchFromString(strings($field['value'])->replace('_self_value', "'". arrays($this->data)->get($field['name']) . "'"), isset($field['data']) ? $field['data'] : $this->vars))->toFloat();
                             } else {
                                 $data[$field['name']] = strings(arrays($this->data)->get($field['name']))->toFloat();
                             }
                             break;
                         case 'int':
                             if (isset($field['value'])) {
-                                $data[$field['name']] = strings(flextype('twig')->fetchFromString(strings($field['value'])->replace('_self.value', "'". arrays($this->data)->get($field['name']) . "'"), isset($field['data']) ? $field['data'] : []))->toInteger();
+                                $data[$field['name']] = strings(flextype('twig')->fetchFromString(strings($field['value'])->replace('_self_value', "'". arrays($this->data)->get($field['name']) . "'"), isset($field['data']) ? $field['data'] : $this->vars))->toInteger();
                             } else {
                                 $data[$field['name']] = strings(arrays($this->data)->get($field['name']))->toInteger();
                             }
@@ -128,7 +141,7 @@ class Form
                         default:
                         case 'string':
                             if (isset($field['value'])) {
-                                $data[$field['name']] = strings(flextype('twig')->fetchFromString(strings($field['value'])->replace('_self.value', "'". arrays($this->data)->get($field['name']) . "'"), isset($field['data']) ? $field['data'] : []))->toString();
+                                $data[$field['name']] = strings(flextype('twig')->fetchFromString(strings($field['value'])->replace('_self_value', "'" . arrays($this->data)->get($field['name']) . "'"), isset($field['data']) ? $field['data'] : $this->vars))->toString();
                             } else {
                                 $data[$field['name']] = strings(arrays($this->data)->get($field['name']))->toString();
                             }
@@ -136,7 +149,7 @@ class Form
                     }
                 } else {
                     if (isset($field['value'])) {
-                        $data[$field['name']] = flextype('twig')->fetchFromString(strings($field['value'])->replace('_self.value', "'". arrays($this->data)->get($field['name']) . "'"), isset($field['data']) ? $field['data'] : []);
+                        $data[$field['name']] = flextype('twig')->fetchFromString(strings($field['value'])->replace('_self_value', "'". arrays($this->data)->get($field['name']) . "'"), isset($field['data']) ? $field['data'] : $this->vars);
                     } else {
                         $data[$field['name']] = arrays($this->data)->get($field['name']);
                     }
@@ -159,7 +172,7 @@ class Form
      */
     public function getMessages(string $type, array $data = []): string 
     {
-        return isset($this->process['messages'][$type]) ? flextype('twig')->fetchFromString($this->process['messages'][$type], $data) : '';
+        return isset($this->process['messages'][$type]) ? flextype('twig')->fetchFromString($this->process['messages'][$type], (count($data) > 0 ? $data : $this->vars)) : '';
     }
 
     /**
@@ -178,17 +191,17 @@ class Form
                         $properties = array_values($action['properties']);
                         foreach ($properties as $key => $field) {
                             switch ($field) {
-                                case '_self.fields':
+                                case '_self_fields':
                                     $properties[$key] = $this->getFields();
                                     break;
-                                case '_self.messages':
+                                case '_self_messages':
                                     $properties[$key] = $this->getMessages();
                                     break;
-                                case '_self.redirect':
+                                case '_self_redirect':
                                     $properties[$key] = $this->getFields();
                                     break;
                                 default:
-                                    $properties[$key] = flextype('twig')->fetchFromString($field);
+                                    $properties[$key] = flextype('twig')->fetchFromString($field, $this->vars);
                                     break;
                             }
                         }
