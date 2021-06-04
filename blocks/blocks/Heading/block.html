@@ -18,4 +18,4 @@
     {{ include(template_from_string(attr.id(block.properties.id))) }}
     {{ include(template_from_string(attr.data(block.properties.data))) }}
     {{ include(template_from_string(attr.style(block.properties.style))) }}
-    {{ include(template_from_string(attr.class(block.properties.class))) }}>{{ include(template_from_string(block.properties.value)) }}</h{{ _self.headingSize(block.properties.size ) }}>
+    {{ include(template_from_string(attr.class([block.properties.class]))) }}>{{ include(template_from_string(block.properties.value)) }}</h{{ _self.headingSize(block.properties.size ) }}>
