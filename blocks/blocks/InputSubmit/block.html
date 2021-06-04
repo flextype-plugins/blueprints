@@ -17,6 +17,7 @@
 <input
     type="{% block type %}submit{% endblock %}"
     {{ include(template_from_string(attr.id(block.properties.id))) }}
+    {{ include(template_from_string(attr.name(block.properties.name))) }}
     value="{{ include(template_from_string(block.properties.value)) }}"
     {{ include(template_from_string(attr.class(['btn', btnType, btnSizes[block.properties.size], block.properties.class]))) }}
     {{ include(template_from_string(attr.data(block.properties.data))) }}
