@@ -1,7 +1,7 @@
 {
   "name": "Blueprints",
   "version": "1.0.0",
-  "description": "Blueprints plugin to build custom UI for Flextype.",
+  "description": "Blueprints plugin to build truly customizable user interface and basic logic for data management, like handling user forms.",
   "homepage": "https://flextype.org",
   "author": "Sergey Romanenko",
   "license": "MIT",
