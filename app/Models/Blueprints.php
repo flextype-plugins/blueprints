@@ -555,14 +555,12 @@ class Blueprints
             foreach ($blueprint['emitter']['addListener'] as $key => $event) {
                 flextype('emitter')->addListener($event['name'], function() use ($event) { 
                     if (isset($event['properties']['value'])) {
-                        
                         strings(flextype('twig')
                                 ->fetchFromString($event['properties']['value'], 
-                                                array_map(function ($value) {
-                                                    return strings(flextype('twig')->fetchFromString($value, []))->trim();
-                                                }, isset($event['properties']['data']) ? $event['properties']['data'] : [])))
-                                ->trim()
-                                ->echo();
+                                                arrays($event['properties']['data'] ?? [])
+                                                    ->map(function ($value) {
+                                                        return strings(flextype('twig')->fetchFromString($value, []))->trim();
+                                                    })->toArray()))->trim()->echo();
                     }
                 });
             }
