@@ -375,12 +375,16 @@ class Blueprints
      */
     public function render(string $id, array $values = [], array $vars = []): void
     {
+        $blueprint = flextype('blueprints')->fetch($id)->toArray();
+
+        $this->processEmitter($blueprint);
+
         echo flextype('twig')
                 ->getEnvironment()
                 ->render(
                     'plugins/blueprints/blocks/base.html',
                     array_merge([
-                        'blueprint' => $this->fetch($id)->toArray(),
+                        'blueprint' => $blueprint,
                         'values'    => $values,
                         'query'     => $_GET,
                         'blocks'    => flextype('registry')->get('plugins.blueprints.settings.blocks'),
@@ -400,6 +404,8 @@ class Blueprints
      */
     public function renderFromArray(array $blueprint, array $values = [], array $vars = []): void
     {
+        $this->processEmitter($blueprint);
+
         echo flextype('twig')
                 ->getEnvironment()
                 ->render(
@@ -526,5 +532,40 @@ class Blueprints
         }
 
         return strings('blueprint' . $blueprintFile)->hash()->toString();
+    }
+
+    /**
+     * Process emitter for blueprint
+     *
+     * @param array $blueprint Blueprint array.
+     * 
+     * @return void
+     *
+     * @access private
+     */
+    private function processEmitter($blueprint): void
+    {
+        if (isset($blueprint['emitter']['emit'])) {
+            foreach ($blueprint['emitter']['emit'] as $key => $event) {
+                flextype('emitter')->emit($event['name']);
+            }
+        }
+
+        if (isset($blueprint['emitter']['addListener'])) {
+            foreach ($blueprint['emitter']['addListener'] as $key => $event) {
+                flextype('emitter')->addListener($event['name'], function() use ($event) { 
+                    if (isset($event['properties']['value'])) {
+                        
+                        strings(flextype('twig')
+                                ->fetchFromString($event['properties']['value'], 
+                                                array_map(function ($value) {
+                                                    return strings(flextype('twig')->fetchFromString($value, []))->trim();
+                                                }, isset($event['properties']['data']) ? $event['properties']['data'] : [])))
+                                ->trim()
+                                ->echo();
+                    }
+                });
+            }
+        }
     }
 }
