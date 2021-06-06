@@ -179,7 +179,7 @@ class Form
      */
     public function getProcessMessages(string $type, array $data = []): string 
     {
-        return $this->storage['properties']['process']->has('messages' . $type) ? flextype('twig')->fetchFromString($this->storage['properties']['process']->get('messages' . $type), (count($data) > 0 ? $data : $this->storage['vars']->toArray())) : '';
+        return $this->storage['properties']['process']->has('messages.' . $type) ? strings(flextype('twig')->fetchFromString($this->storage['properties']['process']->get('messages.' . $type), (count($data) > 0 ? $data : $this->storage['vars']->toArray())))->trim()->toString() : '';
     }
 
     /**
