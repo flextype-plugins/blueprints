@@ -18,8 +18,8 @@
         <h4 class="alert-heading"
         {{ include(template_from_string(attr.class(['alert-heading', block.properties.header.class]))) }}
         {{ include(template_from_string(attr.data(block.properties.header.data))) }}
-        {{ include(template_from_string(attr.style(block.properties.header.style))) }}>{{ include(template_from_string(block.properties.header.title)) }}</h4>
+        {{ include(template_from_string(attr.style(block.properties.header.style))) }}>{{ include(template_from_string(block.properties.header.value)) }}</h4>
         <hr>
     {% endif %}
-    {{ include(template_from_string(block.properties.message)) }}
+    {{ include(template_from_string(block.properties.value)) }}
 </div>
