@@ -10,14 +10,14 @@
                                                                             'onkeydown', 'onblur', 'onreset', 'onsubmit']))) }}
     novalidate>
     {{ csrf() }}
-    {% if block.process %}
+    {% if block.properties.process %}
         <input 
             type="hidden"
-            {{ include(template_from_string(attr.name(block.properties.name, '__process_form_'))) }}
-            value="{{ flextype.serializers.json.encode(block.process) }}">
+            {{ include(template_from_string(attr.name(block.properties.name, '__form_process_'))) }}
+            value="{{ flextype.serializers.json.encode(block.properties.process) }}">
         <input 
             type="hidden"
-            {{ include(template_from_string(attr.name(block.properties.name, '__process_vars_'))) }}
+            {{ include(template_from_string(attr.name(block.properties.name, '__form_vars_'))) }}
             value="{{ flextype.serializers.json.encode(arrays(_context)
                                                         .delete('blocks')
                                                         .delete('_parent')
