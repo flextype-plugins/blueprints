@@ -76,21 +76,24 @@ class Form
         $redirect = '';
 
         if ($this->storage['properties']['process']->has('redirect') ) {
+
+            $_form = ['_form' => $this];
+
             if ($this->storage['properties']['process']->has('redirect.route')) {
-                $redirect .= flextype('router')->pathFor($this->storage['properties']['process']->get('redirect.route'));
+                $redirect .= flextype('router')->pathFor(strings(flextype('twig')->fetchFromString(strings($this->storage['properties']['process']->get('redirect.route'))->trim(), $this->storage['properties']['process']->has('redirect.data') ? $this->storage['properties']['process']->get('redirect.data') : $this->storage['vars']->merge($_form)->toArray()))->trim());
                 $args = $this->storage['properties']['process']->has('redirect.args') ? $this->storage['properties']['process']->get('redirect.args') : [];
             }
 
             if ($this->storage['properties']['process']->has('redirect.url')) {
-                $redirect .= $this->storage['properties']['process']->get('redirect.url');
+                $redirect .= strings(flextype('twig')->fetchFromString(strings($this->storage['properties']['process']->get('redirect.url'))->trim(), $this->storage['properties']['process']->has('redirect.data') ? $this->storage['properties']['process']->get('redirect.data') : $this->storage['vars']->merge($_form)->toArray()))->trim();
                 $args = $this->storage['properties']['process']->has('redirect.args') ? $this->storage['properties']['process']->get('redirect.args') : [];
             }
-            
+
             if (count($args) > 0) {
                 foreach($args as $key => $value) {
                     $key === array_key_first($args) and $redirect .= '?';
 
-                    $redirect .=  $key . '=' . flextype('twig')->fetchFromString((empty($values) ? $value : strtr($value, $values)), $this->storage['vars']->toArray());
+                    $redirect .=  $key . '=' . strings(flextype('twig')->fetchFromString((empty($values) ? $value : strtr(trim($value), $values)), $this->storage['vars']->merge($_form)->toArray()))->trim();
 
                     $key != array_key_last($args) and $redirect .= '&'; 
                 }
