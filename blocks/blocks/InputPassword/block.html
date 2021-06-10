@@ -13,9 +13,6 @@
     {{ include(template_from_string(attr.style(block.properties.style))) }}
     {{ include(template_from_string(attr.disabled(block.properties.disabled))) }}
     {{ include(template_from_string(attr.readonly(block.properties.readonly))) }}
-    {{ include(template_from_string(attr.min(block.properties.min))) }}
-    {{ include(template_from_string(attr.min(block.properties.max))) }}
-    {{ include(template_from_string(attr.step(block.properties.step))) }}
     {{ include(template_from_string(attr.placeholder(block.properties.placeholder))) }}
     {{ include(template_from_string(attr.events(block.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
                                         'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
