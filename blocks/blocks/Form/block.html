@@ -3,6 +3,7 @@
     {{ include(template_from_string(attr.action(block.properties.action))) }}
     {{ include(template_from_string(attr.method(block.properties.method))) }}
     {{ include(template_from_string(attr.id(block.properties.id))) }}
+    {{ include(template_from_string(attr.data(block.properties.data))) }}
     {{ include(template_from_string(attr.name(block.properties.name))) }}
     {{ include(template_from_string(attr.class(['js-needs-validation', block.properties.class]))) }}
     {{ include(template_from_string(attr.events(block.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
