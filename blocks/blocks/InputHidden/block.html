@@ -2,4 +2,6 @@
 <input type="hidden" 
     {{ include(template_from_string(attr.id(block.properties.id))) }} 
     {{ include(template_from_string(attr.name(block.properties.name))) }} 
+    {{ include(template_from_string(attr.data(block.properties.data))) }}
+    {{ include(template_from_string(attr.class([block.properties.class]))) }}
     {{ include(template_from_string(attr.value(block.properties.name, values, block.properties.value))) }}>
