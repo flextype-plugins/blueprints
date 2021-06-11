@@ -545,22 +545,58 @@ class Blueprints
      */
     private function processEmitter($blueprint): void
     {
+        // Emmit events
         if (isset($blueprint['emitter']['emit'])) {
             foreach ($blueprint['emitter']['emit'] as $key => $event) {
                 flextype('emitter')->emit($event['name']);
             }
         }
 
+        // Register listeners 
         if (isset($blueprint['emitter']['addListener'])) {
             foreach ($blueprint['emitter']['addListener'] as $key => $event) {
-                flextype('emitter')->addListener($event['name'], function() use ($event) { 
+                flextype('emitter')->addListener($event['name'], function() use ($event) {
+                    
+                    // Get event vars
+                    $eventVars = [];
+                    if (isset($event['properties']['vars'])) {
+                        foreach ($event['properties']['vars'] as $key => $var) {
+                            
+                            $varType = isset($var['type']) ? $var['type'] : 'string';
+                            switch ($varType) {
+                                case 'array':
+                                    if (is_iterable($var['value'])) {
+
+                                        array_walk_recursive($var['value'], function(&$value, $key) {
+                                            $value = strings(flextype('twig')->fetchFromString($value, []))->trim()->toString();
+                                        });
+
+                                        $eventVars[$var['name']] = $var['value'];
+                                        
+                                    } else {
+                                        $value = htmlspecialchars_decode(flextype('twig')->fetchFromString(trim($var['value']), []));
+                                        $eventVars[$var['name']] = flextype('serializers')->json()->decode($value);
+                                    }
+                                    break;
+                                case 'bool':
+                                    $eventVars[$var['name']] = strings(flextype('twig')->fetchFromString($var['value'], []))->trim()->toBoolean();
+                                    break;
+                                case 'float':
+                                    $eventVars[$var['name']] = strings(flextype('twig')->fetchFromString($var['value'], []))->trim()->toFloat();
+                                    break;    
+                                case 'int':
+                                    $eventVars[$var['name']] = strings(flextype('twig')->fetchFromString($var['value'], []))->trim()->toInteger();
+                                    break;
+                                case 'string':
+                                default:
+                                    $eventVars[$var['name']] = strings(flextype('twig')->fetchFromString($var['value'], []))->trim()->toString();
+                                    break;
+                            }
+                        }
+                    }
+
                     if (isset($event['properties']['value'])) {
-                        strings(flextype('twig')
-                                ->fetchFromString($event['properties']['value'], 
-                                                arrays($event['properties']['data'] ?? [])
-                                                    ->map(function ($value) {
-                                                        return strings(flextype('twig')->fetchFromString($value, []))->trim();
-                                                    })->toArray()))->trim()->echo();
+                        strings(flextype('twig')->fetchFromString($event['properties']['value'], $eventVars))->trim()->echo();
                     }
                 });
             }
