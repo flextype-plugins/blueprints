@@ -312,7 +312,5 @@ class Form
 
             flextype('emitter')->emit('onBlueprintsFormAfterProcessedActions');
         }
-
-        die;
     }
 }
