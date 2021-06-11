@@ -378,6 +378,7 @@ class Blueprints
         $blueprint = flextype('blueprints')->fetch($id)->toArray();
 
         $this->processEmitter($blueprint);
+        $this->processActions($blueprint);
 
         echo flextype('twig')
                 ->getEnvironment()
@@ -405,6 +406,7 @@ class Blueprints
     public function renderFromArray(array $blueprint, array $values = [], array $vars = []): void
     {
         $this->processEmitter($blueprint);
+        $this->processActions($blueprint);
 
         echo flextype('twig')
                 ->getEnvironment()
@@ -600,6 +602,68 @@ class Blueprints
                     }
                 });
             }
+        }
+    }
+
+    /**
+     * Process actions for blueprint
+     *
+     * @param array $blueprint Blueprint array.
+     * 
+     * @return void
+     *
+     * @access private
+     */
+    private function processActions($blueprint): void
+    {
+        if (isset($blueprint['actions'])) {
+
+            flextype('emitter')->emit('onBlueprintsBeforeProcessedActions');
+            
+            foreach($blueprint['actions'] as $action) {
+                if (flextype('actions')->has($action['name'])) {
+                    if (isset($action['properties']['vars']) && is_array($action['properties']['vars'])) {
+                        $properties = array_values($action['properties']['vars']);
+                        foreach ($properties as $key => $var) {
+                            $type = isset($var['type']) ? $var['type'] : 'string';
+                            $vars = [];
+                            switch ($type) {
+                                case 'array':
+                                    if (is_iterable($var['value'])) {
+                                    
+                                        array_walk_recursive($var['value'], function(&$value, $key) {
+                                            $value = strings(flextype('twig')->fetchFromString($value, $vars))->trim()->toString();
+                                        });
+    
+                                        $properties[$key] = $var['value'];
+                                    } else {
+                                        $value = htmlspecialchars_decode(flextype('twig')->fetchFromString(trim($var['value']), $vars));
+                                        $properties[$key] = flextype('serializers')->json()->decode($value);
+                                    }
+                                    break;
+                                case 'int':
+                                    $properties[$key] = strings(flextype('twig')->fetchFromString(trim($var['value']), $vars))->toInteger();
+                                    break;
+                                case 'float':
+                                    $properties[$key] = strings(flextype('twig')->fetchFromString(trim($var['value']), $vars))->toFloat();
+                                    break;
+                                case 'bool':
+                                    $properties[$key] = strings(flextype('twig')->fetchFromString(trim($var['value']), $vars))->toBoolean();
+                                    break;
+                                default:
+                                case 'string':
+                                    $properties[$key] = strings(flextype('twig')->fetchFromString(trim($var['value']), $vars))->toString();
+                                    break;
+                            }
+                        }
+                        flextype('actions')->get($action['name'])(...$properties);
+                    } else {
+                        flextype('actions')->get($action['name'])();
+                    }
+                }
+            }
+
+            flextype('emitter')->emit('onBlueprintsAfterProcessedActions');
         }
     }
 }
