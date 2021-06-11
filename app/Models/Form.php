@@ -272,34 +272,40 @@ class Form
         if ($this->storage['properties']['process']->has('actions')) {
 
             flextype('emitter')->emit('onBlueprintsFormBeforeProcessedActions');
-
+            
             foreach($this->storage['properties']['process']->get('actions') as $action) {
                 if (flextype('actions')->has($action['name'])) {
                     if (isset($action['properties']['vars']) && is_array($action['properties']['vars'])) {
                         $properties = array_values($action['properties']['vars']);
-                        foreach ($properties as $key => $field) {
-                            $type = isset($field['type']) ? $field['type'] : 'string';
+                        foreach ($properties as $key => $var) {
+                            $type = isset($var['type']) ? $var['type'] : 'string';
+                            $vars = $this->storage['vars']->merge(['_form' => $this])->toArray();
                             switch ($type) {
                                 case 'array':
-                                    if (is_iterable($field['value'])) {
-                                        $properties[$key] = $field['value'];
+                                    if (is_iterable($var['value'])) {
+                                    
+                                        array_walk_recursive($var['value'], function(&$value, $key) {
+                                            $value = strings(flextype('twig')->fetchFromString($value, $vars))->trim()->toString();
+                                        });
+    
+                                        $properties[$key] = $var['value'];
                                     } else {
-                                        $value = htmlspecialchars_decode(flextype('twig')->fetchFromString(trim($field['value']), $this->storage['vars']->merge(['_form' => $this])->toArray()));
+                                        $value = htmlspecialchars_decode(flextype('twig')->fetchFromString(trim($var['value']), $vars));
                                         $properties[$key] = flextype('serializers')->json()->decode($value);
                                     }
                                     break;
                                 case 'int':
-                                    $properties[$key] = strings(flextype('twig')->fetchFromString(trim($field['value']), $this->storage['vars']->merge(['_form' => $this])->toArray()))->toInteger();
+                                    $properties[$key] = strings(flextype('twig')->fetchFromString(trim($var['value']), $vars))->toInteger();
                                     break;
                                 case 'float':
-                                    $properties[$key] = strings(flextype('twig')->fetchFromString(trim($field['value']), $this->storage['vars']->merge(['_form' => $this])->toArray()))->toFloat();
+                                    $properties[$key] = strings(flextype('twig')->fetchFromString(trim($var['value']), $vars))->toFloat();
                                     break;
                                 case 'bool':
-                                    $properties[$key] = strings(flextype('twig')->fetchFromString(trim($field['value']), $this->storage['vars']->merge(['_form' => $this])->toArray()))->toBoolean();
+                                    $properties[$key] = strings(flextype('twig')->fetchFromString(trim($var['value']), $vars))->toBoolean();
                                     break;
                                 default:
                                 case 'string':
-                                    $properties[$key] = $this->getProcessFields();
+                                    $properties[$key] = strings(flextype('twig')->fetchFromString(trim($var['value']), $vars))->toString();
                                     break;
                             }
                         }
@@ -312,5 +318,7 @@ class Form
 
             flextype('emitter')->emit('onBlueprintsFormAfterProcessedActions');
         }
+
+        die('actions');
     }
 }
