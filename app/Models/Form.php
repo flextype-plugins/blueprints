@@ -238,15 +238,26 @@ class Form
      * Get form process messages statament.
      * 
      * @param string $type Message type.
-     * @param array  $data Associative array of template variables.
+     * @param array  $vars Associative array of template variables.
      * 
      * @return string Message statament.
      *
      * @access public
      */
-    public function getProcessMessages(string $type, array $data = []): string 
+    public function getProcessMessages(string $type, array $vars = []): string 
     {
-        return $this->storage['properties']['process']->has('messages.' . $type) ? strings(flextype('twig')->fetchFromString($this->storage['properties']['process']->get('messages.' . $type), (count($data) > 0 ? $data : $this->storage['vars']->toArray())))->trim()->toString() : '';
+        if ($this->storage['properties']['process']->has('messages.' . $type)) {
+            return strings(flextype('twig')
+                            ->fetchFromString($this->storage['properties']['process']->get('messages.' . $type),
+                                              $this->storage['vars']
+                                                   ->merge($vars)
+                                                   ->merge(['_form' => $this])
+                                                   ->toArray()))
+                                                        ->trim()
+                                                        ->toString();
+        }
+
+        return '';
     }
 
     /**
