@@ -560,7 +560,7 @@ class Blueprints
         if (isset($blueprint['emitter']['addListener'])) {
             foreach ($blueprint['emitter']['addListener'] as $key => $event) {
                 flextype('emitter')->addListener($event['name'], function() use ($event, $vars) {
-                    dump($vars);
+                    
                     // Get event vars
                     $eventVars = [];
                     if (isset($event['properties']['vars'])) {
