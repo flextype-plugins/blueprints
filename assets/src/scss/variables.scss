@@ -5,6 +5,11 @@
 
 // Color system
 
+html,
+body {
+    font-size: 14px;
+}
+
 // scss-docs-start gray-color-variables
 $white:    #fff !default;
 $gray-100: #f8f9fa !default;
@@ -67,7 +72,7 @@ $colors: (
 // scss-docs-end colors-map
 
 // scss-docs-start theme-color-variables
-$primary:       #7952b3 !default;
+$primary:       $blue !default;
 $secondary:     $gray-600 !default;
 $success:       $green !default;
 $info:          $cyan !default;

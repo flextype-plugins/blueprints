@@ -1,0 +1,10 @@
+.dropdown-dots {
+    cursor: pointer;
+    width: 100%;
+    display: block;
+    text-align: center;
+
+    &.dropdown-toggle::after {
+        display: none;
+    }
+}
