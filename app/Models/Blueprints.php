@@ -388,7 +388,6 @@ class Blueprints
                     array_merge([
                         'blueprint' => $blueprint,
                         'values'    => $values,
-                        'query'     => $_GET,
                         'blocks'    => flextype('registry')->get('plugins.blueprints.settings.blocks'),
                     ], $processVars));
     }
@@ -417,7 +416,6 @@ class Blueprints
                     array_merge([
                         'blueprint' => $blueprint,
                         'values'    => $values,
-                        'query'     => $_GET,
                         'blocks'    => flextype('registry')->get('plugins.blueprints.settings.blocks'),
                     ], $processVars));
     }
