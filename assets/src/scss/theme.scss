@@ -1,3 +1,6 @@
+//
+// Dropdown with dots
+// 
 .dropdown-dots {
     cursor: pointer;
     width: 100%;
@@ -7,4 +10,13 @@
     &.dropdown-toggle::after {
         display: none;
     }
+}
+
+//
+// Disable focus shadow
+// 
+.btn-check:focus+.btn-primary,
+.btn-primary:focus,
+.form-control:focus {
+    box-shadow: none;
 }
