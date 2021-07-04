@@ -190,40 +190,40 @@ class Form
                                         $value = strings(flextype('twig')->fetchFromString($value, $this->storage['vars']->toArray()))->trim()->toString();
                                     });
 
-                                    $data[$field['name']] = $field['properties']['value'];
+                                    $data = arrays($data)->set($field['name'], $field['properties']['value'])->toArray();
                                 } else {
                                     $value = htmlspecialchars_decode(flextype('twig')->fetchFromString(trim($field['properties']['value']), $vars));
-                                    $data[$field['name']] = flextype('serializers')->json()->decode($value);
+                                    $data = arrays($data)->set($field['name'], flextype('serializers')->json()->decode($value))->toArray();
                                 }
                             } else {
-                                $data[$field['name']] = $this->storage['data']->get($field['name']);
+                                $data = arrays($data)->set($field['name'], $this->storage['data']->get($field['name']))->toArray();
                             }
                         }
                         break;
                     case 'bool':
                         if (!$ignore) {
                             if (isset($field['properties']['value'])) {
-                                $data[$field['name']] = strings(flextype('twig')->fetchFromString($field['properties']['value'], $vars))->trim()->toBoolean();
+                                $data = arrays($data)->set($field['name'], strings(flextype('twig')->fetchFromString($field['properties']['value'], $vars))->trim()->toBoolean())->toArray();
                             } else {
-                                $data[$field['name']] = strings($this->storage['data']->get($field['name']))->trim()->toBoolean();
+                                $data = arrays($data)->set($field['name'], strings($this->storage['data']->get($field['name']))->trim()->toBoolean())->toArray();
                             }
                         }
                         break;
                     case 'float':
                         if (!$ignore) {
                             if (isset($field['properties']['value'])) {
-                                $data[$field['name']] = strings(flextype('twig')->fetchFromString($field['properties']['value'], $vars))->trim()->toFloat();
+                                $data = arrays($data)->set($field['name'], strings(flextype('twig')->fetchFromString($field['properties']['value'], $vars))->trim()->toFloat())->toArray();
                             } else {
-                                $data[$field['name']] = strings($this->storage['data']->get($field['name']))->trim()->toFloat();
+                                $data = arrays($data)->set($field['name'], strings($this->storage['data']->get($field['name']))->trim()->toFloat())->toArray();
                             }
                         }
                         break;
                     case 'int':
                         if (!$ignore) {
                             if (isset($field['properties']['value'])) {
-                                $data[$field['name']] = strings(flextype('twig')->fetchFromString($field['properties']['value'], $vars))->trim()->toInteger();
+                                $data = arrays($data)->set($field['name'], strings(flextype('twig')->fetchFromString($field['properties']['value'], $vars))->trim()->toInteger())->toArray();
                             } else {
-                                $data[$field['name']] = strings($this->storage['data']->get($field['name']))->trim()->toInteger();
+                                $data = arrays($data)->set($field['name'], strings($this->storage['data']->get($field['name']))->trim()->toInteger())->toArray();
                             }
                         }
                         break;
@@ -231,9 +231,9 @@ class Form
                     case 'string':
                         if (!$ignore) {
                             if (isset($field['properties']['value'])) {
-                                $data[$field['name']] = strings(flextype('twig')->fetchFromString($field['properties']['value'], $vars))->trim()->toString();
+                                $data = arrays($data)->set($field['name'], strings(flextype('twig')->fetchFromString($field['properties']['value'], $vars))->trim()->toString())->toArray();
                             } else {
-                                $data[$field['name']] = strings($this->storage['data']->get($field['name']))->trim()->toString();
+                                $data = arrays($data)->set($field['name'], strings($this->storage['data']->get($field['name']))->trim()->toString())->toArray();
                             }
                         }
                         break;
