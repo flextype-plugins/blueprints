@@ -17,9 +17,12 @@
 // 
 .btn-check:focus+.btn-primary,
 .btn-primary:focus,
+.btn-check:focus+.btn, 
+.btn:focus,
 .form-control:focus {
     box-shadow: none;
 }
+
 
 // 
 // Links
