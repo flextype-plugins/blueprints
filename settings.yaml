@@ -10,6 +10,10 @@ assetsLoadOnSite: false
 
 # Blocks
 blocks:
+  ActionsDropdown:
+    type: ActionsDropdown
+    properties: []
+    template: plugins/blueprints/blocks/blocks/ActionsDropdown/block.html
   Anchor:
     type: Anchor
     properties: []
@@ -26,6 +30,10 @@ blocks:
     type: ButtonGroup 
     properties: []
     template: plugins/blueprints/blocks/blocks/ButtonGroup/block.html 
+  Display:
+    type: Display
+    properties: []
+    template: plugins/blueprints/blocks/blocks/Display/block.html 
   Divider:
     type: Divider
     properties: []
