@@ -1,0 +1,5 @@
+{% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
+<{{ block.properties.wrapper ?: 'div' }} {{ include(template_from_string(attr.id(block.properties.id))) }}
+    {{ include(template_from_string(attr.class([block.properties.class]))) }}
+    {{ include(template_from_string(attr.data(block.properties.data))) }}
+    {{ include(template_from_string(attr.style(block.properties.style))) }}>{{ include(template_from_string(block.properties.value)) }}</{{ block.properties.wrapper ?: 'div' }}>
