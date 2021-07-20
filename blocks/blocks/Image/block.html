@@ -1,10 +1,20 @@
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
-<img {{ include(template_from_string(attr.id((block.properties.id))) }}
-    {{ include(template_from_string(attr.src((block.properties.src))) }}
-    {{ include(template_from_string(attr.alt((block.properties.alt))) }}
-    {{ include(template_from_string(attr.class(block.properties.class))) }}
-    {{ include(template_from_string(attr.height(block.properties.height))) }}
-    {{ include(template_from_string(attr.width(block.properties.width))) }}
-    {{ include(template_from_string(attr.loading(block.properties.loading))) }}
-    {{ include(template_from_string(attr.data(block.properties.data))) }}
-    {{ include(template_from_string(attr.style(block.properties.style))) }}>
+{% set blockVisible = true %}
+{% if arrays(block).has('properties.visible') %}
+    {% if block.properties.visible is string %}
+        {% set blockVisible = include(template_from_string(block.properties.visible)) %}
+    {% else %}
+        {% set blockVisible = (block.properties.visible == true) ? true : false %}
+    {% endif %}
+{% endif %}
+{% if blockVisible %}
+    <img {{ include(template_from_string(attr.id((block.properties.id))) }}
+        {{ include(template_from_string(attr.src((block.properties.src))) }}
+        {{ include(template_from_string(attr.alt((block.properties.alt))) }}
+        {{ include(template_from_string(attr.class(block.properties.class))) }}
+        {{ include(template_from_string(attr.height(block.properties.height))) }}
+        {{ include(template_from_string(attr.width(block.properties.width))) }}
+        {{ include(template_from_string(attr.loading(block.properties.loading))) }}
+        {{ include(template_from_string(attr.data(block.properties.data))) }}
+        {{ include(template_from_string(attr.style(block.properties.style))) }}>
+{% endif %}

@@ -10,16 +10,26 @@
 {% else %}
     {% set alertType = "alrert-primary" %}
 {% endif %}
-<div {{ include(template_from_string(attr.class(['alert', block.properties.class, alertType]))) }}
-    {{ include(template_from_string(attr.data(block.properties.data))) }}
-    {{ include(template_from_string(attr.style(block.properties.style))) }}
-    role="alert">
-    {% if block.properties.header.title %}
-        <h4 class="alert-heading"
-        {{ include(template_from_string(attr.class(['alert-heading', block.properties.header.class]))) }}
-        {{ include(template_from_string(attr.data(block.properties.header.data))) }}
-        {{ include(template_from_string(attr.style(block.properties.header.style))) }}>{{ include(template_from_string(block.properties.header.value)) }}</h4>
-        <hr>
+{% set blockVisible = true %}
+{% if arrays(block).has('properties.visible') %}
+    {% if block.properties.visible is string %}
+        {% set blockVisible = include(template_from_string(block.properties.visible)) %}
+    {% else %}
+        {% set blockVisible = (block.properties.visible == true) ? true : false %}
     {% endif %}
-    {{ include(template_from_string(block.properties.value)) }}
-</div>
+{% endif %}
+{% if blockVisible %}
+    <div {{ include(template_from_string(attr.class(['alert', block.properties.class, alertType]))) }}
+        {{ include(template_from_string(attr.data(block.properties.data))) }}
+        {{ include(template_from_string(attr.style(block.properties.style))) }}
+        role="alert">
+        {% if block.properties.header.title %}
+            <h4 class="alert-heading"
+            {{ include(template_from_string(attr.class(['alert-heading', block.properties.header.class]))) }}
+            {{ include(template_from_string(attr.data(block.properties.header.data))) }}
+            {{ include(template_from_string(attr.style(block.properties.header.style))) }}>{{ include(template_from_string(block.properties.header.value)) }}</h4>
+            <hr>
+        {% endif %}
+        {{ include(template_from_string(block.properties.value)) }}
+    </div>
+{% endif %}

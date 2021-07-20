@@ -1,38 +1,48 @@
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
-<form
-    {{ include(template_from_string(attr.action(block.properties.action))) }}
-    {{ include(template_from_string(attr.method(block.properties.method))) }}
-    {{ include(template_from_string(attr.id(block.properties.id))) }}
-    {{ include(template_from_string(attr.data(block.properties.data))) }}
-    {{ include(template_from_string(attr.name(block.properties.name))) }}
-    {{ include(template_from_string(attr.class(['js-needs-validation', block.properties.class]))) }}
-    {{ include(template_from_string(attr.events(block.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
-                                                                            'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                                                            'onkeydown', 'onblur', 'onreset', 'onsubmit']))) }}
-    novalidate>
-    {{ csrf() }}
-    {% if block.properties.process %}
-        <input 
-            type="hidden"
-            {{ include(template_from_string(attr.name(block.properties.name, '__form_process_'))) }}
-            value="{{ flextype.serializers.json.encode(block.properties.process) }}">
-        <input 
-            type="hidden"
-            {{ include(template_from_string(attr.name(block.properties.name, '__form_vars_'))) }}
-            value="{{ flextype.serializers.json.encode(arrays(_context)
-                                                        .delete('blocks')
-                                                        .delete('_parent')
-                                                        .delete('_key')
-                                                        .delete('_seq')
-                                                        .delete('loop')
-                                                        .delete('PATH_PROJECT')
-                                                        .delete('PHP_VERSION')
-                                                        .delete('flextype')
-                                                        .toArray()) }}">
+{% set blockVisible = true %}
+{% if arrays(block).has('properties.visible') %}
+    {% if block.properties.visible is string %}
+        {% set blockVisible = include(template_from_string(block.properties.visible)) %}
+    {% else %}
+        {% set blockVisible = (block.properties.visible == true) ? true : false %}
     {% endif %}
-    {% for block in block.blocks %}
-        {% if block.type in blocks|keys %}
-            {% include blocks[block.type]['template'] %}
+{% endif %}
+{% if blockVisible %}
+    <form
+        {{ include(template_from_string(attr.action(block.properties.action))) }}
+        {{ include(template_from_string(attr.method(block.properties.method))) }}
+        {{ include(template_from_string(attr.id(block.properties.id))) }}
+        {{ include(template_from_string(attr.data(block.properties.data))) }}
+        {{ include(template_from_string(attr.name(block.properties.name))) }}
+        {{ include(template_from_string(attr.class(['js-needs-validation', block.properties.class]))) }}
+        {{ include(template_from_string(attr.events(block.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                                                                'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                                                                'onkeydown', 'onblur', 'onreset', 'onsubmit']))) }}
+        novalidate>
+        {{ csrf() }}
+        {% if block.properties.process %}
+            <input 
+                type="hidden"
+                {{ include(template_from_string(attr.name(block.properties.name, '__form_process_'))) }}
+                value="{{ flextype.serializers.json.encode(block.properties.process) }}">
+            <input 
+                type="hidden"
+                {{ include(template_from_string(attr.name(block.properties.name, '__form_vars_'))) }}
+                value="{{ flextype.serializers.json.encode(arrays(_context)
+                                                            .delete('blocks')
+                                                            .delete('_parent')
+                                                            .delete('_key')
+                                                            .delete('_seq')
+                                                            .delete('loop')
+                                                            .delete('PATH_PROJECT')
+                                                            .delete('PHP_VERSION')
+                                                            .delete('flextype')
+                                                            .toArray()) }}">
         {% endif %}
-    {% endfor %}
-</form>
+        {% for block in block.blocks %}
+            {% if block.type in blocks|keys %}
+                {% include blocks[block.type]['template'] %}
+            {% endif %}
+        {% endfor %}
+    </form>
+{% endif %}

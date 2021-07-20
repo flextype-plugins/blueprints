@@ -1,45 +1,76 @@
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
 {% set btnGroupSizes = {'large': 'btn-group-lg', 'small': 'btn-group-sm'} %}
 {% set btnGroup = (block.properties.vertical == true) ? 'btn-group-vertical' : 'btn-group' %}
-<div role="group" {{ include(template_from_string(attr.id(block.properties.id))) }}
-    {{ include(template_from_string(attr.data(block.properties.data))) }}
-    {{ include(template_from_string(attr.style(block.properties.style))) }}
-    {{ include(template_from_string(attr.class([btnGroup, btnGroupSizes[block.properties.size], block.properties.class]))) }}
-    {{ include(template_from_string(attr.events(block.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
-                                        'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                        'onkeydown', 'onblur']))) }}
-                                        >
-    {% for button in block.properties.buttons %}
-        {% if button.type == 'Button' %}
-            {% include "plugins/blueprints/blocks/blocks/Button/block.html" with {'block': button} %}
-        {% endif %}
-        {% if button.type == 'ButtonToggle' %}
-            <div role="group" {{ include(template_from_string(attr.id(button.properties.id))) }}
-                {{ include(template_from_string(attr.data(button.properties.data))) }}
-                {{ include(template_from_string(attr.style(button.properties.style))) }}
-                {{ include(template_from_string(attr.class([btnGroup, btnGroupSizes[block.properties.size], button.properties.class]))) }}
-                {{ include(template_from_string(attr.events(button.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
-                                                    'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                                    'onkeydown', 'onblur']))) }}
-                                                    >
-                {% include "plugins/blueprints/blocks/blocks/Button/block.html" with {'block': arrays(button.properties.toggle)
-                                                                                                .set('properties.class', (button.properties.toggle.class) ? button.properties.toggle.class|merge('dropdown-toggle') : 'dropdown-toggle')
-                                                                                                .set('properties.data', (button.properties.toggle.data) ? button.properties.toggle.data|merge({'bs-toggle': 'dropdown'}) : {'bs-toggle': 'dropdown'})
-                                                                                                .toArray() } %}
-                <ul class="dropdown-menu">
-                    {% for key, value in button.properties.items %}
-                    <li><a {{ include(template_from_string(attr.class(['dropdown-item', 'd-flex', 'align-items-center', value.class]))) }}
-                            {{ include(template_from_string(attr.id(value.id))) }}
-                            {{ include(template_from_string(attr.href(value.href))) }}
-                            {{ include(template_from_string(attr.data(value.data))) }}
-                            {{ include(template_from_string(attr.style(value.style))) }} 
-                            {{ include(template_from_string(attr.events(value.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+{% set blockVisible = true %}
+{% if arrays(block).has('properties.visible') %}
+    {% if block.properties.visible is string %}
+        {% set blockVisible = include(template_from_string(block.properties.visible)) %}
+    {% else %}
+        {% set blockVisible = (block.properties.visible == true) ? true : false %}
+    {% endif %}
+{% endif %}
+{% if blockVisible %}
+    <div role="group" {{ include(template_from_string(attr.id(block.properties.id))) }}
+        {{ include(template_from_string(attr.data(block.properties.data))) }}
+        {{ include(template_from_string(attr.style(block.properties.style))) }}
+        {{ include(template_from_string(attr.class([btnGroup, btnGroupSizes[block.properties.size], block.properties.class]))) }}
+        {{ include(template_from_string(attr.events(block.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                            'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                            'onkeydown', 'onblur']))) }}
+                                            >
+        {% for button in block.properties.buttons %}
+            {% if button.type == 'Button' %}
+                {% set buttonVisible = true %}
+                {% if arrays(button).has('properties.visible') %}
+                    {% if block.properties.visible is string %}
+                        {% set buttonVisible = include(template_from_string(button.properties.visible)) %}
+                    {% else %}
+                        {% set buttonVisible = (button.properties.visible == true) ? true : false %}
+                    {% endif %}
+                {% endif %}
+                {% if buttonVisible %}
+                    {% include "plugins/blueprints/blocks/blocks/Button/block.html" with {'block': button} %}
+                {% endif %}
+            {% endif %}
+            {% if button.type == 'ButtonToggle' %}
+                <div role="group" {{ include(template_from_string(attr.id(button.properties.id))) }}
+                    {{ include(template_from_string(attr.data(button.properties.data))) }}
+                    {{ include(template_from_string(attr.style(button.properties.style))) }}
+                    {{ include(template_from_string(attr.class([btnGroup, btnGroupSizes[block.properties.size], button.properties.class]))) }}
+                    {{ include(template_from_string(attr.events(button.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
                                                         'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                                        'onkeydown', 'onblur']))) }}>{% if value.icon %}<span class="dropdown-item-icon pe-3 d-flex">{{ icon(value.icon.name, value.icon.set) }}</span> {% endif %}{{ include(template_from_string(value.value)) }}</a></li>
-                
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endif %}
-    {% endfor %}
-</div>
+                                                        'onkeydown', 'onblur']))) }}
+                                                        >
+                    {% include "plugins/blueprints/blocks/blocks/Button/block.html" with {'block': arrays(button.properties.toggle)
+                                                                                                    .set('properties.class', (button.properties.toggle.class) ? button.properties.toggle.class|merge('dropdown-toggle') : 'dropdown-toggle')
+                                                                                                    .set('properties.data', (button.properties.toggle.data) ? button.properties.toggle.data|merge({'bs-toggle': 'dropdown'}) : {'bs-toggle': 'dropdown'})
+                                                                                                    .toArray() } %}
+                    <ul class="dropdown-menu">
+                        {% for key, value in button.properties.items %}
+                            {% set valueVisible = true %}
+                            {% if arrays(value).has('visible') %}
+                                {% if value.visible is string %}
+                                    {% set valueVisible = include(template_from_string(value.visible)) %}
+                                {% else %}
+                                    {% set valueVisible = (value.visible == true) ? true : false %}
+                                {% endif %}
+                            {% endif %}
+                            {% if valueVisible %}
+                                <li>
+                                    <a {{ include(template_from_string(attr.class(['dropdown-item', 'd-flex', 'align-items-center', value.class]))) }}
+                                        {{ include(template_from_string(attr.id(value.id))) }}
+                                        {{ include(template_from_string(attr.href(value.href))) }}
+                                        {{ include(template_from_string(attr.data(value.data))) }}
+                                        {{ include(template_from_string(attr.style(value.style))) }} 
+                                        {{ include(template_from_string(attr.events(value.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                                                    'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                                                    'onkeydown', 'onblur']))) }}>{% if value.icon %}<span class="dropdown-item-icon pe-3 d-flex">{{ icon(value.icon.name, value.icon.set) }}</span> {% endif %}{{ include(template_from_string(value.value)) }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endif %}

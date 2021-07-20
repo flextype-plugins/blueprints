@@ -14,15 +14,25 @@
     {% if block.properties.outline %}{% set outline = "outline-" %}{% endif %}
     {% set btnType = "btn-" ~ outline ~ "primary" %}
 {% endif %} 
-<input
-    type="{% block type %}submit{% endblock %}"
-    {{ include(template_from_string(attr.id(block.properties.id))) }}
-    {{ include(template_from_string(attr.name(block.properties.name))) }}
-    value="{{ include(template_from_string(block.properties.value)) }}"
-    {{ include(template_from_string(attr.class(['btn', btnType, btnSizes[block.properties.size], block.properties.class]))) }}
-    {{ include(template_from_string(attr.data(block.properties.data))) }}
-    {{ include(template_from_string(attr.style(block.properties.style))) }} 
-    {{ include(template_from_string(attr.disabled(block.properties.disabled))) }}
-    {{ include(template_from_string(attr.events(block.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
-                                        'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                        'onkeydown', 'onblur']))) }}>
+{% set blockVisible = true %}
+{% if arrays(block).has('properties.visible') %}
+    {% if block.properties.visible is string %}
+        {% set blockVisible = include(template_from_string(block.properties.visible)) %}
+    {% else %}
+        {% set blockVisible = (block.properties.visible == true) ? true : false %}
+    {% endif %}
+{% endif %}
+{% if blockVisible %} 
+    <input
+        type="{% block type %}submit{% endblock %}"
+        {{ include(template_from_string(attr.id(block.properties.id))) }}
+        {{ include(template_from_string(attr.name(block.properties.name))) }}
+        value="{{ include(template_from_string(block.properties.value)) }}"
+        {{ include(template_from_string(attr.class(['btn', btnType, btnSizes[block.properties.size], block.properties.class]))) }}
+        {{ include(template_from_string(attr.data(block.properties.data))) }}
+        {{ include(template_from_string(attr.style(block.properties.style))) }} 
+        {{ include(template_from_string(attr.disabled(block.properties.disabled))) }}
+        {{ include(template_from_string(attr.events(block.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                            'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                            'onkeydown', 'onblur']))) }}>
+{% endif %}

@@ -4,8 +4,17 @@
 {% else %}
     {% set dashed = null %}
 {% endif %}
-<div {{ include(template_from_string(attr.id(block.properties.id))) }} 
-    {{ include(template_from_string(attr.data(block.properties.data))) }}
-    {{ include(template_from_string(attr.style(block.properties.style))) }} 
-    {{ include(template_from_string(attr.class(['divider', block.properties.class, dashed]))) }}></div>
-
+{% set blockVisible = true %}
+{% if arrays(block).has('properties.visible') %}
+    {% if block.properties.visible is string %}
+        {% set blockVisible = include(template_from_string(block.properties.visible)) %}
+    {% else %}
+        {% set blockVisible = (block.properties.visible == true) ? true : false %}
+    {% endif %}
+{% endif %}
+{% if blockVisible %}
+    <div {{ include(template_from_string(attr.id(block.properties.id))) }} 
+        {{ include(template_from_string(attr.data(block.properties.data))) }}
+        {{ include(template_from_string(attr.style(block.properties.style))) }} 
+        {{ include(template_from_string(attr.class(['divider', block.properties.class, dashed]))) }}></div>
+{% endif %}

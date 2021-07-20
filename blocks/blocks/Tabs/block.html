@@ -1,31 +1,41 @@
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
-<div {{ include(template_from_string(attr.id(block.properties.id))) }}
-    {{ include(template_from_string(attr.class([block.properties.class]))) }} 
-    {{ include(template_from_string(attr.data(block.properties.data))) }}
-    {{ include(template_from_string(attr.style(block.properties.style))) }}>
-    <ul class="nav nav-tabs" role="tablist">
-        {% for key, nav in block.properties.tabs %}
-            <li class="nav-item" role="presentation">
-                <button class="nav-link {% if loop.first %}active{% endif %}"
-                        id="{{ key }}-tab-link"
-                        data-bs-toggle="tab"
-                        data-bs-target="#{{ key }}-tab"
-                        type="button"
-                        role="tab"
-                        aria-controls="{{ key }}-tab"
-                        aria-selected="{% if loop.first %}true{% else %}false{% endif %}">{{ include(template_from_string(nav.title)) }}</button>
-            </li>
-        {% endfor %}
-    </ul>
-    <div class="tab-content">
-        {% for key, tab in block.properties.tabs %}
-            <div class="tab-pane {% if loop.first %}active{% endif %}" id="{{ key }}-tab" role="tabpanel" aria-labelledby="{{ key }}-tab">
-                {% for block in tab.blocks %}
-                    {% if block.type in blocks|keys %}
-                        {% include blocks[block.type]['template'] %}
-                    {% endif %}
-                {% endfor %}
-            </div>
-        {% endfor %}
+{% set blockVisible = true %}
+{% if arrays(block).has('properties.visible') %}
+    {% if block.properties.visible is string %}
+        {% set blockVisible = include(template_from_string(block.properties.visible)) %}
+    {% else %}
+        {% set blockVisible = (block.properties.visible == true) ? true : false %}
+    {% endif %}
+{% endif %}
+{% if blockVisible %}
+    <div {{ include(template_from_string(attr.id(block.properties.id))) }}
+        {{ include(template_from_string(attr.class([block.properties.class]))) }} 
+        {{ include(template_from_string(attr.data(block.properties.data))) }}
+        {{ include(template_from_string(attr.style(block.properties.style))) }}>
+        <ul class="nav nav-tabs" role="tablist">
+            {% for key, nav in block.properties.tabs %}
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link {% if loop.first %}active{% endif %}"
+                            id="{{ key }}-tab-link"
+                            data-bs-toggle="tab"
+                            data-bs-target="#{{ key }}-tab"
+                            type="button"
+                            role="tab"
+                            aria-controls="{{ key }}-tab"
+                            aria-selected="{% if loop.first %}true{% else %}false{% endif %}">{{ include(template_from_string(nav.title)) }}</button>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="tab-content">
+            {% for key, tab in block.properties.tabs %}
+                <div class="tab-pane {% if loop.first %}active{% endif %}" id="{{ key }}-tab" role="tabpanel" aria-labelledby="{{ key }}-tab">
+                    {% for block in tab.blocks %}
+                        {% if block.type in blocks|keys %}
+                            {% include blocks[block.type]['template'] %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
     </div>
-</div>
+{% endif %}

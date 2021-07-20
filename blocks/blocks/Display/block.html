@@ -1,9 +1,19 @@
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
-{% if block.properties.wrapper %}
-    <{{ block.properties.wrapper }} {{ include(template_from_string(attr.id(block.properties.id))) }}
-            {{ include(template_from_string(attr.class([block.properties.class]))) }}
-            {{ include(template_from_string(attr.data(block.properties.data))) }}
-            {{ include(template_from_string(attr.style(block.properties.style))) }}>{{ include(template_from_string(block.properties.value)) }}</{{ block.properties.wrapper }}>
-{% else %}
-    {{ include(template_from_string(block.properties.value)) }}
+{% set blockVisible = true %}
+{% if arrays(block).has('properties.visible') %}
+    {% if block.properties.visible is string %}
+        {% set blockVisible = include(template_from_string(block.properties.visible)) %}
+    {% else %}
+        {% set blockVisible = (block.properties.visible == true) ? true : false %}
+    {% endif %}
+{% endif %}
+{% if blockVisible %}
+    {% if block.properties.wrapper %}
+        <{{ block.properties.wrapper }} {{ include(template_from_string(attr.id(block.properties.id))) }}
+                {{ include(template_from_string(attr.class([block.properties.class]))) }}
+                {{ include(template_from_string(attr.data(block.properties.data))) }}
+                {{ include(template_from_string(attr.style(block.properties.style))) }}>{{ include(template_from_string(block.properties.value)) }}</{{ block.properties.wrapper }}>
+    {% else %}
+        {{ include(template_from_string(block.properties.value)) }}
+    {% endif %}
 {% endif %}

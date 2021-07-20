@@ -1,28 +1,38 @@
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
-{% if block.properties.label %}
-<label for="{{ block.properties.id }}" 
-        {{ include(template_from_string(attr.class(['form-label', block.properties.label.class]))) }}
-        {{ include(template_from_string(attr.style(block.properties.label.style))) }}>{{ include(template_from_string(block.properties.label.value)) }}</label>
+{% set blockVisible = true %}
+{% if arrays(block).has('properties.visible') %}
+    {% if block.properties.visible is string %}
+        {% set blockVisible = include(template_from_string(block.properties.visible)) %}
+    {% else %}
+        {% set blockVisible = (block.properties.visible == true) ? true : false %}
+    {% endif %}
 {% endif %}
-<textarea {{ attr.id(block.properties.id) }}
-            {{ include(template_from_string(attr.name(block.properties.name))) }}
-            {{ include(template_from_string(attr.rows(block.properties.rows))) }}
-            {{ include(template_from_string(attr.cols(block.properties.cols))) }}
-            {{ include(template_from_string(attr.class(['form-control', block.properties.class]))) }}
-            {{ include(template_from_string(attr.data(block.properties.data))) }}
-            {{ include(template_from_string(attr.style(block.properties.style))) }}
-            {{ include(template_from_string(attr.placeholder(block.properties.placeholder))) }}
-            {{ include(template_from_string(attr.readonly(block.properties.readonly))) }}
-            {{ include(template_from_string(attr.disabled(block.properties.disabled))) }}
-            {{ include(template_from_string(attr.events(block.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
-                                                'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                                'onkeydown', 'onblur']))) }}
-            {{ include(template_from_string(attr.validation(block.properties.validation))) }}>{{ include(template_from_string(attr.value(block.properties.name, values, block.properties.value, false))) }}</textarea>
-{% if block.properties.validation.errorMessage %}
-    <div class="invalid-feedback">
-        {{ include(template_from_string(block.properties.validation.errorMessage)) }}
-    </div>
-{% endif %}
-{% if block.properties.help %}
-    <small>{{ include(template_from_string(block.properties.help)) }}</small>
+{% if blockVisible %}
+    {% if block.properties.label %}
+    <label for="{{ block.properties.id }}" 
+            {{ include(template_from_string(attr.class(['form-label', block.properties.label.class]))) }}
+            {{ include(template_from_string(attr.style(block.properties.label.style))) }}>{{ include(template_from_string(block.properties.label.value)) }}</label>
+    {% endif %}
+    <textarea {{ attr.id(block.properties.id) }}
+                {{ include(template_from_string(attr.name(block.properties.name))) }}
+                {{ include(template_from_string(attr.rows(block.properties.rows))) }}
+                {{ include(template_from_string(attr.cols(block.properties.cols))) }}
+                {{ include(template_from_string(attr.class(['form-control', block.properties.class]))) }}
+                {{ include(template_from_string(attr.data(block.properties.data))) }}
+                {{ include(template_from_string(attr.style(block.properties.style))) }}
+                {{ include(template_from_string(attr.placeholder(block.properties.placeholder))) }}
+                {{ include(template_from_string(attr.readonly(block.properties.readonly))) }}
+                {{ include(template_from_string(attr.disabled(block.properties.disabled))) }}
+                {{ include(template_from_string(attr.events(block.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                                    'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                                    'onkeydown', 'onblur']))) }}
+                {{ include(template_from_string(attr.validation(block.properties.validation))) }}>{{ include(template_from_string(attr.value(block.properties.name, values, block.properties.value, false))) }}</textarea>
+    {% if block.properties.validation.errorMessage %}
+        <div class="invalid-feedback">
+            {{ include(template_from_string(block.properties.validation.errorMessage)) }}
+        </div>
+    {% endif %}
+    {% if block.properties.help %}
+        <small>{{ include(template_from_string(block.properties.help)) }}</small>
+    {% endif %}
 {% endif %}
