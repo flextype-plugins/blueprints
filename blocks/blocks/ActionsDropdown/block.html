@@ -1,0 +1,42 @@
+{% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
+{% set blockVisible = true %}
+{% if arrays(block).has('properties.visible') %}
+    {% if block.properties.visible is string %}
+        {% set blockVisible = include(template_from_string(block.properties.visible)) %}
+    {% else %}
+        {% set blockVisible = (block.properties.visible == true) ? true : false %}
+    {% endif %}
+{% endif %}
+{% if blockVisible %}
+    <div class="dropdown">
+        <a class="dropdown-toggle dropdown-dots" data-bs-toggle="dropdown" aria-expanded="false">
+            {{ icon('three-dots', 'bootstrap') }}
+        </a>
+        <ul class="dropdown-menu">
+            {% for item in block.properties.items %}
+            
+                {% set itemVisible = true %}
+                {% if arrays(item).has('visible') %}
+                    {% if item.visible is string %}
+                        {% set itemVisible = include(template_from_string(item.visible)) %}
+                    {% else %}
+                        {% set itemVisible = (item.visible == true) ? true : false %}
+                    {% endif %}
+                {% endif %}
+
+                {% if itemVisible %}
+                    <li>
+                        <a {{ include(template_from_string(attr.class(['dropdown-item', 'd-flex', 'align-items-center', item.class]))) }}
+                                        {{ include(template_from_string(attr.id(item.id))) }}
+                                        {{ include(template_from_string(attr.href(item.href))) }}
+                                        {{ include(template_from_string(attr.data(item.data))) }}
+                                        {{ include(template_from_string(attr.style(item.style))) }} 
+                                        {{ include(template_from_string(attr.events(item.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+                                                                    'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
+                                                                    'onkeydown', 'onblur']))) }}>{% if item.icon %}<span class="pe-3 d-flex">{{ icon(item.icon.name, item.icon.set) }}</span> {% endif %}{{ include(template_from_string(item.value)) }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
