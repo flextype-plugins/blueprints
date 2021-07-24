@@ -13,6 +13,7 @@ namespace Flextype\Plugin\Blueprints;
 
 use Flextype\Plugin\Blueprints\Models\Blueprints;
 use Flextype\Plugin\Twig\Twig\FlextypeTwig;
+use Flextype\Plugin\Blueprints\Twig\BlueprintsTwig;
 use function array_merge;
 use function strtolower;
 use function substr;
@@ -40,9 +41,9 @@ $blueprints_loader = require_once $blueprints_autoload;
 flextype()->container()['blueprints'] = fn() => new Blueprints();
 
 /**
- * Add Blueprints Twig extension
+ * Add Blueprints Twig
  */
-FlextypeTwig::macro('blueprints', fn() => flextype('blueprints'));
+FlextypeTwig::macro('blueprints', fn() => new BlueprintsTwig());
 
 $blueprintsJS[]  = 'project/plugins/blueprints/assets/dist/js/blueprints.min.js';
 $blueprintsCSS[] = 'project/plugins/blueprints/assets/dist/css/blueprints.min.css';
