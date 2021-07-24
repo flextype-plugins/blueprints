@@ -2,15 +2,15 @@
 {% set blockVisible = true %}
 {% if arrays(block).has('properties.visible') %}
     {% if block.properties.visible is string %}
-        {% set blockVisible = include(template_from_string(block.properties.visible)) %}
+        {% set blockVisible = strings(block.properties.visible).toBoolean() %}
     {% else %}
-        {% set blockVisible = (block.properties.visible == true) ? true : false %}
+        {% set blockVisible = block.properties.visible %}
     {% endif %}
 {% endif %}
 {% if blockVisible %}
-    <div {{ include(template_from_string(attr.class(['row', block.properties.class]))) }} 
-        {{ include(template_from_string(attr.data(block.properties.data))) }}
-        {{ include(template_from_string(attr.style(block.properties.style))) }}>
+    <div {{ attr.class(['row', block.properties.class]) }} 
+        {{ attr.data(block.properties.data) }}
+        {{ attr.style(block.properties.style) }}>
         {% for block in block.blocks %}
             {% if block.type in blocks|keys %}
                 {% include blocks[block.type]['template'] %}

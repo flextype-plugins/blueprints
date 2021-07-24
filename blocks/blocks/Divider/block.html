@@ -7,14 +7,14 @@
 {% set blockVisible = true %}
 {% if arrays(block).has('properties.visible') %}
     {% if block.properties.visible is string %}
-        {% set blockVisible = include(template_from_string(block.properties.visible)) %}
+        {% set blockVisible = strings(block.properties.visible).toBoolean() %}
     {% else %}
-        {% set blockVisible = (block.properties.visible == true) ? true : false %}
+        {% set blockVisible = block.properties.visible %}
     {% endif %}
-{% endif %}
+{% endif %}   
 {% if blockVisible %}
-    <div {{ include(template_from_string(attr.id(block.properties.id))) }} 
-        {{ include(template_from_string(attr.data(block.properties.data))) }}
-        {{ include(template_from_string(attr.style(block.properties.style))) }} 
-        {{ include(template_from_string(attr.class(['divider', block.properties.class, dashed]))) }}></div>
+    <div {{ attr.id(block.properties.id) }} 
+        {{ attr.data(block.properties.data) }}
+        {{ attr.style(block.properties.style) }} 
+        {{ attr.class(['divider', block.properties.class, dashed]) }}></div>
 {% endif %}

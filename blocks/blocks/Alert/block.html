@@ -13,23 +13,23 @@
 {% set blockVisible = true %}
 {% if arrays(block).has('properties.visible') %}
     {% if block.properties.visible is string %}
-        {% set blockVisible = include(template_from_string(block.properties.visible)) %}
+        {% set blockVisible = strings(block.properties.visible).toBoolean() %}
     {% else %}
-        {% set blockVisible = (block.properties.visible == true) ? true : false %}
+        {% set blockVisible = block.properties.visible %}
     {% endif %}
 {% endif %}
 {% if blockVisible %}
-    <div {{ include(template_from_string(attr.class(['alert', block.properties.class, alertType]))) }}
-        {{ include(template_from_string(attr.data(block.properties.data))) }}
-        {{ include(template_from_string(attr.style(block.properties.style))) }}
+    <div {{ attr.class(['alert', block.properties.class, alertType]) }}
+        {{ attr.data(block.properties.data) }}
+        {{ attr.style(block.properties.style) }}
         role="alert">
         {% if block.properties.header.title %}
             <h4 class="alert-heading"
-            {{ include(template_from_string(attr.class(['alert-heading', block.properties.header.class]))) }}
-            {{ include(template_from_string(attr.data(block.properties.header.data))) }}
-            {{ include(template_from_string(attr.style(block.properties.header.style))) }}>{{ include(template_from_string(block.properties.header.value)) }}</h4>
+            {{ attr.class(['alert-heading', block.properties.header.class]) }}
+            {{ attr.data(block.properties.header.data) }}
+            {{ attr.style(block.properties.header.style) }}>{{ block.properties.header.value }}</h4>
             <hr>
         {% endif %}
-        {{ include(template_from_string(block.properties.value)) }}
+        {{ block.properties.value }}
     </div>
 {% endif %}

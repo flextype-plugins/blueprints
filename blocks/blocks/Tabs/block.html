@@ -2,16 +2,16 @@
 {% set blockVisible = true %}
 {% if arrays(block).has('properties.visible') %}
     {% if block.properties.visible is string %}
-        {% set blockVisible = include(template_from_string(block.properties.visible)) %}
+        {% set blockVisible = strings(block.properties.visible).toBoolean() %}
     {% else %}
-        {% set blockVisible = (block.properties.visible == true) ? true : false %}
+        {% set blockVisible = block.properties.visible %}
     {% endif %}
 {% endif %}
 {% if blockVisible %}
-    <div {{ include(template_from_string(attr.id(block.properties.id))) }}
-        {{ include(template_from_string(attr.class([block.properties.class]))) }} 
-        {{ include(template_from_string(attr.data(block.properties.data))) }}
-        {{ include(template_from_string(attr.style(block.properties.style))) }}>
+    <div {{ attr.id(block.properties.id) }}
+        {{ attr.class([block.properties.class]) }} 
+        {{ attr.data(block.properties.data) }}
+        {{ attr.style(block.properties.style) }}>
         <ul class="nav nav-tabs" role="tablist">
             {% for key, nav in block.properties.tabs %}
                 <li class="nav-item" role="presentation">
@@ -22,7 +22,7 @@
                             type="button"
                             role="tab"
                             aria-controls="{{ key }}-tab"
-                            aria-selected="{% if loop.first %}true{% else %}false{% endif %}">{{ include(template_from_string(nav.title)) }}</button>
+                            aria-selected="{% if loop.first %}true{% else %}false{% endif %}">{{ nav.title }}</button>
                 </li>
             {% endfor %}
         </ul>

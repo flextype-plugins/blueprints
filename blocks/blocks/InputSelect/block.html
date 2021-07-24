@@ -2,26 +2,26 @@
 {% set blockVisible = true %}
 {% if arrays(block).has('properties.visible') %}
     {% if block.properties.visible is string %}
-        {% set blockVisible = include(template_from_string(block.properties.visible)) %}
+        {% set blockVisible = strings(block.properties.visible).toBoolean() %}
     {% else %}
-        {% set blockVisible = (block.properties.visible == true) ? true : false %}
+        {% set blockVisible = block.properties.visible %}
     {% endif %}
-{% endif %}
+{% endif %} 
 {% if blockVisible %} 
     {% if block.properties.label %}
         <label for="{{ block.properties.id }}" 
-            {{ include(template_from_string(attr.class(['form-label', block.properties.label.class]))) }}
-            {{ include(template_from_string(attr.style(block.properties.label.style))) }}>{{ include(template_from_string(block.properties.label.value)) }}</label>
+            {{ attr.class(['form-label', block.properties.label.class]) }}
+            {{ attr.style(block.properties.label.style) }}>{{ block.properties.label.value }}</label>
     {% endif %} 
-    <select {{ include(template_from_string(attr.id(block.properties.id))) }}
-            {{ include(template_from_string(attr.name(block.properties.name))) }}
-            {{ include(template_from_string(attr.class(['form-control', block.properties.class]))) }}
-            {{ include(template_from_string(attr.data(block.properties.data))) }}
-            {{ include(template_from_string(attr.style(block.properties.style))) }}
-            {{ include(template_from_string(attr.disabled(block.properties.disabled))) }} 
-            {{ include(template_from_string(attr.events(block.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+    <select {{ attr.id(block.properties.id) }}
+            {{ attr.name(block.properties.name) }}
+            {{ attr.class(['form-control', block.properties.class]) }}
+            {{ attr.data(block.properties.data) }}
+            {{ attr.style(block.properties.style) }}
+            {{ attr.disabled(block.properties.disabled) }} 
+            {{ attr.events(block.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
                                                 'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                                'onkeydown', 'onblur']))) }}>
+                                                'onkeydown', 'onblur']) }}>
 
         {% if block.properties.items %}
             {% if block.properties.items is iterable %}
@@ -33,10 +33,10 @@
 
         {% for key, value in items %}
         <option value="{{ key }}" 
-                {{ attr.selected(key, properties.name, values, properties.value) }}>{{ include(template_from_string(value)) }}</option>
+                {{ attr.selected(key, properties.name, values, properties.value) }}>{{ value }}</option>
         {% endfor %}
     </select>
     {% if block.properties.help %}
-        <small>{{ include(template_from_string(block.properties.help)) }}</small>
+        <small>{{ block.properties.help }}</small>
     {% endif %}
 {% endif %}

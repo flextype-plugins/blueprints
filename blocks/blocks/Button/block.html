@@ -17,20 +17,20 @@
 {% set blockVisible = true %}
 {% if arrays(block).has('properties.visible') %}
     {% if block.properties.visible is string %}
-        {% set blockVisible = include(template_from_string(block.properties.visible)) %}
+        {% set blockVisible = strings(block.properties.visible).toBoolean() %}
     {% else %}
-        {% set blockVisible = (block.properties.visible == true) ? true : false %}
+        {% set blockVisible = block.properties.visible %}
     {% endif %}
 {% endif %}
 {% if blockVisible %}
     <button 
         type="button"
-        {{ include(template_from_string(attr.id(block.properties.id))) }}
-        {{ include(template_from_string(attr.class(['btn', btnType, btnSizes[block.properties.size], block.properties.class]))) }}
-        {{ include(template_from_string(attr.data(block.properties.data))) }}
-        {{ include(template_from_string(attr.style(block.properties.style))) }} 
-        {{ include(template_from_string(attr.disabled(block.properties.disabled))) }}
-        {{ include(template_from_string(attr.events(block.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+        {{ attr.id(block.properties.id) }}
+        {{ attr.class(['btn', btnType, btnSizes[block.properties.size], block.properties.class]) }}
+        {{ attr.data(block.properties.data) }}
+        {{ attr.style(block.properties.style) }} 
+        {{ attr.disabled(block.properties.disabled) }}
+        {{ attr.events(block.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
                                             'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                            'onkeydown', 'onblur']))) }}>{{ include(template_from_string(block.properties.value)) }}</button>
+                                            'onkeydown', 'onblur']) }}>{{ block.properties.value }}</button>
 {% endif %}

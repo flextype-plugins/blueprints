@@ -2,19 +2,19 @@
 {% set blockVisible = true %}
 {% if arrays(block).has('properties.visible') %}
     {% if block.properties.visible is string %}
-        {% set blockVisible = include(template_from_string(block.properties.visible)) %}
+        {% set blockVisible = strings(block.properties.visible).toBoolean() %}
     {% else %}
-        {% set blockVisible = (block.properties.visible == true) ? true : false %}
+        {% set blockVisible = block.properties.visible %}
     {% endif %}
 {% endif %}
 {% if blockVisible %}
-    <a {{ include(template_from_string(attr.id(block.properties.id)))  }}
-    {{ include(template_from_string(attr.data(block.properties.data))) }}
-    {{ include(template_from_string(attr.class([block.properties.class]))) }}
-    {{ include(template_from_string(attr.style(block.properties.style))) }}
-    {{ include(template_from_string(attr.href(block.properties.href))) }}
-    {{ include(template_from_string(attr.target(block.properties.target))) }}
-    {{ include(template_from_string(attr.events(block.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+    <a attr.id(block.properties.id)))  }}
+    attr.data(block.properties.data) }}
+    attr.class([block.properties.class]) }}
+    attr.style(block.properties.style) }}
+    attr.href(block.properties.href) }}
+    attr.target(block.properties.target) }}
+    attr.events(block.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
                                                                             'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                                                            'onkeydown', 'onblur']))) }}>{{ include(template_from_string(block.properties.value)) }}</a>
+                                                                            'onkeydown', 'onblur']) }}>block.properties.value }}</a>
 {% endif %}

@@ -2,32 +2,32 @@
 {% set blockVisible = true %}
 {% if arrays(block).has('properties.visible') %}
     {% if block.properties.visible is string %}
-        {% set blockVisible = include(template_from_string(block.properties.visible)) %}
+        {% set blockVisible = strings(block.properties.visible).toBoolean() %}
     {% else %}
-        {% set blockVisible = (block.properties.visible == true) ? true : false %}
+        {% set blockVisible = block.properties.visible %}
     {% endif %}
-{% endif %}
+{% endif %}   
 {% if blockVisible %}
     <form
-        {{ include(template_from_string(attr.action(block.properties.action))) }}
-        {{ include(template_from_string(attr.method(block.properties.method))) }}
-        {{ include(template_from_string(attr.id(block.properties.id))) }}
-        {{ include(template_from_string(attr.data(block.properties.data))) }}
-        {{ include(template_from_string(attr.name(block.properties.name))) }}
-        {{ include(template_from_string(attr.class(['js-needs-validation', block.properties.class]))) }}
-        {{ include(template_from_string(attr.events(block.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+        {{ attr.action(block.properties.action) }}
+        {{ attr.method(block.properties.method) }}
+        {{ attr.id(block.properties.id) }}
+        {{ attr.data(block.properties.data) }}
+        {{ attr.name(block.properties.name) }}
+        {{ attr.class(['js-needs-validation', block.properties.class]) }}
+        {{ attr.events(block.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
                                                                                 'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                                                                'onkeydown', 'onblur', 'onreset', 'onsubmit']))) }}
+                                                                                'onkeydown', 'onblur', 'onreset', 'onsubmit']) }}
         novalidate>
         {{ csrf() }}
         {% if block.properties.process %}
             <input 
                 type="hidden"
-                {{ include(template_from_string(attr.name(block.properties.name, '__form_process_'))) }}
+                {{ attr.name(block.properties.name, '__form_process_') }}
                 value="{{ flextype.serializers.json.encode(block.properties.process) }}">
             <input 
                 type="hidden"
-                {{ include(template_from_string(attr.name(block.properties.name, '__form_vars_'))) }}
+                {{ attr.name(block.properties.name, '__form_vars_') }}
                 value="{{ flextype.serializers.json.encode(arrays(_context)
                                                             .delete('blocks')
                                                             .delete('_parent')
@@ -37,7 +37,7 @@
                                                             .delete('PATH_PROJECT')
                                                             .delete('PHP_VERSION')
                                                             .delete('flextype')
-                                                            .toArray()) }}">
+                                                            .toArray( }}">
         {% endif %}
         {% for block in block.blocks %}
             {% if block.type in blocks|keys %}

@@ -21,16 +21,16 @@
 {% set blockVisible = true %}
 {% if arrays(block).has('properties.visible') %}
     {% if block.properties.visible is string %}
-        {% set blockVisible = include(template_from_string(block.properties.visible)) %}
+        {% set blockVisible = strings(block.properties.visible).toBoolean() %}
     {% else %}
-        {% set blockVisible = (block.properties.visible == true) ? true : false %}
+        {% set blockVisible = block.properties.visible %}
     {% endif %}
-{% endif %}
+{% endif %}     
 {% if blockVisible %}
-    <div {{ include(template_from_string(attr.class([block.properties.class, _self.container(block.properties.breakpoint)]))) }}
-        {{ include(template_from_string(attr.data(block.properties.data))) }}
-        {{ include(template_from_string(attr.style(block.properties.style))) }}
-        {{ include(template_from_string(attr.id(block.properties.id))) }}>
+    <div {{ attr.class([block.properties.class, _self.container(block.properties.breakpoint)]) }}
+        {{ attr.data(block.properties.data) }}
+        {{ attr.style(block.properties.style) }}
+        {{ attr.id(block.properties.id) }}>
         {% for block in block.blocks %}
             {% if block.type in blocks|keys %}
                 {% include blocks[block.type]['template'] %}
