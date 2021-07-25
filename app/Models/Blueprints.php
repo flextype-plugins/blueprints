@@ -17,7 +17,7 @@ class Blueprints
     use Macroable;
 
     /**
-     * Blueprints Storage
+     * Blueprints Registry
      *
      * Used for storing current requested blueprints data
      * and allow to change them on fly.
@@ -25,24 +25,24 @@ class Blueprints
      * @var Arrays
      * @access private
      */
-    private Arrays $storage;
+    private Arrays $registry;
 
     /**
      *  __construct
      */
     public function __construct()
     {
-        $this->storage = arrays();
+        $this->registry = arrays();
     }
 
     /**
-     * Get Blueprints Storage
+     * Get Blueprints Registry
      *
      * @return Arrays
      */
-    public function storage(): Arrays
+    public function registry(): Arrays
     {
-        return $this->storage;
+        return $this->registry;
     }
 
     /**
@@ -58,9 +58,9 @@ class Blueprints
     public function fetch(string $id, array $options = []): Arrays
     {
       // Store data
-      $this->storage()->set('fetch.id', $id);
-      $this->storage()->set('fetch.options', $options);
-      $this->storage()->set('fetch.data', []);
+      $this->registry()->set('fetch.id', $id);
+      $this->registry()->set('fetch.options', $options);
+      $this->registry()->set('fetch.data', []);
 
       // Run event: onBlueprintsFetch
       flextype('emitter')->emit('onBlueprintsFetch');
@@ -69,34 +69,34 @@ class Blueprints
       $single = function ($id, $options) {
 
           // Store data
-          $this->storage()->set('fetch.id', $id);
-          $this->storage()->set('fetch.options', $options);
-          $this->storage()->set('fetch.data', []);
+          $this->registry()->set('fetch.id', $id);
+          $this->registry()->set('fetch.options', $options);
+          $this->registry()->set('fetch.data', []);
 
           // Run event: onBlueprintsFetchSingle
           flextype('emitter')->emit('onBlueprintsFetchSingle');
 
           // Get Cache ID for current requested blueprint
-          $blueprintCacheID = $this->getCacheID($this->storage()->get('fetch.id'));
+          $blueprintCacheID = $this->getCacheID($this->registry()->get('fetch.id'));
 
           // 1. Try to get current requested blueprint from cache
           if (flextype('cache')->has($blueprintCacheID)) {
 
               // Fetch blueprint from cache and Apply filter for fetch data
-              $this->storage()->set('fetch.data', filter(flextype('cache')->get($blueprintCacheID),
-                                                       $this->storage()->get('fetch.options.filter', [])));
+              $this->registry()->set('fetch.data', filter(flextype('cache')->get($blueprintCacheID),
+                                                       $this->registry()->get('fetch.options.filter', [])));
 
               // Run event: onBlueprintsFetchSingleCacheHasResult
               flextype('emitter')->emit('onBlueprintsFetchSingleCacheHasResult');
 
               // Return blueprint from cache
-              return arrays($this->storage()->get('fetch.data'));
+              return arrays($this->registry()->get('fetch.data'));
           }
 
           // 2. Try to get current requested blueprint from filesystem
-          if ($this->has($this->storage()->get('fetch.id'))) {
+          if ($this->has($this->registry()->get('fetch.id'))) {
               // Get blueprint file location
-              $blueprintFile = $this->getFileLocation($this->storage()->get('fetch.id'));
+              $blueprintFile = $this->getFileLocation($this->registry()->get('fetch.id'));
 
               // Try to get requested blueprint from the filesystem
               $blueprintFileContent = filesystem()->file($blueprintFile)->get();
@@ -104,41 +104,41 @@ class Blueprints
               if ($blueprintFileContent === false) {
                   // Run event: onBlueprintsFetchSingleNoResult
                   flextype('emitter')->emit('onBlueprintsFetchSingleNoResult');
-                  return arrays($this->storage()->get('fetch.data'));
+                  return arrays($this->registry()->get('fetch.data'));
               }
 
               // Decode blueprint file content
-              $this->storage()->set('fetch.data', flextype('serializers')->yaml()->decode($blueprintFileContent));
+              $this->registry()->set('fetch.data', flextype('serializers')->yaml()->decode($blueprintFileContent));
 
               // Run event: onBlueprintsFetchSingleHasResult
               flextype('emitter')->emit('onBlueprintsFetchSingleHasResult');
 
               // Apply filter for fetch data
-              $this->storage()->set('fetch.data', filter($this->storage()->get('fetch.data'),
-                                                         $this->storage()->get('fetch.options.filter', [])));
+              $this->registry()->set('fetch.data', filter($this->registry()->get('fetch.data'),
+                                                         $this->registry()->get('fetch.options.filter', [])));
 
               // Set cache state
-              $cache = $this->storage()->get('fetch.data.cache.enabled',
+              $cache = $this->registry()->get('fetch.data.cache.enabled',
                                              flextype('registry')->get('flextype.settings.cache.enabled'));
 
                // Save blueprint data to cache
               if ($cache) {
-                  flextype('cache')->set($blueprintCacheID, $this->storage()->get('fetch.data'));
+                  flextype('cache')->set($blueprintCacheID, $this->registry()->get('fetch.data'));
               }
 
               // Return blueprint data
-              return arrays($this->storage()->get('fetch.data'));
+              return arrays($this->registry()->get('fetch.data'));
           }
 
           // Run event: onBlueprintsFetchSingleNoResult
           flextype('emitter')->emit('onBlueprintsFetchSingleNoResult');
 
           // Return empty array if blueprint is not founded
-          return arrays($this->storage()->get('fetch.data'));
+          return arrays($this->registry()->get('fetch.data'));
       };
 
-      if (isset($this->storage['fetch']['options']['collection']) &&
-          strings($this->storage['fetch']['options']['collection'])->isTrue()) {
+      if (isset($this->registry['fetch']['options']['collection']) &&
+          strings($this->registry['fetch']['options']['collection'])->isTrue()) {
 
           // Run event: onBlueprintsFetchCollection
           flextype('emitter')->emit('onBlueprintsFetchCollection');
@@ -148,7 +148,7 @@ class Blueprints
               flextype('emitter')->emit('onBlueprintsFetchCollectionNoResult');
 
               // Return blueprintss array
-              return arrays($this->storage()->get('fetch.data'));
+              return arrays($this->registry()->get('fetch.data'));
           }
 
           // Find blueprints in the filesystem
@@ -176,13 +176,13 @@ class Blueprints
                   $data[$currentBlueprintID] = $single($currentBlueprintID, [])->toArray();
               }
 
-              $this->storage()->set('fetch.data', $data);
+              $this->registry()->set('fetch.data', $data);
 
               // Run event: onBlueprintsFetchCollectionHasResult
               flextype('emitter')->emit('onBlueprintsFetchCollectionHasResult');
 
               // Apply filter for fetch data
-              $this->storage()->set('fetch.data', filter($this->storage()->get('fetch.data'),
+              $this->registry()->set('fetch.data', filter($this->registry()->get('fetch.data'),
                                                        isset($options['filter']) ?
                                                              $options['filter'] :
                                                              []));
@@ -192,10 +192,10 @@ class Blueprints
           flextype('emitter')->emit('onBlueprintsFetchCollectionNoResult');
 
           // Return blueprints array
-          return arrays($this->storage()->get('fetch.data'));
+          return arrays($this->registry()->get('fetch.data'));
       } else {
-          return $single($this->storage['fetch']['id'],
-                         $this->storage['fetch']['options']);
+          return $single($this->registry['fetch']['id'],
+                         $this->registry['fetch']['options']);
       }
     }
 
@@ -212,16 +212,16 @@ class Blueprints
     public function move(string $id, string $newID): bool
     {
         // Store data
-        $this->storage()->set('move.id', $id);
-        $this->storage()->set('move.newID', $newID);
+        $this->registry()->set('move.id', $id);
+        $this->registry()->set('move.newID', $newID);
 
         // Run event: onBlueprintsMove
         flextype('emitter')->emit('onBlueprintsMove');
 
-        if (! $this->has($this->storage()->get('move.newID'))) {
+        if (! $this->has($this->registry()->get('move.newID'))) {
             return filesystem()
-                        ->directory($this->getDirectoryLocation($this->storage()->get('move.id')))
-                        ->move($this->getDirectoryLocation($this->storage()->get('move.newID')));
+                        ->directory($this->getDirectoryLocation($this->registry()->get('move.id')))
+                        ->move($this->getDirectoryLocation($this->registry()->get('move.newID')));
         }
 
         return false;
@@ -240,19 +240,19 @@ class Blueprints
     public function update(string $id, array $data): bool
     {
         // Store data
-        $this->storage()->set('update.id', $id);
-        $this->storage()->set('update.data', $data);
+        $this->registry()->set('update.id', $id);
+        $this->registry()->set('update.data', $data);
 
         // Run event: onBlueprintsUpdate
         flextype('emitter')->emit('onBlueprintsUpdate');
 
-        $blueprintFile = $this->getFileLocation($this->storage()->get('update.id'));
+        $blueprintFile = $this->getFileLocation($this->registry()->get('update.id'));
 
         if (filesystem()->file($blueprintFile)->exists()) {
             $body  = filesystem()->file($blueprintFile)->get();
             $blueprint = flextype('serializers')->yaml()->decode($body);
 
-            return (bool) filesystem()->file($blueprintFile)->put(flextype('serializers')->yaml()->encode(array_merge($blueprint, $this->storage()->get('update.data'))));
+            return (bool) filesystem()->file($blueprintFile)->put(flextype('serializers')->yaml()->encode(array_merge($blueprint, $this->registry()->get('update.data'))));
         }
 
         return false;
@@ -271,14 +271,14 @@ class Blueprints
     public function create(string $id, array $data = []): bool
     {
         // Store data
-        $this->storage()->set('create.id', $id);
-        $this->storage()->set('create.data', $data);
+        $this->registry()->set('create.id', $id);
+        $this->registry()->set('create.data', $data);
 
         // Run event: onBlueprintsCreate
         flextype('emitter')->emit('onBlueprintsCreate');
 
         // Create blueprint directory first if it is not exists
-        $blueprintDir = $this->getDirectoryLocation($this->storage()->get('create.id'));
+        $blueprintDir = $this->getDirectoryLocation($this->registry()->get('create.id'));
 
         if (
             ! filesystem()->directory($blueprintDir)->exists() &&
@@ -290,7 +290,7 @@ class Blueprints
         // Create blueprint file
         $blueprintFile = $blueprintDir . '/blueprint.yaml';
         if (! filesystem()->file($blueprintFile)->exists()) {
-            return (bool) filesystem()->file($blueprintFile)->put(flextype('serializers')->yaml()->encode($this->storage()->get('create.data')));
+            return (bool) filesystem()->file($blueprintFile)->put(flextype('serializers')->yaml()->encode($this->registry()->get('create.data')));
         }
 
         return false;
@@ -308,13 +308,13 @@ class Blueprints
     public function delete(string $id): bool
     {
         // Store data
-        $this->storage()->set('delete.id', $id);
+        $this->registry()->set('delete.id', $id);
 
         // Run event: onBlueprintsDelete
         flextype('emitter')->emit('onBlueprintsDelete');
 
         return filesystem()
-                    ->directory($this->getDirectoryLocation($this->storage()->get('delete.id')))
+                    ->directory($this->getDirectoryLocation($this->registry()->get('delete.id')))
                     ->delete();
     }
 
@@ -331,15 +331,15 @@ class Blueprints
     public function copy(string $id, string $newID): ?bool
     {
         // Store data
-        $this->storage()->set('copy.id', $id);
-        $this->storage()->set('copy.newID', $newID);
+        $this->registry()->set('copy.id', $id);
+        $this->registry()->set('copy.newID', $newID);
 
         // Run event: onBlueprintsCopy
         flextype('emitter')->emit('onBlueprintsCopy');
 
         return filesystem()
-                    ->directory($this->getDirectoryLocation($this->storage()->get('copy.id')))
-                    ->copy($this->getDirectoryLocation($this->storage()->get('copy.newID')));
+                    ->directory($this->getDirectoryLocation($this->registry()->get('copy.id')))
+                    ->copy($this->getDirectoryLocation($this->registry()->get('copy.newID')));
     }
 
     /**
@@ -354,12 +354,12 @@ class Blueprints
     public function has(string $id): bool
     {
         // Store data
-        $this->storage()->set('has.id', $id);
+        $this->registry()->set('has.id', $id);
 
         // Run event: onBlueprintHas
         flextype('emitter')->emit('onBlueprintsHas');
 
-        return filesystem()->file($this->getFileLocation($this->storage()->get('has.id')))->exists();
+        return filesystem()->file($this->getFileLocation($this->registry()->get('has.id')))->exists();
     }
 
     /**
@@ -377,9 +377,10 @@ class Blueprints
     {
         $blueprint = flextype('blueprints')->fetch($id)->toArray();
 
-        $processVars = $this->processVars($blueprint, $vars);
-        $this->processEmitter($blueprint, $processVars);
-        $this->processActions($blueprint, $processVars);
+        $vars      = $this->processVars($blueprint, $vars);
+        $blueprint = $this->processDirectives($blueprint, $vars);
+        $this->processEmitter($blueprint, $vars);
+        $this->processActions($blueprint, $vars);  
 
         echo flextype('twig')
                 ->getEnvironment()
@@ -389,7 +390,7 @@ class Blueprints
                         'blueprint' => $blueprint,
                         'values'    => $values,
                         'blocks'    => flextype('registry')->get('plugins.blueprints.settings.blocks'),
-                    ], $processVars));
+                    ], $vars));
     }
 
     /**
@@ -404,10 +405,11 @@ class Blueprints
      * @access public
      */
     public function renderFromArray(array $blueprint, array $values = [], array $vars = []): void
-    {
-        $processVars = $this->processVars($blueprint, $vars);
-        $this->processEmitter($blueprint, $processVars);
-        $this->processActions($blueprint, $processVars);
+    {   
+        $vars      = $this->processVars($blueprint, $vars);
+        $blueprint = $this->processDirectives($blueprint, $vars);
+        $this->processEmitter($blueprint, $vars);
+        $this->processActions($blueprint, $vars);
 
         echo flextype('twig')
                 ->getEnvironment()
@@ -417,7 +419,7 @@ class Blueprints
                         'blueprint' => $blueprint,
                         'values'    => $values,
                         'blocks'    => flextype('registry')->get('plugins.blueprints.settings.blocks'),
-                    ], $processVars));
+                    ], $vars));
     }
 
     /**
@@ -534,6 +536,53 @@ class Blueprints
         }
 
         return strings('blueprint' . $blueprintFile)->hash()->toString();
+    }
+
+   /**
+     * Process directives for blueprint field values.
+     *
+     * @param array $blueprint Blueprint array.
+     * @param array $vars      Blueprint variables.
+     * 
+     * @return void
+     *
+     * @access private
+     */
+    private function processDirectives(array $blueprint, array $vars): array 
+    {
+        $flatBlueprint   = arrays($blueprint)->dot();
+        $parsedBlueprint = [];
+
+        foreach($flatBlueprint as $key => $value) {
+            if (strings($value)->startsWith('@parsers:')) {
+                $parsers = strings($value)->after('@parsers:')->toString();
+                $arguments = strings(strtok($parsers, ';'))->toArray(',');
+
+                foreach ($arguments as $argument) {
+                    switch ($argument) {
+                        case 'twig':
+                            $value = flextype('twig')->fetchFromString($value, $vars);
+                            break;
+                        case 'shortcode':
+                            $value = flextype('parsers')->shortcode()->process($value);
+                            break;
+                        case 'markdown':
+                            $value = flextype('parsers')->markdown()->parse($value);
+                            break;           
+                        default:
+                            $value = flextype('parsers')->{$argument}()->parse($value);
+                            break;
+                    }
+
+                    $parsedBlueprint[$key] = $value;
+                }
+
+               $parsedBlueprint[$key] = strings($parsedBlueprint[$key])->replace('@parsers:' . implode(',', $arguments) . ';', '')->trim()->toString();
+            } else {
+                $parsedBlueprint[$key] = $value;
+            }
+        }
+        return arrays($parsedBlueprint)->undot()->toArray();
     }
 
     /**
