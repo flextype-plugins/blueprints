@@ -58,7 +58,7 @@ class BlueprintsTwig
      */
     public function render(string $id, array $values = [], array $vars = []): void
     {
-        flextype('blueprints')->render($id, $value, $vars);
+        flextype('blueprints')->render($id, $values, $vars);
     }
     
     /**
