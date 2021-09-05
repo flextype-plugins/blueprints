@@ -11,8 +11,8 @@ declare(strict_types=1);
 
 namespace Flextype\Plugin\Blueprints;
 
-use Flextype\Plugin\Blueprints\Models\Blueprints;
-use Flextype\Plugin\Twig\Twig\FlextypeTwig;
+use Flextype\Plugin\Blueprints\Blueprints;
+use Flextype\Plugin\Twig\Extension\FlextypeTwig;
 use Flextype\Plugin\Blueprints\Twig\BlueprintsTwig;
 use function array_merge;
 use function strtolower;
@@ -38,22 +38,22 @@ $blueprints_loader = require_once $blueprints_autoload;
 /**
  * Add Blueprints Model to Flextype container
  */
-flextype()->container()['blueprints'] = fn() => new Blueprints();
+container()->set('blueprints', new Blueprints(registry()->get('plugins.blueprints.settings.entries')));
 
 /**
  * Add Blueprints Twig
  */
-FlextypeTwig::macro('blueprints', fn() => new BlueprintsTwig());
+//FlextypeTwig::macro('blueprints', new BlueprintsTwig());
 
 $blueprintsJS[]  = 'project/plugins/blueprints/assets/dist/js/blueprints.min.js';
 $blueprintsCSS[] = 'project/plugins/blueprints/assets/dist/css/blueprints.min.css';
 
-if (flextype('registry')->get('plugins.blueprints.settings.assetsLoadOnAdmin')) {
-    flextype('registry')->set('assets.admin.js.blueprints', $blueprintsJS);
-    flextype('registry')->set('assets.admin.css.blueprints', $blueprintsCSS);
+if (registry()->get('plugins.blueprints.settings.assetsLoadOnAdmin')) {
+    registry()->set('assets.admin.js.blueprints', $blueprintsJS);
+    registry()->set('assets.admin.css.blueprints', $blueprintsCSS);
 }
 
-if (flextype('registry')->get('plugins.blueprints.settings.assetsLoadOnSite')) {
-    flextype('registry')->set('assets.site.js.blueprints', $blueprintsJS);
-    flextype('registry')->set('assets.site.css.blueprints', $blueprintsCSS);
+if (registry()->get('plugins.blueprints.settings.assetsLoadOnSite')) {
+    registry()->set('assets.site.js.blueprints', $blueprintsJS);
+    registry()->set('assets.site.css.blueprints', $blueprintsCSS);
 }

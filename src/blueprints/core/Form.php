@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-namespace Flextype\Plugin\Blueprints\Models;
+namespace Flextype\Plugin\Blueprints;
 
 use Atomastic\Arrays\Arrays;
 use Atomastic\Macroable\Macroable;
@@ -39,11 +39,11 @@ class Form
 
         foreach($data as $processForm => $processStatements) {
             if (strings($processForm)->contains('__form_process')) { 
-                $this->registry->set('properties.process', arrays(flextype('serializers')->json()->decode($processStatements))); 
+                $this->registry->set('properties.process', arrays(serializers()->json()->decode($processStatements))); 
             }
 
             if (strings($processForm)->contains('__form_vars')) { 
-                $this->registry->set('vars', arrays(flextype('serializers')->json()->decode($processStatements))->merge($vars)->merge(['_form' => $this])); 
+                $this->registry->set('vars', arrays(serializers()->json()->decode($processStatements))->merge($vars)->merge(['_form' => $this])); 
             }
         } 
 
@@ -94,12 +94,12 @@ class Form
         if ($this->registry['properties']['process']->has('redirect') ) {
 
             if ($this->registry['properties']['process']->has('redirect.route')) {
-                $redirect .= flextype('router')->pathFor(strings(flextype('twig')->fetchFromString(strings($this->registry['properties']['process']->get('redirect.route'))->trim(), $this->registry['properties']['process']->has('redirect.data') ? $this->registry['properties']['process']->get('redirect.data') : $this->registry['vars']->toArray()))->trim());
+                $redirect .= urlFor(strings(twig()->fetchFromString(strings($this->registry['properties']['process']->get('redirect.route'))->trim(), $this->registry['properties']['process']->has('redirect.data') ? $this->registry['properties']['process']->get('redirect.data') : $this->registry['vars']->toArray()))->trim());
                 $args = $this->registry['properties']['process']->has('redirect.args') ? $this->registry['properties']['process']->get('redirect.args') : [];
             }
 
             if ($this->registry['properties']['process']->has('redirect.url')) {
-                $redirect .= strings(flextype('twig')->fetchFromString(strings($this->registry['properties']['process']->get('redirect.url'))->trim(), $this->registry['properties']['process']->has('redirect.data') ? $this->registry['properties']['process']->get('redirect.data') : $this->registry['vars']->toArray()))->trim();
+                $redirect .= strings(twig()->fetchFromString(strings($this->registry['properties']['process']->get('redirect.url'))->trim(), $this->registry['properties']['process']->has('redirect.data') ? $this->registry['properties']['process']->get('redirect.data') : $this->registry['vars']->toArray()))->trim();
                 $args = $this->registry['properties']['process']->has('redirect.args') ? $this->registry['properties']['process']->get('redirect.args') : [];
             }
 
@@ -107,7 +107,7 @@ class Form
                 foreach($args as $key => $value) {
                     $key === array_key_first($args) and $redirect .= '?';
 
-                    $redirect .=  $key . '=' . strings(flextype('twig')->fetchFromString($value, $this->registry['vars']->toArray()))->trim();
+                    $redirect .=  $key . '=' . strings(twig()->fetchFromString($value, $this->registry['vars']->toArray()))->trim();
 
                     $key != array_key_last($args) and $redirect .= '&'; 
                 }
@@ -131,7 +131,7 @@ class Form
 
         if ($this->registry['properties']['process']->has('fields')) {
             
-            flextype('emitter')->emit('onBlueprintsFormBeforeProcessedFields');
+            emitter()->emit('onBlueprintsFormBeforeProcessedFields');
 
             foreach($this->registry['properties']['process']['fields'] as $field) {
                 
@@ -145,28 +145,28 @@ class Form
                                 if (is_iterable($var['value'])) {
 
                                     array_walk_recursive($var['value'], function(&$value, $key) {
-                                        $value = strings(flextype('twig')->fetchFromString($value, $this->registry['vars']->toArray()))->trim()->toString();
+                                        $value = strings(twig()->fetchFromString($value, $this->registry['vars']->toArray()))->trim()->toString();
                                     });
 
                                     $fieldVars[$var['name']] = $var['value'];
                                     
                                 } else {
-                                    $value = htmlspecialchars_decode(flextype('twig')->fetchFromString(trim($var['value']), $this->registry['vars']->toArray()));
-                                    $fieldVars[$var['name']] = flextype('serializers')->json()->decode($value);
+                                    $value = htmlspecialchars_decode(twig()->fetchFromString(trim($var['value']), $this->registry['vars']->toArray()));
+                                    $fieldVars[$var['name']] = serializers()->json()->decode($value);
                                 }
                                 break;
                             case 'bool':
-                                $fieldVars[$var['name']] = strings(flextype('twig')->fetchFromString($var['value'], $this->registry['vars']->toArray()))->trim()->toBoolean();
+                                $fieldVars[$var['name']] = strings(twig()->fetchFromString($var['value'], $this->registry['vars']->toArray()))->trim()->toBoolean();
                                 break;
                             case 'float':
-                                $fieldVars[$var['name']] = strings(flextype('twig')->fetchFromString($var['value'], $this->registry['vars']->toArray()))->trim()->toFloat();
+                                $fieldVars[$var['name']] = strings(twig()->fetchFromString($var['value'], $this->registry['vars']->toArray()))->trim()->toFloat();
                                 break;    
                             case 'int':
-                                $fieldVars[$var['name']] = strings(flextype('twig')->fetchFromString($var['value'], $this->registry['vars']->toArray()))->trim()->toInteger();
+                                $fieldVars[$var['name']] = strings(twig()->fetchFromString($var['value'], $this->registry['vars']->toArray()))->trim()->toInteger();
                                 break;
                             case 'string':
                             default:
-                                $fieldVars[$var['name']] = strings(flextype('twig')->fetchFromString($var['value'], $this->registry['vars']->toArray()))->trim()->toString();
+                                $fieldVars[$var['name']] = strings(twig()->fetchFromString($var['value'], $this->registry['vars']->toArray()))->trim()->toString();
                                 break;
                         }
                     }
@@ -178,7 +178,7 @@ class Form
                 $type = isset($field['properties']['type']) ? $field['properties']['type'] : 'string';
 
                 // Get field ignore true/false
-                $ignore = isset($field['properties']['ignore']) && strings(flextype('twig')->fetchFromString($field['properties']['ignore']))->toBoolean() == true ?: false;
+                $ignore = isset($field['properties']['ignore']) && strings(twig()->fetchFromString($field['properties']['ignore']))->toBoolean() == true ?: false;
                 
                 switch ($type) {
                     case 'array':
@@ -187,13 +187,13 @@ class Form
                                 if (is_iterable($field['properties']['value'])) {
                                     
                                     array_walk_recursive($field['properties']['value'], function(&$value, $key) {
-                                        $value = strings(flextype('twig')->fetchFromString($value, $this->registry['vars']->toArray()))->trim()->toString();
+                                        $value = strings(twig()->fetchFromString($value, $this->registry['vars']->toArray()))->trim()->toString();
                                     });
 
                                     $data = arrays($data)->set($field['name'], $field['properties']['value'])->toArray();
                                 } else {
-                                    $value = htmlspecialchars_decode(flextype('twig')->fetchFromString(trim($field['properties']['value']), $vars));
-                                    $data = arrays($data)->set($field['name'], flextype('serializers')->json()->decode($value))->toArray();
+                                    $value = htmlspecialchars_decode(twig()->fetchFromString(trim($field['properties']['value']), $vars));
+                                    $data = arrays($data)->set($field['name'], serializers()->json()->decode($value))->toArray();
                                 }
                             } else {
                                 $data = arrays($data)->set($field['name'], $this->registry['data']->get($field['name']))->toArray();
@@ -203,7 +203,7 @@ class Form
                     case 'bool':
                         if (!$ignore) {
                             if (isset($field['properties']['value'])) {
-                                $data = arrays($data)->set($field['name'], strings(flextype('twig')->fetchFromString($field['properties']['value'], $vars))->trim()->toBoolean())->toArray();
+                                $data = arrays($data)->set($field['name'], strings(twig()->fetchFromString($field['properties']['value'], $vars))->trim()->toBoolean())->toArray();
                             } else {
                                 $data = arrays($data)->set($field['name'], strings($this->registry['data']->get($field['name']))->trim()->toBoolean())->toArray();
                             }
@@ -212,7 +212,7 @@ class Form
                     case 'float':
                         if (!$ignore) {
                             if (isset($field['properties']['value'])) {
-                                $data = arrays($data)->set($field['name'], strings(flextype('twig')->fetchFromString($field['properties']['value'], $vars))->trim()->toFloat())->toArray();
+                                $data = arrays($data)->set($field['name'], strings(twig()->fetchFromString($field['properties']['value'], $vars))->trim()->toFloat())->toArray();
                             } else {
                                 $data = arrays($data)->set($field['name'], strings($this->registry['data']->get($field['name']))->trim()->toFloat())->toArray();
                             }
@@ -221,7 +221,7 @@ class Form
                     case 'int':
                         if (!$ignore) {
                             if (isset($field['properties']['value'])) {
-                                $data = arrays($data)->set($field['name'], strings(flextype('twig')->fetchFromString($field['properties']['value'], $vars))->trim()->toInteger())->toArray();
+                                $data = arrays($data)->set($field['name'], strings(twig()->fetchFromString($field['properties']['value'], $vars))->trim()->toInteger())->toArray();
                             } else {
                                 $data = arrays($data)->set($field['name'], strings($this->registry['data']->get($field['name']))->trim()->toInteger())->toArray();
                             }
@@ -231,7 +231,7 @@ class Form
                     case 'string':
                         if (!$ignore) {
                             if (isset($field['properties']['value'])) {
-                                $data = arrays($data)->set($field['name'], strings(flextype('twig')->fetchFromString($field['properties']['value'], $vars))->trim()->toString())->toArray();
+                                $data = arrays($data)->set($field['name'], strings(twig()->fetchFromString($field['properties']['value'], $vars))->trim()->toString())->toArray();
                             } else {
                                 $data = arrays($data)->set($field['name'], strings($this->registry['data']->get($field['name']))->trim()->toString())->toArray();
                             }
@@ -240,7 +240,7 @@ class Form
                 }
             }
 
-            flextype('emitter')->emit('onBlueprintsFormAfterProcessedFields');
+            emitter()->emit('onBlueprintsFormAfterProcessedFields');
         }
 
         return $data;
@@ -259,7 +259,7 @@ class Form
 
         if ($this->registry['properties']['process']->has('messages')) {
             foreach($this->registry['properties']['process']['messages'] as $key => $value) {
-                $data[$key] = strings(flextype('twig')->fetchFromString($value, $this->registry['vars']->toArray()))->trim()->toString();;
+                $data[$key] = strings(twig()->fetchFromString($value, $this->registry['vars']->toArray()))->trim()->toString();;
             }
         }
 
@@ -277,7 +277,7 @@ class Form
     {
         if ($this->registry['properties']['process']->has('actions')) {
 
-            flextype('emitter')->emit('onBlueprintsFormBeforeProcessedActions');
+            emitter()->emit('onBlueprintsFormBeforeProcessedActions');
             
             foreach($this->registry['properties']['process']->get('actions') as $action) {
                 if (flextype('actions')->has($action['name'])) {
@@ -291,27 +291,27 @@ class Form
                                     if (is_iterable($var['value'])) {
                                     
                                         array_walk_recursive($var['value'], function(&$value, $key) {
-                                            $value = strings(flextype('twig')->fetchFromString($value, $vars))->trim()->toString();
+                                            $value = strings(twig()->fetchFromString($value, $vars))->trim()->toString();
                                         });
     
                                         $properties[$key] = $var['value'];
                                     } else {
-                                        $value = htmlspecialchars_decode(flextype('twig')->fetchFromString(trim($var['value']), $vars));
-                                        $properties[$key] = flextype('serializers')->json()->decode($value);
+                                        $value = htmlspecialchars_decode(twig()->fetchFromString(trim($var['value']), $vars));
+                                        $properties[$key] = serializers()->json()->decode($value);
                                     }
                                     break;
                                 case 'int':
-                                    $properties[$key] = strings(flextype('twig')->fetchFromString(trim($var['value']), $vars))->toInteger();
+                                    $properties[$key] = strings(twig()->fetchFromString(trim($var['value']), $vars))->toInteger();
                                     break;
                                 case 'float':
-                                    $properties[$key] = strings(flextype('twig')->fetchFromString(trim($var['value']), $vars))->toFloat();
+                                    $properties[$key] = strings(twig()->fetchFromString(trim($var['value']), $vars))->toFloat();
                                     break;
                                 case 'bool':
-                                    $properties[$key] = strings(flextype('twig')->fetchFromString(trim($var['value']), $vars))->toBoolean();
+                                    $properties[$key] = strings(twig()->fetchFromString(trim($var['value']), $vars))->toBoolean();
                                     break;
                                 default:
                                 case 'string':
-                                    $properties[$key] = strings(flextype('twig')->fetchFromString(trim($var['value']), $vars))->toString();
+                                    $properties[$key] = strings(twig()->fetchFromString(trim($var['value']), $vars))->toString();
                                     break;
                             }
                         }
@@ -322,7 +322,7 @@ class Form
                 }
             }
 
-            flextype('emitter')->emit('onBlueprintsFormAfterProcessedActions');
+            emitter()->emit('onBlueprintsFormAfterProcessedActions');
         }
     }
 }

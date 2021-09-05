@@ -12,7 +12,7 @@ namespace Flextype\Plugin\Blueprints\Twig;
 use Atomastic\Macroable\Macroable;
 use Atomastic\Arrays\Arrays;
 
-class BlueprintsTwig
+class BlueprintsTwigExtension
 {
     use Macroable;
 
@@ -28,7 +28,7 @@ class BlueprintsTwig
      */
     public function fetch(string $id, array $options = []): Arrays
     {
-        return flextype('blueprints')->fetch($id, $options);
+        return blueprints()->fetch($id, $options);
     }
 
     /**
@@ -42,7 +42,7 @@ class BlueprintsTwig
      */
     public function has(string $id): bool
     {
-        return flextype('blueprints')->has($id);
+        return blueprints()->has($id);
     }
 
     /**
@@ -58,7 +58,7 @@ class BlueprintsTwig
      */
     public function render(string $id, array $values = [], array $vars = []): void
     {
-        flextype('blueprints')->render($id, $values, $vars);
+        blueprints()->render($id, $values, $vars);
     }
     
     /**
@@ -74,7 +74,7 @@ class BlueprintsTwig
      */
     public function renderFromArray(array $blueprint, array $values = [], array $vars = []): void
     {
-        flextype('blueprints')->renderFromArray($blueprint, $values, $vars);
+        blueprints()->renderFromArray($blueprint, $values, $vars);
     }
 
     /**
@@ -88,7 +88,7 @@ class BlueprintsTwig
      */
     public function getBlockName(string $name) : string
     {
-        return flextype('blueprints')->getBlockName($name);
+        return blueprints()->getBlockName($name);
     }
 
     /**
@@ -102,7 +102,7 @@ class BlueprintsTwig
      */
     public function getBlockID(string $id) : string
     {
-        return flextype('blueprints')->getBlockID($id);
+        return blueprints()->getBlockID($id);
     }
 
     /**
@@ -116,7 +116,7 @@ class BlueprintsTwig
      */   
     public function form(array $data): Form
     {
-        return flextype('blueprints')->form($data);
+        return blueprints()->form($data);
     }
 
     /**
@@ -130,7 +130,7 @@ class BlueprintsTwig
      */
     public function getFileLocation(string $id): string
     {
-        return flextype('blueprints')->getFileLocation($id);
+        return blueprints()->getFileLocation($id);
     }
 
     /**
@@ -144,7 +144,7 @@ class BlueprintsTwig
      */
     public function getDirectoryLocation(string $id): string
     {
-        return flextype('blueprints')->getDirectoryLocation($id);
+        return blueprints()->getDirectoryLocation($id);
     }
 
     /**
@@ -158,6 +158,6 @@ class BlueprintsTwig
      */
     public function getCacheID(string $id): string
     {
-        return flextype('blueprints')->getCacheID($id);
+        return blueprints()->getCacheID($id);
     }
 }

@@ -8,6 +8,16 @@ priority: 40
 assetsLoadOnAdmin: true
 assetsLoadOnSite: false
 
+# Entries
+entries:
+  directory: '/blueprints'
+  collections:
+    default:
+      filename: blueprint
+      extension: yaml
+      serializer: yaml
+      fields: []
+
 # Blocks
 blocks:
   ActionsDropdown:

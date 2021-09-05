@@ -27,8 +27,10 @@
     },
     "autoload": {
         "classmap": [
-            "app",
-            "twig"
+            "src/blueprints"
+        ],
+        "files": [
+            "src/blueprints/helpers/helpers.php"
         ]
     }
 }
