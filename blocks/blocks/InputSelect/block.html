@@ -27,7 +27,7 @@
             {% if block.properties.items is iterable %}
                 {% set items = block.properties.items %}
             {% else %}
-                {% set items = flextype.serializers.json.decode(raw(include(template_from_string(block.properties.items)))) %}
+                {% set items = serializers().json.decode(raw(include(template_from_string(block.properties.items)))) %}
             {% endif %}
         {% endif %}
 

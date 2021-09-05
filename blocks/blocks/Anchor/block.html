@@ -1,3 +1,4 @@
+{% macro anchor(block) %}
 {% import "plugins/blueprints/blocks/macros/attr.html" as attr %}
 {% set blockVisible = true %}
 {% if arrays(block).has('properties.visible') %}
@@ -8,13 +9,14 @@
     {% endif %}
 {% endif %}
 {% if blockVisible %}
-    <a attr.id(block.properties.id)))  }}
-    attr.data(block.properties.data) }}
-    attr.class([block.properties.class]) }}
-    attr.style(block.properties.style) }}
-    attr.href(block.properties.href) }}
-    attr.target(block.properties.target) }}
-    attr.events(block.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
+    <a {{ attr.id(block.properties.id) }}
+    {{ attr.data(block.properties.data) }}
+    {{ attr.class([block.properties.class]) }}
+    {{ attr.style(block.properties.style) }}
+    {{ attr.href(block.properties.href) }}
+    {{ attr.target(block.properties.target) }}
+    {{ attr.events(block.properties.events, ['onkeyup', 'onmousedown', 'onmousemove', 'onmouseout',
                                                                             'onmouseover', 'onmouseup', 'onkeypress', 'onclick', 'ondblclick',
-                                                                            'onkeydown', 'onblur']) }}>block.properties.value }}</a>
+                                                                            'onkeydown', 'onblur']) }}>{{ block.properties.value }}</a>
 {% endif %}
+{% endmacro %}

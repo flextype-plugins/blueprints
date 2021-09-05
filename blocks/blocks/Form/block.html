@@ -24,11 +24,11 @@
             <input 
                 type="hidden"
                 {{ attr.name(block.properties.name, '__form_process_') }}
-                value="{{ flextype.serializers.json.encode(block.properties.process) }}">
+                value="{{ serializers().json.encode(block.properties.process) }}">
             <input 
                 type="hidden"
                 {{ attr.name(block.properties.name, '__form_vars_') }}
-                value="{{ flextype.serializers.json.encode(arrays(_context)
+                value="{{ serializers().json.encode(arrays(_context)
                                                             .delete('blocks')
                                                             .delete('_parent')
                                                             .delete('_key')
