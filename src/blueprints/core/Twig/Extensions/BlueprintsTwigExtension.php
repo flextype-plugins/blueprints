@@ -7,12 +7,32 @@ declare(strict_types=1);
  * Founded by Sergey Romanenko and maintained by Flextype Community.
  */
 
-namespace Flextype\Plugin\Blueprints\Twig;
+namespace Flextype\Plugin\Blueprints\Twig\Extension;
 
 use Atomastic\Macroable\Macroable;
 use Atomastic\Arrays\Arrays;
+use Twig\Extension\AbstractExtension;
+use Twig\Extension\GlobalsInterface;
+use Twig\TwigFunction;
 
-class BlueprintsTwigExtension
+use function acl;
+
+class BlueprintsTwigExtension extends AbstractExtension
+{
+    /**
+     * Callback for twig.
+     *
+     * @return array
+     */
+    public function getFunctions() : array
+    {
+        return [
+            new TwigFunction('blueprints', function() { return new BlueprintsTwig(); }),
+        ];
+    }
+}
+
+class BlueprintsTwig
 {
     use Macroable;
 
