@@ -349,58 +349,6 @@ class Blueprints
     }
 
     /**
-     * Get blueprint file location
-     *
-     * @param string $id Unique identifier of the blueprint(blueprints).
-     *
-     * @return string blueprint file location
-     *
-     * @access public
-     */
-    public function getFileLocation(string $id): string
-    {
-        return PATH['project'] . '/blueprints/' . $id . '/blueprint.yaml';
-    }
-
-    /**
-     * Get blueprint directory location
-     *
-     * @param string $id Unique identifier of the blueprint(blueprints).
-     *
-     * @return string blueprint directory location
-     *
-     * @access public
-     */
-    public function getDirectoryLocation(string $id): string
-    {
-        return PATH['project'] . '/blueprints/' . $id;
-    }
-
-    /**
-     * Get Cache ID for blueprint
-     *
-     * @param  string $id Unique identifier of the blueprint(blueprints).
-     *
-     * @return string Cache ID
-     *
-     * @access public
-     */
-    public function getCacheID(string $id): string
-    {
-        if (registry()->get('flextype.settings.cache.enabled') === false) {
-            return '';
-        }
-
-        $blueprintFile = $this->getFileLocation($id);
-
-        if (filesystem()->file($blueprintFile)->exists()) {
-            return strings('blueprint' . $blueprintFile . (filesystem()->file($blueprintFile)->lastModified() ?: ''))->hash()->toString();
-        }
-
-        return strings('blueprint' . $blueprintFile)->hash()->toString();
-    }
-
-   /**
      * Process directives for blueprint field values.
      *
      * @param array $blueprint Blueprint array.
