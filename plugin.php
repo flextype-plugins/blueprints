@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace Flextype\Plugin\Blueprints;
 
 use Flextype\Plugin\Blueprints\Blueprints;
-use Flextype\Plugin\Twig\Extension\FlextypeTwig;
+use Flextype\Plugin\Blueprints\Twig\Extension\BlueprintsTwigExtension;
 use Flextype\Plugin\Blueprints\Twig\BlueprintsTwig;
 use function array_merge;
 use function strtolower;
@@ -41,9 +41,9 @@ $blueprints_loader = require_once $blueprints_autoload;
 container()->set('blueprints', new Blueprints(registry()->get('plugins.blueprints.settings.entries')));
 
 /**
- * Add Blueprints Twig
+ * Add Blueprints Twig Extension
  */
-//FlextypeTwig::macro('blueprints', new BlueprintsTwig());
+twig()->addExtension(new BlueprintsTwig());
 
 $blueprintsJS[]  = 'project/plugins/blueprints/assets/dist/js/blueprints.min.js';
 $blueprintsCSS[] = 'project/plugins/blueprints/assets/dist/css/blueprints.min.css';
