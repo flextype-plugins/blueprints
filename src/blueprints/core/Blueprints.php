@@ -230,11 +230,11 @@ class Blueprints
      * @param array  $values Blueprint values.
      * @param array  $vars   Blueprint variables.
      *
-     * @return void
+     * @return string Rendered blueprint.
      *
      * @access public
      */
-    public function render(string $id, array $values = [], array $vars = []): void
+    public function render(string $id, array $values = [], array $vars = []): string
     {
         $blueprint = container()->get('blueprints')->fetch($id)->toArray();
 
@@ -243,8 +243,7 @@ class Blueprints
         $this->processEmitter($blueprint, $vars);
         $this->processActions($blueprint, $vars);  
 
-  
-        echo container()->get('twig')
+        return container()->get('twig')
                 ->getEnvironment()
                 ->render(
                     'plugins/blueprints/blocks/base.html',
@@ -262,18 +261,18 @@ class Blueprints
      * @param array $values    Blueprint values.
      * @param array $vars      Blueprint variables.
      *
-     * @return void
+     * @return string Rendered blueprint.
      *
      * @access public
      */
-    public function renderFromArray(array $blueprint, array $values = [], array $vars = []): void
+    public function renderFromArray(array $blueprint, array $values = [], array $vars = []): string
     {   
         $vars      = $this->processVars($blueprint, $vars);
         $blueprint = $this->processDirectives($blueprint, $vars);
         $this->processEmitter($blueprint, $vars);
         $this->processActions($blueprint, $vars);
 
-        echo container()->get('twig')
+        return container()->get('twig')
                 ->getEnvironment()
                 ->render(
                     'plugins/blueprints/blocks/base.html',
@@ -374,7 +373,7 @@ class Blueprints
                             $value = container()->get('twig')->fetchFromString($value, $vars);
                             break;
                         case 'shortcode':
-                            $value = parsers()->shortcodes()->process($value);
+                            $value = parsers()->shortcodes()->parse($value);
                             break;
                         case 'markdown':
                             $value = parsers()->markdown()->parse($value);
@@ -535,6 +534,7 @@ class Blueprints
     private function processVars(array $blueprint, array $vars): array
     {
         if (isset($blueprint['vars'])) {
+            $blueprint['vars'] = $this->processDirectives($blueprint['vars'], $vars);
             $processVars = [];
             foreach ($blueprint['vars'] as $key => $var) {
                 $varType = isset($var['type']) ? $var['type'] : 'string';
@@ -543,28 +543,28 @@ class Blueprints
                         if (is_iterable($var['value'])) {
 
                             array_walk_recursive($var['value'], function(&$value, $key) {
-                                $value = strings(container()->get('twig')->fetchFromString($value, $vars))->trim()->toString();
+                                $value = strings($value)->trim()->toString();
                             });
 
                             $processVars[$var['name']] = $var['value'];
                             
                         } else {
-                            $value = htmlspecialchars_decode(container()->get('twig')->fetchFromString(trim($var['value']), $vars));
+                            $value = htmlspecialchars_decode($var['value']);
                             $processVars[$var['name']] = serializers()->json()->decode($value);
                         }
                         break;
                     case 'bool':
-                        $processVars[$var['name']] = strings(container()->get('twig')->fetchFromString($var['value'], $vars))->trim()->toBoolean();
+                        $processVars[$var['name']] = strings($var['value'])->trim()->toBoolean();
                         break;
                     case 'float':
-                        $processVars[$var['name']] = strings(container()->get('twig')->fetchFromString($var['value'], $vars))->trim()->toFloat();
+                        $processVars[$var['name']] = strings($var['value'])->trim()->toFloat();
                         break;    
                     case 'int':
-                        $processVars[$var['name']] = strings(container()->get('twig')->fetchFromString($var['value'], $vars))->trim()->toInteger();
+                        $processVars[$var['name']] = strings($var['value'])->trim()->toInteger();
                         break;
                     case 'string':
                     default:
-                        $processVars[$var['name']] = strings(container()->get('twig')->fetchFromString($var['value'], $vars))->trim()->toString();
+                        $processVars[$var['name']] = strings($var['value'])->trim()->toString();
                         break;
                 }
             }
