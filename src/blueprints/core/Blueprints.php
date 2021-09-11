@@ -238,10 +238,12 @@ class Blueprints
     {
         $blueprint = container()->get('blueprints')->fetch($id)->toArray();
 
-        $vars      = $this->processVars($blueprint, $vars);
+        $vars = $this->processVars($blueprint['vars'] ?? [], $vars);
+        $this->processEmitter($blueprint['emitter'] ?? [], $vars);
+        $this->processActions($blueprint['actions'] ?? [], $vars);  
         $blueprint = $this->processDirectives($blueprint, $vars);
-        $this->processEmitter($blueprint, $vars);
-        $this->processActions($blueprint, $vars);  
+
+        dd(arrays($blueprint)->dot());
 
         return twig()
                 ->getEnvironment()
@@ -267,10 +269,10 @@ class Blueprints
      */
     public function renderFromArray(array $blueprint, array $values = [], array $vars = []): string
     {   
-        $vars      = $this->processVars($blueprint, $vars);
+        $vars = $this->processVars($blueprint['vars'] ?? [], $vars);
+        $this->processEmitter($blueprint['emitter'] ?? [], $vars);
+        $this->processActions($blueprint['actions'] ?? [], $vars);  
         $blueprint = $this->processDirectives($blueprint, $vars);
-        $this->processEmitter($blueprint, $vars);
-        $this->processActions($blueprint, $vars);
 
         return twig()
                 ->getEnvironment()
@@ -350,17 +352,19 @@ class Blueprints
     /**
      * Process directives for blueprint field values.
      *
-     * @param array $blueprint Blueprint array.
-     * @param array $vars      Blueprint variables.
+     * @param array $blueprintDirectives Blueprint array directives.
+     * @param array $vars                Blueprint variables.
      * 
-     * @return void
+     * @return array Bluprint with processed directives.
      *
      * @access private
      */
-    private function processDirectives(array $blueprint, array $vars): array 
+    private function processDirectives(array $blueprintDirectives, array $vars = []): array 
     {
-        $flatBlueprint   = arrays($blueprint)->dot();
-        $parsedBlueprint = [];
+        emitter()->emit('onBlueprintsBeforeProcessedDirectives');
+
+        $flatBlueprint      = arrays($blueprintDirectives)->dot();
+        $processedBlueprint = [];
 
         foreach($flatBlueprint as $key => $value) {
             if (strings($value)->startsWith('@parsers:')) {
@@ -383,194 +387,143 @@ class Blueprints
                             break;
                     }
 
-                    $parsedBlueprint[$key] = $value;
+                    $processedBlueprint[$key] = $value;
                 }
 
-               $parsedBlueprint[$key] = strings($parsedBlueprint[$key])->replace('@parsers:' . implode(',', $arguments) . ';', '')->trim()->toString();
+                $processedBlueprint[$key] = strings($processedBlueprint[$key])->replace('@parsers:' . implode(',', $arguments) . ';', '')->trim()->toString();
             } else {
-                $parsedBlueprint[$key] = $value;
+                $processedBlueprint[$key] = $value;
             }
         }
-        return arrays($parsedBlueprint)->undot()->toArray();
+
+        emitter()->emit('onBlueprintsAfterProcessedDirectives');
+
+        return arrays($processedBlueprint)->undot()->toArray();
     }
 
     /**
      * Process emitter for blueprint
      *
-     * @param array $blueprint Blueprint array.
+     * @param array blueprintEmitter Blueprint array with emitter.
      * 
      * @return void
      *
      * @access private
      */
-    private function processEmitter(array $blueprint, array $vars = []): void
+    private function processEmitter(array $blueprintEmitter, array $vars = []): void
     {
+        emitter()->emit('onBlueprintsBeforeProcessedEmitter');
+
         // Emmit events
-        if (isset($blueprint['emitter']['emit'])) {
-            foreach ($blueprint['emitter']['emit'] as $key => $event) {
+        if (isset($blueprintEmitter['emit']) && is_array($blueprintEmitter['emit'])) {
+            foreach ($blueprintEmitter['emit'] as $key => $event) {
                 emitter()->emit($event['name']);
             }
         }
 
         // Register listeners 
-        if (isset($blueprint['emitter']['addListener'])) {
-            foreach ($blueprint['emitter']['addListener'] as $key => $event) {
+        if (isset($blueprintEmitter['addListener']) && is_array($blueprintEmitter['addListener'])) {
+            foreach ($blueprintEmitter['addListener'] as $key => $event) {
                 emitter()->addListener($event['name'], function() use ($event, $vars) {
                     
                     // Get event vars
                     $eventVars = [];
                     if (isset($event['properties']['vars'])) {
-                        foreach ($event['properties']['vars'] as $key => $var) {
-                            $varType = isset($var['type']) ? $var['type'] : 'string';
-                            switch ($varType) {
-                                case 'array':
-                                    if (is_iterable($var['value'])) {
-
-                                        array_walk_recursive($var['value'], function(&$value, $key) {
-                                            $value = strings(twig()->fetchFromString($value, $vars))->trim()->toString();
-                                        });
-
-                                        $eventVars[$var['name']] = $var['value'];
-                                        
-                                    } else {
-                                        $value = htmlspecialchars_decode(twig()->fetchFromString(trim($var['value']), $vars));
-                                        $eventVars[$var['name']] = serializers()->json()->decode($value);
-                                    }
-                                    break;
-                                case 'bool':
-                                    $eventVars[$var['name']] = strings(twig()->fetchFromString($var['value'], $vars))->trim()->toBoolean();
-                                    break;
-                                case 'float':
-                                    $eventVars[$var['name']] = strings(twig()->fetchFromString($var['value'], $vars))->trim()->toFloat();
-                                    break;    
-                                case 'int':
-                                    $eventVars[$var['name']] = strings(twig()->fetchFromString($var['value'], $vars))->trim()->toInteger();
-                                    break;
-                                case 'string':
-                                default:
-                                    $eventVars[$var['name']] = strings(twig()->fetchFromString($var['value'], $vars))->trim()->toString();
-                                    break;
-                            }
-                        }
+                        $eventVars = $this->processVars($event['properties']['vars'] ?? [], $vars);
                     }
+                    
+                    // Get event value
                     if (isset($event['properties']['value'])) {
-                        strings(twig()->fetchFromString($event['properties']['value'], arrays($eventVars)->merge($vars)->toArray()))->trim()->echo();
+                        strings($this->processDirectives(['value' => $event['properties']['value']], arrays($eventVars)->merge($vars)->toArray())['value'])->trim()->echo();
                     }
+
                 });
             }
         }
+
+        emitter()->emit('onBlueprintsAfterProcessedEmitter');
     }
 
     /**
      * Process actions for blueprint
      *
-     * @param array $blueprint Blueprint array.
+     * @param array $blueprintActions Blueprint array with actions.
      * 
      * @return void
      *
      * @access private
      */
-    private function processActions(array $blueprint, array $vars = []): void
+    private function processActions(array $blueprintActions, array $vars = []): void
     {
-        if (isset($blueprint['actions'])) {
-
-            emitter()->emit('onBlueprintsBeforeProcessedActions');
-            
-            foreach($blueprint['actions'] as $action) {
-                if (flextype('actions')->has($action['name'])) {
+        emitter()->emit('onBlueprintsBeforeProcessedActions');
+        
+        if (isset($blueprintActions['get']) && is_array($blueprintActions['get'])) {
+            foreach($blueprintActions['get'] as $action) {
+                if (actions()->has($action['name'])) {
                     if (isset($action['properties']['vars']) && is_array($action['properties']['vars'])) {
-                        $properties = array_values($action['properties']['vars']);
-                        foreach ($properties as $key => $var) {
-                            $type = isset($var['type']) ? $var['type'] : 'string';
-                            switch ($type) {
-                                case 'array':
-                                    if (is_iterable($var['value'])) {
-                                    
-                                        array_walk_recursive($var['value'], function(&$value, $key) {
-                                            $value = strings(twig()->fetchFromString($value, $vars))->trim()->toString();
-                                        });
-    
-                                        $properties[$key] = $var['value'];
-                                    } else {
-                                        $value = htmlspecialchars_decode(twig()->fetchFromString(trim($var['value']), $vars));
-                                        $properties[$key] = serializers()->json()->decode($value);
-                                    }
-                                    break;
-                                case 'int':
-                                    $properties[$key] = strings(twig()->fetchFromString(trim($var['value']), $vars))->toInteger();
-                                    break;
-                                case 'float':
-                                    $properties[$key] = strings(twig()->fetchFromString(trim($var['value']), $vars))->toFloat();
-                                    break;
-                                case 'bool':
-                                    $properties[$key] = strings(twig()->fetchFromString(trim($var['value']), $vars))->toBoolean();
-                                    break;
-                                default:
-                                case 'string':
-                                    $properties[$key] = strings(twig()->fetchFromString(trim($var['value']), $vars))->toString();
-                                    break;
-                            }
-                        }
-                        flextype('actions')->get($action['name'])(...$properties);
+                        $properties = array_values($this->processVars($action['properties']['vars'] ?? [], $vars));
+                        actions()->get($action['name'])(...$properties);
                     } else {
-                        flextype('actions')->get($action['name'])();
+                        actions()->get($action['name'])();
                     }
                 }
             }
-
-            emitter()->emit('onBlueprintsAfterProcessedActions');
         }
+
+        emitter()->emit('onBlueprintsAfterProcessedActions');
     }
 
     /**
      * Process vars for blueprint
      *
-     * @param array $blueprint Blueprint array.
+     * @param array $blueprintVars Blueprint vars array.
      * 
      * @return void
      *
      * @access private
      */
-    private function processVars(array $blueprint, array $vars): array
+    private function processVars(array $blueprintVars, array $vars): array
     {
-        if (isset($blueprint['vars'])) {
-            $blueprint['vars'] = $this->processDirectives($blueprint['vars'], $vars);
-            $processVars = [];
-            foreach ($blueprint['vars'] as $key => $var) {
-                $varType = isset($var['type']) ? $var['type'] : 'string';
-                switch ($varType) {
-                    case 'array':
-                        if (is_iterable($var['value'])) {
+        emitter()->emit('onBlueprintsBeforeProcessedVars');
 
-                            array_walk_recursive($var['value'], function(&$value, $key) {
-                                $value = strings($value)->trim()->toString();
-                            });
+        $blueprintVars = $this->processDirectives($blueprintVars, $vars);
+        $processVars = [];
 
-                            $processVars[$var['name']] = $var['value'];
-                            
-                        } else {
-                            $value = htmlspecialchars_decode($var['value']);
-                            $processVars[$var['name']] = serializers()->json()->decode($value);
-                        }
-                        break;
-                    case 'bool':
-                        $processVars[$var['name']] = strings($var['value'])->trim()->toBoolean();
-                        break;
-                    case 'float':
-                        $processVars[$var['name']] = strings($var['value'])->trim()->toFloat();
-                        break;    
-                    case 'int':
-                        $processVars[$var['name']] = strings($var['value'])->trim()->toInteger();
-                        break;
-                    case 'string':
-                    default:
-                        $processVars[$var['name']] = strings($var['value'])->trim()->toString();
-                        break;
-                }
+        foreach ($blueprintVars as $key => $var) {
+            $varType = isset($var['type']) ? $var['type'] : 'string';
+            switch ($varType) {
+                case 'array':
+                    if (is_iterable($var['value'])) {
+
+                        array_walk_recursive($var['value'], function(&$value, $key) {
+                            $value = strings($value)->trim()->toString();
+                        });
+
+                        $processVars[$var['name']] = $var['value'];
+                        
+                    } else {
+                        $value = htmlspecialchars_decode($var['value']);
+                        $processVars[$var['name']] = serializers()->json()->decode($value);
+                    }
+                    break;
+                case 'bool':
+                    $processVars[$var['name']] = strings($var['value'])->trim()->toBoolean();
+                    break;
+                case 'float':
+                    $processVars[$var['name']] = strings($var['value'])->trim()->toFloat();
+                    break;    
+                case 'int':
+                    $processVars[$var['name']] = strings($var['value'])->trim()->toInteger();
+                    break;
+                case 'string':
+                default:
+                    $processVars[$var['name']] = strings($var['value'])->trim()->toString();
+                    break;
             }
-            return arrays($vars)->merge($processVars)->toArray();
-        } else {
-            return $vars;
         }
+
+        emitter()->emit('onBlueprintsAfterProcessedVars');
+
+        return arrays($vars)->merge($processVars)->toArray();
     }
 }
