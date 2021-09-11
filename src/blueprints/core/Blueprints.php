@@ -243,7 +243,7 @@ class Blueprints
         $this->processEmitter($blueprint, $vars);
         $this->processActions($blueprint, $vars);  
 
-        return container()->get('twig')
+        return twig()
                 ->getEnvironment()
                 ->render(
                     'plugins/blueprints/blocks/base.html',
@@ -272,7 +272,7 @@ class Blueprints
         $this->processEmitter($blueprint, $vars);
         $this->processActions($blueprint, $vars);
 
-        return container()->get('twig')
+        return twig()
                 ->getEnvironment()
                 ->render(
                     'plugins/blueprints/blocks/base.html',
@@ -370,7 +370,7 @@ class Blueprints
                 foreach ($arguments as $argument) {
                     switch ($argument) {
                         case 'twig':
-                            $value = container()->get('twig')->fetchFromString($value, $vars);
+                            $value = twig()->fetchFromString($value, $vars);
                             break;
                         case 'shortcode':
                             $value = parsers()->shortcodes()->parse($value);
@@ -427,34 +427,34 @@ class Blueprints
                                     if (is_iterable($var['value'])) {
 
                                         array_walk_recursive($var['value'], function(&$value, $key) {
-                                            $value = strings(container()->get('twig')->fetchFromString($value, $vars))->trim()->toString();
+                                            $value = strings(twig()->fetchFromString($value, $vars))->trim()->toString();
                                         });
 
                                         $eventVars[$var['name']] = $var['value'];
                                         
                                     } else {
-                                        $value = htmlspecialchars_decode(container()->get('twig')->fetchFromString(trim($var['value']), $vars));
+                                        $value = htmlspecialchars_decode(twig()->fetchFromString(trim($var['value']), $vars));
                                         $eventVars[$var['name']] = serializers()->json()->decode($value);
                                     }
                                     break;
                                 case 'bool':
-                                    $eventVars[$var['name']] = strings(container()->get('twig')->fetchFromString($var['value'], $vars))->trim()->toBoolean();
+                                    $eventVars[$var['name']] = strings(twig()->fetchFromString($var['value'], $vars))->trim()->toBoolean();
                                     break;
                                 case 'float':
-                                    $eventVars[$var['name']] = strings(container()->get('twig')->fetchFromString($var['value'], $vars))->trim()->toFloat();
+                                    $eventVars[$var['name']] = strings(twig()->fetchFromString($var['value'], $vars))->trim()->toFloat();
                                     break;    
                                 case 'int':
-                                    $eventVars[$var['name']] = strings(container()->get('twig')->fetchFromString($var['value'], $vars))->trim()->toInteger();
+                                    $eventVars[$var['name']] = strings(twig()->fetchFromString($var['value'], $vars))->trim()->toInteger();
                                     break;
                                 case 'string':
                                 default:
-                                    $eventVars[$var['name']] = strings(container()->get('twig')->fetchFromString($var['value'], $vars))->trim()->toString();
+                                    $eventVars[$var['name']] = strings(twig()->fetchFromString($var['value'], $vars))->trim()->toString();
                                     break;
                             }
                         }
                     }
                     if (isset($event['properties']['value'])) {
-                        strings(container()->get('twig')->fetchFromString($event['properties']['value'], arrays($eventVars)->merge($vars)->toArray()))->trim()->echo();
+                        strings(twig()->fetchFromString($event['properties']['value'], arrays($eventVars)->merge($vars)->toArray()))->trim()->echo();
                     }
                 });
             }
@@ -487,27 +487,27 @@ class Blueprints
                                     if (is_iterable($var['value'])) {
                                     
                                         array_walk_recursive($var['value'], function(&$value, $key) {
-                                            $value = strings(container()->get('twig')->fetchFromString($value, $vars))->trim()->toString();
+                                            $value = strings(twig()->fetchFromString($value, $vars))->trim()->toString();
                                         });
     
                                         $properties[$key] = $var['value'];
                                     } else {
-                                        $value = htmlspecialchars_decode(container()->get('twig')->fetchFromString(trim($var['value']), $vars));
+                                        $value = htmlspecialchars_decode(twig()->fetchFromString(trim($var['value']), $vars));
                                         $properties[$key] = serializers()->json()->decode($value);
                                     }
                                     break;
                                 case 'int':
-                                    $properties[$key] = strings(container()->get('twig')->fetchFromString(trim($var['value']), $vars))->toInteger();
+                                    $properties[$key] = strings(twig()->fetchFromString(trim($var['value']), $vars))->toInteger();
                                     break;
                                 case 'float':
-                                    $properties[$key] = strings(container()->get('twig')->fetchFromString(trim($var['value']), $vars))->toFloat();
+                                    $properties[$key] = strings(twig()->fetchFromString(trim($var['value']), $vars))->toFloat();
                                     break;
                                 case 'bool':
-                                    $properties[$key] = strings(container()->get('twig')->fetchFromString(trim($var['value']), $vars))->toBoolean();
+                                    $properties[$key] = strings(twig()->fetchFromString(trim($var['value']), $vars))->toBoolean();
                                     break;
                                 default:
                                 case 'string':
-                                    $properties[$key] = strings(container()->get('twig')->fetchFromString(trim($var['value']), $vars))->toString();
+                                    $properties[$key] = strings(twig()->fetchFromString(trim($var['value']), $vars))->toString();
                                     break;
                             }
                         }
